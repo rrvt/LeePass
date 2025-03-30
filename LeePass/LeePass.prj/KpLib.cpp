@@ -1,0 +1,270 @@
+// Interface to KpLib Dll
+
+/*
+// Interface to KeePass Library DLL
+
+KP_SHARE void  InitManager(void** pMgr, BOOL bIsFirstInstance);
+KP_SHARE void  DeleteManager(void* pMgr);
+
+KP_SHARE INT   SetMasterKey(void* pMgr, LPCTSTR pszMasterKey, BOOL bDiskDrive,
+                            LPCTSTR pszSecondKey, const CNewRandomInterface *pARI,
+                            BOOL bOverwrite);
+
+KP_SHARE void  NewDatabase( void* pMgr);
+KP_SHARE int   OpenDatabase(void* pMgr, const TCHAR* pszFile, PWDB_REPAIR_INFO* pRepair);
+KP_SHARE int   SaveDatabase(void* pMgr, const TCHAR* pszFile);
+
+KP_SHARE DWORD GetNumberOfEntries(void* pMgr);          // Returns number of entries in database
+KP_SHARE DWORD GetNumberOfGroups( void* pMgr);          // Returns number of groups in database
+
+// Count items in groups
+
+KP_SHARE DWORD GetNumberOfItemsInGroup( void* pMgr, LPCTSTR pszGroup);
+KP_SHARE DWORD GetNumberOfItemsInGroupN(void* pMgr, DWORD   idGroup);
+
+// Access entry information
+
+KP_SHARE PW_ENTRY* GetEntry(          void* pMgr, DWORD dwIndex);
+KP_SHARE BOOL      GetEntryStruct(    void* pMgr, DWORD dwIndex, PW_ENTRY* pe);
+KP_SHARE PW_ENTRY* GetEntryByGroup(   void* pMgr, DWORD idGroup, DWORD dwIndex);
+KP_SHARE DWORD     GetEntryByGroupN(  void* pMgr, DWORD idGroup, DWORD dwIndex);
+KP_SHARE PW_ENTRY* GetEntryByUuid(    void* pMgr, const BYTE* pUuid);
+KP_SHARE DWORD     GetEntryByUuidN(   void* pMgr, const BYTE* pUuid);
+                                                       // Returns the index of the item with pUuid
+KP_SHARE DWORD     GetEntryPosInGroup(void* pMgr, const PW_ENTRY* pEntry);
+KP_SHARE PW_ENTRY* GetLastEditedEntry(void* pMgr);
+
+// Access group information
+
+KP_SHARE PW_GROUP* GetGroup(         void* pMgr, DWORD dwIndex);
+KP_SHARE BOOL      GetGroupStruct(   void* pMgr, DWORD dwIndex, PW_GROUP* pGroup);
+KP_SHARE PW_GROUP* GetGroupById(     void* pMgr, DWORD idGroup);
+KP_SHARE DWORD     GetGroupByIdN(    void* pMgr, DWORD idGroup);
+KP_SHARE DWORD     GetGroupId(       void* pMgr, const TCHAR* pszGroupName);
+KP_SHARE DWORD     GetGroupIdByIndex(void* pMgr, DWORD uGroupIndex);
+KP_SHARE DWORD     GetLastChildGroup(void* pMgr, DWORD dwParentGroupIndex);
+KP_SHARE BOOL      GetGroupTree(     void* pMgr, DWORD idGroup, DWORD* pGroupIndexes);
+
+// Add entries and groups
+
+KP_SHARE BOOL      AddGroup(         void* pMgr, const PW_GROUP* pTemplate);
+KP_SHARE BOOL      AddEntry(         void* pMgr, const PW_ENTRY* pTemplate);
+KP_SHARE BOOL      BackupEntry(      void* pMgr, const PW_ENTRY* pe, BOOL* pbGroupCreated);
+                                         // pe must be unlocked already, pbGroupCreated is optional
+
+// Delete entries and groups
+
+KP_SHARE BOOL      DeleteEntry(      void* pMgr, DWORD dwIndex);
+KP_SHARE BOOL      DeleteGroupById(  void* pMgr, DWORD uGroupId);
+
+KP_SHARE BOOL      SetGroup(         void* pMgr, DWORD dwIndex, const PW_GROUP* pTemplate);
+KP_SHARE BOOL      SetEntry(         void* pMgr, DWORD dwIndex, const PW_ENTRY* pTemplate);
+
+// Use these functions to make passwords in PW_ENTRY structures readable
+
+KP_SHARE void    LockEntryPassword(  void* pMgr, PW_ENTRY* pEntry);   // Lock password, encrypt it
+KP_SHARE void    UnlockEntryPassword(void* pMgr, PW_ENTRY* pEntry);   // Make password readable
+
+// Move entries and groups
+
+KP_SHARE void      MoveEntry(        void* pMgr, DWORD idGroup, DWORD dwFrom, DWORD dwTo);
+KP_SHARE BOOL      MoveGroup(        void* pMgr, DWORD dwFrom,  DWORD dwTo);
+
+// Sort entry and group lists
+
+KP_SHARE void      SortGroup(        void* pMgr, DWORD idGroup, DWORD dwSortByField);
+KP_SHARE void      SortGroupList(    void* pMgr);
+
+KP_SHARE BOOL MemAllocCopyEntry(const PW_ENTRY* pExisting, PW_ENTRY* pDestination);
+KP_SHARE void MemFreeEntry(           PW_ENTRY* pEntry);
+
+KP_SHARE void MergeIn(void* pMgr, VPA_MODIFY CPwManager* pDataSource, BOOL bCreateNewUUIDs,
+                                                                              BOOL bCompareTimes);
+
+// Find an item
+
+KP_SHARE DWORD Find(void* pMgr, const TCHAR* pszFindString,
+                                              BOOL bCaseSensitive, DWORD fieldFlags, DWORD nStart);
+
+// Get and set the algorithm used to encrypt the database
+
+KP_SHARE BOOL SetAlgorithm(void* pMgr, int nAlgorithm);
+KP_SHARE int  GetAlgorithm(void* pMgr);
+
+KP_SHARE DWORD GetKeyEncRounds(void* pMgr);
+KP_SHARE void  SetKeyEncRounds(void* pMgr, DWORD dwRounds);
+
+// Convert PW_TIME to 5-byte compressed structure and the other way round
+
+KP_SHARE void TimeToPwTime(const BYTE*    pCompressedTime, PW_TIME* pPwTime);
+KP_SHARE void PwTimeToTime(const PW_TIME* pPwTime,         BYTE*    pCompressedTime);
+
+// Get the never-expire time
+
+KP_SHARE void GetNeverExpireTime(PW_TIME* pPwTime);
+
+// Checks and corrects the group tree (level order, etc.)
+
+KP_SHARE void FixGroupTree(      void* pMgr);
+
+KP_SHARE void SubstEntryGroupIds(void* pMgr, DWORD dwExistingId, DWORD dwNewId);
+
+KP_SHARE BOOL AttachFileAsBinaryData(PW_ENTRY* pEntry, const TCHAR* lpFile);
+KP_SHARE BOOL SaveBinaryData(  const PW_ENTRY* pEntry, const TCHAR* lpFile);
+KP_SHARE BOOL RemoveBinaryData(      PW_ENTRY* pEntry);
+
+KP_SHARE BOOL IsAllowedStoreGroup(void* pMgr, LPCTSTR lpGroupName, LPCTSTR lpSearchGroupName);
+
+KP_SHARE void GetRawMasterKey(void* pMgr,       BYTE* pStorage);
+KP_SHARE void SetRawMasterKey(void* pMgr, const BYTE* pNewKey);
+
+KP_SHARE BOOL IsZeroUUID(const BYTE* pUUID);
+
+KP_SHARE PW_GROUP* CreateGroup(void* pMgr, LPCTSTR lpName, DWORD dwImageID);
+KP_SHARE PW_ENTRY* CreateEntry(void* pMgr, DWORD dwGroupID, LPCTSTR lpTitle,
+                           LPCTSTR lpUserName, LPCTSTR lpURL, LPCTSTR lpPassword, LPCTSTR lpNotes);
+
+// Extract group information
+
+KP_SHARE DWORD          PG_GetID(            PW_GROUP* pGroup);
+KP_SHARE DWORD          PG_GetImageID(       PW_GROUP* pGroup);
+KP_SHARE LPCTSTR        PG_GetName(          PW_GROUP* pGroup);
+KP_SHARE const PW_TIME* PG_GetCreationTime(  PW_GROUP* pGroup);
+KP_SHARE const PW_TIME* PG_GetLastModTime(   PW_GROUP* pGroup);
+KP_SHARE const PW_TIME* PG_GetLastAccessTime(PW_GROUP* pGroup);
+KP_SHARE const PW_TIME* PG_GetExpireTime(    PW_GROUP* pGroup);
+KP_SHARE USHORT         PG_GetLevel(         PW_GROUP* pGroup);
+
+// Set group information
+
+KP_SHARE BOOL           PG_SetID(            PW_GROUP* pGroup, DWORD          dwID);
+KP_SHARE BOOL           PG_SetImageID(       PW_GROUP* pGroup, DWORD          dwImageID);
+KP_SHARE BOOL           PG_SetName(          PW_GROUP* pGroup, LPCTSTR        lpName);
+KP_SHARE BOOL           PG_SetCreationTime(  PW_GROUP* pGroup, const PW_TIME* pTime);
+KP_SHARE BOOL           PG_SetLastModTime(   PW_GROUP* pGroup, const PW_TIME* pTime);
+KP_SHARE BOOL           PG_SetLastAccessTime(PW_GROUP* pGroup, const PW_TIME* pTime);
+KP_SHARE BOOL           PG_SetExpireTime(    PW_GROUP* pGroup, const PW_TIME* pTime);
+KP_SHARE BOOL           PG_SetLevel(         PW_GROUP* pGroup, USHORT         usLevel);
+
+// Extract entry information
+
+KP_SHARE const BYTE*    PE_GetUUID(            PW_ENTRY* pEntry);
+KP_SHARE DWORD          PE_GetGroupID(         PW_ENTRY* pEntry);
+KP_SHARE DWORD          PE_GetImageID(         PW_ENTRY* pEntry);
+KP_SHARE LPCTSTR        PE_GetTitle(           PW_ENTRY* pEntry);
+KP_SHARE LPCTSTR        PE_GetURL(             PW_ENTRY* pEntry);
+KP_SHARE LPCTSTR        PE_GetUserName(        PW_ENTRY* pEntry);
+KP_SHARE LPCTSTR        PE_GetPasswordPtr(     PW_ENTRY* pEntry);
+KP_SHARE LPCTSTR        PE_GetNotes(           PW_ENTRY* pEntry);
+KP_SHARE const PW_TIME* PE_GetCreationTime(    PW_ENTRY* pEntry);
+KP_SHARE const PW_TIME* PE_GetLastModTime(     PW_ENTRY* pEntry);
+KP_SHARE const PW_TIME* PE_GetLastAccessTime(  PW_ENTRY* pEntry);
+KP_SHARE const PW_TIME* PE_GetExpireTime(      PW_ENTRY* pEntry);
+KP_SHARE LPCTSTR        PE_GetBinaryDesc(      PW_ENTRY* pEntry);
+KP_SHARE const BYTE*    PE_GetBinaryData(      PW_ENTRY* pEntry);
+KP_SHARE DWORD          PE_GetBinaryDataLength(PW_ENTRY* pEntry);
+
+// Set entry information
+
+KP_SHARE BOOL PE_SetUUID(                       PW_ENTRY* pEntry, const BYTE*    pUUID);
+KP_SHARE BOOL PE_SetGroupID(                    PW_ENTRY* pEntry, DWORD          dwGroupID);
+KP_SHARE BOOL PE_SetImageID(                    PW_ENTRY* pEntry, DWORD          dwImageID);
+KP_SHARE BOOL PE_SetTitle(                      PW_ENTRY* pEntry, LPCTSTR        lpTitle);
+KP_SHARE BOOL PE_SetURL(                        PW_ENTRY* pEntry, LPCTSTR        lpURL);
+KP_SHARE BOOL PE_SetUserName(                   PW_ENTRY* pEntry, LPCTSTR        lpUserName);
+KP_SHARE BOOL PE_SetPasswordAndLock(void* pMgr, PW_ENTRY* pEntry, LPCTSTR        lpPassword);
+KP_SHARE BOOL PE_SetNotes(                      PW_ENTRY* pEntry, LPCTSTR        lpNotes);
+KP_SHARE BOOL PE_SetCreationTime(               PW_ENTRY* pEntry, const PW_TIME* pTime);
+KP_SHARE BOOL PE_SetLastModTime(                PW_ENTRY* pEntry, const PW_TIME* pTime);
+KP_SHARE BOOL PE_SetLastAccessTime(             PW_ENTRY* pEntry, const PW_TIME* pTime);
+KP_SHARE BOOL PE_SetExpireTime(                 PW_ENTRY* pEntry, const PW_TIME* pTime);
+KP_SHARE BOOL PE_SetBinaryDesc(                 PW_ENTRY* pEntry, LPCTSTR        lpDesc);
+KP_SHARE BOOL PE_SetBinaryData(                 PW_ENTRY* pEntry, const BYTE*    lpData,
+                                                                  DWORD          dwDataLength);
+KP_SHARE DWORD   GetKeePassVersion();
+KP_SHARE LPCTSTR GetKeePassVersionString();
+
+KP_SHARE DWORD   GetLibraryBuild();
+
+KP_SHARE BOOL   TransformKey256(UINT8* pBuffer256, const UINT8* pKeySeed256, UINT64 qwRounds);
+KP_SHARE UINT64 TransformKeyBenchmark256(DWORD dwTimeMs);
+
+KP_SHARE void   ProtectProcessWithDacl();
+*/
+
+
+
+#include "pch.h"
+#include "KpLib.h"
+#include "Groups.h"
+#include "KpFldLngs.h"
+#include "KpIter.h"
+#include "MessageBox.h"
+#include "Record.h"
+#include "Utility.h"
+
+
+TCchar* NotesURL = _T("http://sn");             // flag in url for a note
+
+
+CPwManager* KpLib::openDatabase(TCchar* path, Cstring& password) {
+PWDB_REPAIR_INFO info;   ZeroMemory(&info, sizeof(PWDB_REPAIR_INFO));
+
+  try {
+
+    if (!chk(SetMasterKey(pwMgr, password, false, 0, 0, FALSE))) {password.expunge();  return 0;}
+    password.expunge();
+
+    if (!chk(OpenDatabase(pwMgr, path, &info))) return 0;
+    } catch (...) {password.expunge();   return 0;}
+
+  groups.setPwMgr(pwMgr);   groups.initialize();   rcd.setPwMgr(pwMgr);   return pwMgr;
+  }
+
+
+void KpLib::saveDatabase(TCchar* path) {if (pwMgr) SaveDatabase(pwMgr, path);}
+
+
+
+void KpLib::addEntry() {
+String  sampleBlock;
+Date    today;      today.getToday();
+
+
+  rcd.add();
+  }
+
+
+
+static TCchar* ErrorCodes[] = {_T("UNKNOWN"),                _T("SUCCESS"),
+                               _T("INVALID_PARAM"),          _T("NO_MEM"),
+                               _T("INVALID_KEY"),            _T("NOFILEACCESS_READ"),
+                               _T("NOFILEACCESS_WRITE"),     _T("FILEERROR_READ"),
+                               _T("FILEERROR_WRITE"),        _T("INVALID_RANDOMSOURCE"),
+                               _T("INVALID_FILESTRUCTURE"),  _T("CRYPT_ERROR"),
+                               _T("INVALID_FILESIZE"),       _T("INVALID_FILESIGNATURE"),
+                               _T("INVALID_FILEHEADER"),     _T("NOFILEACCESS_READ_KEY"),
+                               _T("KEYPROV_INVALID_KEY"),    _T("FILEERROR_VERIFY"),
+                               _T("UNSUPPORTED_KDBX"),       _T("GETLASTERROR"),
+                               _T("DB_EMPTY"),               _T("ATTACH_TOOLARGE")
+                               };
+
+
+bool KpLib::chk(int err) {
+String s;
+
+  if (err == PWE_SUCCESS) return true;
+
+#ifdef _DEBUG
+
+  s = 0 <= err && err < noElements(ErrorCodes) ? ErrorCodes[err] :
+                                                  s.format(_T("Err: %i"), err).str();
+  messageBox(s);
+#endif
+
+  return false;
+  }
+
+
+
+

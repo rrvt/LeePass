@@ -1,0 +1,76 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32929.385
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LeePass.hlp", "..\LeePass.hlp\LeePass.hlp.vcxproj", "{9FB641C3-6F4F-4A20-B465-1FC571514915}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LeePass", "..\LeePass.prj\LeePass.vcxproj", "{23B275F0-5CF5-4D06-A869-17B9B3F91F70}"
+	ProjectSection(ProjectDependencies) = postProject
+		{76E285A6-E793-4A65-AD5B-0E7BCD71696D} = {76E285A6-E793-4A65-AD5B-0E7BCD71696D}
+		{97E15437-C3A6-4C37-BFE5-12E6211932F1} = {97E15437-C3A6-4C37-BFE5-12E6211932F1}
+		{9FB641C3-6F4F-4A20-B465-1FC571514915} = {9FB641C3-6F4F-4A20-B465-1FC571514915}
+		{CF57F3EC-D3DB-4469-8519-3F9D73785D9B} = {CF57F3EC-D3DB-4469-8519-3F9D73785D9B}
+	EndProjectSection
+EndProject
+Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "LeePass.wix", "..\LeePass.wix\LeePass.wix.wixproj", "{1CFA5F71-F2BE-47AB-AFB1-9A91D62DCFB0}"
+	ProjectSection(ProjectDependencies) = postProject
+		{23B275F0-5CF5-4D06-A869-17B9B3F91F70} = {23B275F0-5CF5-4D06-A869-17B9B3F91F70}
+		{76E285A6-E793-4A65-AD5B-0E7BCD71696D} = {76E285A6-E793-4A65-AD5B-0E7BCD71696D}
+		{97E15437-C3A6-4C37-BFE5-12E6211932F1} = {97E15437-C3A6-4C37-BFE5-12E6211932F1}
+		{9FB641C3-6F4F-4A20-B465-1FC571514915} = {9FB641C3-6F4F-4A20-B465-1FC571514915}
+		{CF57F3EC-D3DB-4469-8519-3F9D73785D9B} = {CF57F3EC-D3DB-4469-8519-3F9D73785D9B}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Library", "..\..\Library\Library\Library.vcxproj", "{CF57F3EC-D3DB-4469-8519-3F9D73785D9B}"
+	ProjectSection(ProjectDependencies) = postProject
+		{9FB641C3-6F4F-4A20-B465-1FC571514915} = {9FB641C3-6F4F-4A20-B465-1FC571514915}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "KeePassLibC", "..\..\KeePass\KeePassLibC\KeePassLibC.vcxproj", "{97E15437-C3A6-4C37-BFE5-12E6211932F1}"
+	ProjectSection(ProjectDependencies) = postProject
+		{76E285A6-E793-4A65-AD5B-0E7BCD71696D} = {76E285A6-E793-4A65-AD5B-0E7BCD71696D}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Deprecated", "..\..\KeePass\Deprecated\Deprecated.vcxproj", "{76E285A6-E793-4A65-AD5B-0E7BCD71696D}"
+	ProjectSection(ProjectDependencies) = postProject
+		{CF57F3EC-D3DB-4469-8519-3F9D73785D9B} = {CF57F3EC-D3DB-4469-8519-3F9D73785D9B}
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9FB641C3-6F4F-4A20-B465-1FC571514915}.Debug|Win32.ActiveCfg = Debug|Win32
+		{9FB641C3-6F4F-4A20-B465-1FC571514915}.Debug|Win32.Build.0 = Debug|Win32
+		{9FB641C3-6F4F-4A20-B465-1FC571514915}.Release|Win32.ActiveCfg = Release|Win32
+		{9FB641C3-6F4F-4A20-B465-1FC571514915}.Release|Win32.Build.0 = Release|Win32
+		{23B275F0-5CF5-4D06-A869-17B9B3F91F70}.Debug|Win32.ActiveCfg = Debug|Win32
+		{23B275F0-5CF5-4D06-A869-17B9B3F91F70}.Debug|Win32.Build.0 = Debug|Win32
+		{23B275F0-5CF5-4D06-A869-17B9B3F91F70}.Release|Win32.ActiveCfg = Release|Win32
+		{23B275F0-5CF5-4D06-A869-17B9B3F91F70}.Release|Win32.Build.0 = Release|Win32
+		{1CFA5F71-F2BE-47AB-AFB1-9A91D62DCFB0}.Debug|Win32.ActiveCfg = Debug|x86
+		{1CFA5F71-F2BE-47AB-AFB1-9A91D62DCFB0}.Release|Win32.ActiveCfg = Release|x86
+		{1CFA5F71-F2BE-47AB-AFB1-9A91D62DCFB0}.Release|Win32.Build.0 = Release|x86
+		{CF57F3EC-D3DB-4469-8519-3F9D73785D9B}.Debug|Win32.ActiveCfg = Debug|Win32
+		{CF57F3EC-D3DB-4469-8519-3F9D73785D9B}.Debug|Win32.Build.0 = Debug|Win32
+		{CF57F3EC-D3DB-4469-8519-3F9D73785D9B}.Release|Win32.ActiveCfg = Release|Win32
+		{CF57F3EC-D3DB-4469-8519-3F9D73785D9B}.Release|Win32.Build.0 = Release|Win32
+		{97E15437-C3A6-4C37-BFE5-12E6211932F1}.Debug|Win32.ActiveCfg = Debug|Win32
+		{97E15437-C3A6-4C37-BFE5-12E6211932F1}.Debug|Win32.Build.0 = Debug|Win32
+		{97E15437-C3A6-4C37-BFE5-12E6211932F1}.Release|Win32.ActiveCfg = Release|Win32
+		{97E15437-C3A6-4C37-BFE5-12E6211932F1}.Release|Win32.Build.0 = Release|Win32
+		{76E285A6-E793-4A65-AD5B-0E7BCD71696D}.Debug|Win32.ActiveCfg = Debug|Win32
+		{76E285A6-E793-4A65-AD5B-0E7BCD71696D}.Debug|Win32.Build.0 = Debug|Win32
+		{76E285A6-E793-4A65-AD5B-0E7BCD71696D}.Release|Win32.ActiveCfg = Release|Win32
+		{76E285A6-E793-4A65-AD5B-0E7BCD71696D}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {132A4F1E-9994-43CA-AAFE-5A7A0540B664}
+	EndGlobalSection
+EndGlobal

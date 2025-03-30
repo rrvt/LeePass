@@ -1,0 +1,45 @@
+// PasswordDlg.cpp : implementation file
+
+
+#include "pch.h"
+#include "PasswordDlg.h"
+#include "Resource.h"
+
+
+static TCchar BulletCh = 0x25CF;
+
+
+IMPLEMENT_DYNAMIC(PasswordDlg, CDialogEx)
+
+
+BEGIN_MESSAGE_MAP(PasswordDlg, CDialogEx)
+  ON_BN_CLICKED(IDC_SeePassword, &PasswordDlg::onSeePassword)
+END_MESSAGE_MAP()
+
+
+PasswordDlg::PasswordDlg(CWnd* pParent) : CDialogEx(IDD_Password, pParent), toggle(true) { }
+
+PasswordDlg::~PasswordDlg() { }
+
+
+BOOL PasswordDlg::OnInitDialog() {
+  CDialogEx::OnInitDialog();   passwordCtl.SetPasswordChar(BulletCh);
+
+  SetWindowText(title);
+
+  return true;
+  }
+
+
+void PasswordDlg::DoDataExchange(CDataExchange* pDX) {
+  CDialogEx::DoDataExchange(pDX);
+  DDX_Control(pDX, IDC_Password, passwordCtl);
+  DDX_Text(   pDX, IDC_Password, password);
+  }
+
+
+void PasswordDlg::onSeePassword() {
+Tchar ch = toggle ? 0 : BulletCh;
+
+  toggle ^= true;   passwordCtl.SetPasswordChar(ch);   passwordCtl.Invalidate();
+  }

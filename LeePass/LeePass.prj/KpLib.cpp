@@ -196,15 +196,33 @@ KP_SHARE void   ProtectProcessWithDacl();
 
 #include "pch.h"
 #include "KpLib.h"
+#include "FileName.h"
+#include "GetPathDlg.h"
 #include "Groups.h"
 #include "KpFldLngs.h"
 #include "KpIter.h"
+#include "LastPassRcd.h"
+#include "LibraryAPI.h"
 #include "MessageBox.h"
 #include "Record.h"
 #include "Utility.h"
 
 
-TCchar* NotesURL = _T("http://sn");             // flag in url for a note
+
+
+CPwManager* KpLib::newDatabase(String& path, Cstring& password) {
+PathDlgDsc pathDlgDsc(_T("LeePass Database"), path, _T("kdb"), _T("*.kdb"));
+
+  NewDatabase(pwMgr);
+
+  if (!setPassword(password)) return 0;
+
+  if (!path.isEmpty()) path = getPath(path);
+
+  if (getSaveAsPathDlg(pathDlgDsc, path)) SaveDatabase(pwMgr, path);
+
+  groups.setPwMgr(pwMgr);   rcd.setPwMgr(pwMgr);   return pwMgr;
+  }
 
 
 CPwManager* KpLib::openDatabase(TCchar* path, Cstring& password) {
@@ -212,8 +230,7 @@ PWDB_REPAIR_INFO info;   ZeroMemory(&info, sizeof(PWDB_REPAIR_INFO));
 
   try {
 
-    if (!chk(SetMasterKey(pwMgr, password, false, 0, 0, FALSE))) {password.expunge();  return 0;}
-    password.expunge();
+    if (!chk(setPassword(password))) return 0;
 
     if (!chk(OpenDatabase(pwMgr, path, &info))) return 0;
     } catch (...) {password.expunge();   return 0;}
@@ -222,16 +239,76 @@ PWDB_REPAIR_INFO info;   ZeroMemory(&info, sizeof(PWDB_REPAIR_INFO));
   }
 
 
+static TCchar* algoTxt[] {_T("ALGO_AES"), _T("ALGO_TWOFISH")};
+
+void KpLib::dspEncryption() {
+int    algo;
+uint    n;
+String s;
+  if (!pwMgr) return;
+
+  algo = GetAlgorithm(pwMgr);     n = GetKeyEncRounds(pwMgr);
+
+  s.format(_T("Algorithm: %s, Rounds: %u"), algoTxt[algo], n);
+
+  messageBox(s);
+  }
+
+
+String KpLib::getVersion() {
+String kpVer  = GetKeePassVersionString();
+uint   libBld = GetLibraryBuild();
+String s;
+
+  s.format(_T("KeePass Version: %s, Library Build: %u"), kpVer.str(), libBld);   return s;
+  }
+
+
+
+
+
 void KpLib::saveDatabase(TCchar* path) {if (pwMgr) SaveDatabase(pwMgr, path);}
 
 
+bool KpLib::setPassword(Cstring& password) {
+bool rslt = chk(SetMasterKey(pwMgr, password, false, 0, 0, false));
 
-void KpLib::addEntry() {
-String  sampleBlock;
-Date    today;      today.getToday();
+  password.expunge();   return rslt;
+  }
 
 
-  rcd.add();
+
+
+bool KpLib::importFile(String& path) {
+LastPassRcd lpRcd;
+int         n;
+
+  if (!lpRcd.open(path)) return false;
+
+  lpRcd.readRecord();
+
+  for (n = 0; lpRcd.readRecord(); n++) {
+    store(lpRcd);
+    }
+
+  return n > 0;
+  }
+
+
+bool KpLib::store(LastPassRcd& lpRcd) {
+bool rslt;
+
+  rcd.clear();
+
+  rcd.group      = lpRcd.grouping;
+  rcd.title      = lpRcd.name;
+  rcd.url        = lpRcd.url;
+  rcd.name       = lpRcd.userName;
+  rcd.password   = lpRcd.password;
+  rcd.notes      = lpRcd.extra;
+  rcd.binDesc    = lpRcd.desc;
+
+  rslt = rcd.add();   rcd.clear();   return rslt;
   }
 
 
@@ -267,4 +344,17 @@ String s;
 
 
 
+
+
+///////--------------------
+
+#if 0
+void KpLib::addEntry() {
+String  sampleBlock;
+Date    today;      today.getToday();
+
+
+  rcd.add();
+  }
+#endif
 

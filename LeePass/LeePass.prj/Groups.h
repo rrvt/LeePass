@@ -5,6 +5,7 @@
 #include "Date.h"
 #include "Expandable.h"
 #include "IterT.h"
+#include "KpDate.h"
 
 class                    CPwManager;
 typedef struct _PW_GROUP PW_GROUP;
@@ -39,8 +40,8 @@ String name;
 DWORD  id;
 DWORD  imageID;
 ushort level;
-Date   creation;
-Date   lastMod;
+KpDate creation;
+KpDate lastMod;
 
   Group() { }
   Group(Group& g) {copy(g);}

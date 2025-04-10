@@ -9,14 +9,15 @@ static int NoOfButtonControls =  3;
 static int NoOfButtons        =  10;                                    //button(ID_Login),
 
 
-MyToolBar::MyToolBar() : cboBx(ID_GroupCbx), cboBx1(ID_EntryCbx), cbxMenu(ID_DeleteMenu)
+MyToolBar::MyToolBar() : cboBx(ID_GroupCbx),     cboBx1(ID_EntryCbx),
+                         cbxMenu(ID_DeleteMenu), cbxMenu1(ID_LastPassMenu)
                         {toolBarDim.initialize(NoOfButtonControls, NoOfButtons);}
 
 
 
 bool MyToolBar::addMenu(uint id, int idr, TCchar* caption) {
   if (id == cbxMenu.getId())  return add(cbxMenu,  id, idr, caption);
-//  if (id == cbxMenu1.getId()) return add(cbxMenu1, id, idr, caption);
+  if (id == cbxMenu1.getId()) return add(cbxMenu1, id, idr, caption);
 
   return false;
   }
@@ -24,7 +25,7 @@ bool MyToolBar::addMenu(uint id, int idr, TCchar* caption) {
 
 void MyToolBar::dispatch(uint id) {
   if (id == cbxMenu.getId())  ToolBarBase::dispatch(cbxMenu);
-//  if (id == cbxMenu1.getId()) ToolBarBase::dispatch(cbxMenu1);
+  if (id == cbxMenu1.getId()) ToolBarBase::dispatch(cbxMenu1);
   }
 
 

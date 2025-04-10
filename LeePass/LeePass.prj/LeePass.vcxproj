@@ -64,7 +64,7 @@
         WIN32;_WINDOWS;_DEBUG;DsplyHistoryXXX;%(PreprocessorDefinitions)
       </PreprocessorDefinitions>
       <PrecompiledHeaderFile/>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(SolutionDir)..\..\Library\Library\;$(SolutionDir)..\..\Library\Extras\;$(SolutionDir)..\..\KeePass\KeePassLibC\KeePassAPI\;$(SolutionDir)..\..\KeePass\KeePassLibCpp\;$(SolutionDir)..\..\boost\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(SolutionDir)..\LeePassLib.prj\;$(SolutionDir)..\..\Library\Library\;$(SolutionDir)..\..\Library\Extras\;$(SolutionDir)..\..\KeePass\KeePassLibC\KeePassAPI\;$(SolutionDir)..\..\KeePass\KeePassLibCpp\;$(SolutionDir)..\..\boost\;$(SolutionDir)..\LastPass.prj\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
       <BasicRuntimeChecks/>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
@@ -78,9 +78,9 @@
       <SubSystem>Windows</SubSystem>
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <AdditionalDependencies>Htmlhelp.lib;Library.lib;KeePassLibC.lib</AdditionalDependencies>
+      <AdditionalDependencies>Htmlhelp.lib;LastPass.lib;LeePassLib.lib;Library.lib;KeePassLibC.lib</AdditionalDependencies>
       <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
-      <AdditionalLibraryDirectories>$(Solutiondir)..\..\Library\$(Configuration)\;$(SolutionDir)..\..\KeePass\$(Configuration)\</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(OutDir);$(Solutiondir)..\..\Library\$(Configuration)\;$(SolutionDir)..\..\KeePass\$(Configuration)\</AdditionalLibraryDirectories>
     </Link>
     <Midl>
       <MkTypLibCompatible>false</MkTypLibCompatible>
@@ -112,7 +112,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeaderFile/>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(SolutionDir)..\..\Library\Library\;$(SolutionDir)..\..\Library\Extras\;$(SolutionDir)..\..\KeePass\KeePassLibC\KeePassAPI\;$(SolutionDir)..\..\KeePass\KeePassLibCpp\;$(SolutionDir)..\..\boost\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(SolutionDir)..\LeePassLib.prj\;$(SolutionDir)..\..\Library\Library\;$(SolutionDir)..\..\Library\Extras\;$(SolutionDir)..\..\KeePass\KeePassLibC\KeePassAPI\;$(SolutionDir)..\..\KeePass\KeePassLibCpp\;$(SolutionDir)..\..\boost\;$(SolutionDir)..\LastPass.prj\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
       <DebugInformationFormat/>
       <BasicRuntimeChecks/>
@@ -126,9 +126,9 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>false</GenerateDebugInformation>
       <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
-      <AdditionalDependencies>Htmlhelp.lib;Library.lib;KeePassLibC.lib</AdditionalDependencies>
+      <AdditionalDependencies>Htmlhelp.lib;LastPass.lib;LeePassLib.lib;Library.lib;KeePassLibC.lib</AdditionalDependencies>
       <ProgramDatabaseFile/>
-      <AdditionalLibraryDirectories>$(Solutiondir)..\..\Library\$(Configuration)\;$(SolutionDir)..\..\KeePass\$(Configuration)\</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(OutDir);$(Solutiondir)..\..\Library\$(Configuration)\;$(SolutionDir)..\..\KeePass\$(Configuration)\</AdditionalLibraryDirectories>
     </Link>
     <Midl>
       <MkTypLibCompatible>false</MkTypLibCompatible>
@@ -150,35 +150,36 @@
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\Library\Extras\AboutDlg.h" />
     <ClInclude Include="..\..\Library\Extras\OptionsDlg.h" />
     <ClInclude Include="..\..\Library\Extras\ResourceExtra.h" />
+    <ClInclude Include="AboutDlgKp.h" />
     <ClInclude Include="Groups.h" />
     <ClInclude Include="KpBinaryFld.h" />
     <ClInclude Include="KpCBxFld.h" />
+    <ClInclude Include="KpDate.h" />
     <ClInclude Include="KpFldLngs.h" />
     <ClInclude Include="KpID.h" />
     <ClInclude Include="KpIter.h" />
     <ClInclude Include="KpLib.h" />
-    <ClInclude Include="KpSDK.h" />
     <ClInclude Include="KpStringFld.h" />
     <ClInclude Include="LeePass.h" />
     <ClInclude Include="LeePassDlg.h" />
     <ClInclude Include="MyToolBar.h" />
     <ClInclude Include="PasswordDlg.h" />
+    <ClInclude Include="PasswordNewDlg.h" />
     <ClInclude Include="Record.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="targetver.h" />
-    <ClInclude Include="Utility.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\Library\Extras\AboutDlg.cpp" />
     <ClCompile Include="..\..\Library\Extras\OptionsDlg.cpp" />
+    <ClCompile Include="AboutDlgKp.cpp" />
     <ClCompile Include="Groups.cpp" />
     <ClCompile Include="KpBinaryFld.cpp" />
     <ClCompile Include="KpCBxFld.cpp" />
+    <ClCompile Include="KpDate.cpp" />
     <ClCompile Include="KpFldLngs.cpp" />
     <ClCompile Include="KpIter.cpp" />
     <ClCompile Include="KpLib.cpp" />
@@ -187,29 +188,36 @@
     <ClCompile Include="LeePassDlg.cpp" />
     <ClCompile Include="MyToolBar.cpp" />
     <ClCompile Include="PasswordDlg.cpp" />
+    <ClCompile Include="PasswordNewDlg.cpp" />
     <ClCompile Include="pch.cpp" />
     <ClCompile Include="Record.cpp" />
-    <ClCompile Include="Utility.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="LeePass.rc" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\Library\Extras\AboutDlg.rc2" />
     <None Include="..\..\Library\Extras\Options.rc2" />
     <None Include="C:\Users\rrvt\AppData\Roaming\LeePass\LeePass.ini" />
+    <None Include="res\AboutDlgKp.rc2" />
     <None Include="res\LeePass.rc2" />
-  <None Include="..\README.md" />
+    <None Include="..\README.md" />
+  <None Include="..\Data\example.csv" />
+    <None Include="..\Data\Example2.csv" />
+  <None Include="..\Data\example3.csv" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\LeePass.ico" />
     <Image Include="res\ShortToolbar.bmp" />
     <Image Include="res\Toolbar.bmp" />
     <Image Include="res\Toolbar01.bmp" />
+    <Image Include="res\Toolbar04.bmp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Library\Library\Library.vcxproj">
       <Project>{8405F573-27F1-4A02-B69B-A45D98A35C0F}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\LastPass.prj\LastPast.vcxproj">
+      <Project>{a2662c97-084b-455c-9aa7-1701da9d3b99}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

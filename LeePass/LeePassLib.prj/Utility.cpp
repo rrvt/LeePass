@@ -3,6 +3,9 @@
 
 #include "pch.h"
 #include "Utility.h"
+#include <random>
+
+#if 0
 #include "KpSDK.h"
 
 
@@ -42,6 +45,7 @@ static PW_TIME pwTime;
   pwTime.btSecond = dt.getSecond();
   return pwTime;
   }
+#endif
 
 
 // set field only if not equal
@@ -64,4 +68,16 @@ void    clrLbl(CEdit& ctl, TCchar* txt)
 void    clrLbl(CComboBox& ctl, TCchar* txt)
                              {Cstring lbl;   ctl.GetWindowText(lbl);   if (lbl == txt) clear(ctl);}
 
+
+void expunge(void* p, int nBytes) {
+static random_device       rd;
+mt19937                    gen(rd());
+uniform_int_distribution<> distribute(0, 255);
+int                        i;
+Byte*                      q;
+
+  if (!p || !nBytes) return;
+
+  for (i = 0, q = (Byte*) p; i < nBytes; i++) *q++ = (Byte) distribute(gen);
+  }
 

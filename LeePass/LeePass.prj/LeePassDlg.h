@@ -79,6 +79,7 @@ private:
   void            setStatus(TCchar* sts);
   void            setTitle(TCchar* title);
   void            setLabels();
+  void            finOpen();
 
 public:
 
@@ -100,9 +101,13 @@ public:
   afx_msg void    onEntryCbx();
   afx_msg void    onToggleSave();
 
-  afx_msg void    onDelete() {toolBar.dispatch(ID_DeleteMenu);}
+  afx_msg void    onDeleteMenu() {toolBar.dispatch(ID_DeleteMenu);}
   afx_msg void    onDeleteEntry();
   afx_msg void    onDeleteGroup();
+
+  afx_msg void    onLastPassMenu() {toolBar.dispatch(ID_LastPassMenu);}
+  afx_msg void    onImportFile();
+  afx_msg void    onExpungeFile();
 
   afx_msg void    onFocusUrl();
   afx_msg void    onFocusName();

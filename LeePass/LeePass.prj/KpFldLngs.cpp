@@ -13,6 +13,5 @@ void KpFldLngs::get(Record& rcd) {
   getMax(userNameMax,   rcd.name.length());
   getMax(passwordMax,   rcd.password.length());
   getMax(notesMax,      rcd.notes.length());
-  getMax(binaryDescMax, rcd.binaryDesc.length());
+  getMax(binaryDescMax, rcd.binDesc.length());
   }
-

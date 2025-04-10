@@ -11,25 +11,25 @@
 #include "Utility.h"
 
 
-static TCchar* TitleLbl      = _T("<Title>");
-static TCchar* URLLbl        = _T("<URL>");
-static TCchar* NameLbl       = _T("<Name>");
-static TCchar* PasswordLbl   = _T("<Password>");
-static TCchar* NotesLbl      = _T("<Notes>");
-static TCchar* BinaryDescLbl = _T("<Binary Description>");
-static TCchar* GroupLbl      = _T("<Group>");
+static TCchar* TitleLbl    = _T("<Title>");
+static TCchar* URLLbl      = _T("<URL>");
+static TCchar* NameLbl     = _T("<Name>");
+static TCchar* PasswordLbl = _T("<Password>");
+static TCchar* NotesLbl    = _T("<Notes>");
+static TCchar* GroupLbl    = _T("<Group>");
+static TCchar* BinDescLbl  = _T("<Binary or Extra Desc>");
 
 Record::Record() : pwMgr(0), kpEntry(0), aNote(false), group(GroupLbl), imageId(0),
                    title(TitleLbl), url(URLLbl), name(NameLbl), password(PasswordLbl),
-                   notes(NotesLbl), binaryDesc(BinaryDescLbl), binaryData(0), binDataLng(0) {}
+                   notes(NotesLbl), binDesc(BinDescLbl), binData(0), binDataLng(0) {}
 
 Record::~Record() {clear();}
 
 
 void Record::clear() {
-  aNote = false; imageId = 0; creation.clear();  binaryData = 0; binDataLng = 0;
+  aNote = false; imageId = 0; creation.clear();
      group.expunge();     url.expunge();      title.expunge();     name.expunge();
-  password.expunge();   notes.expunge(); binaryDesc.expunge();
+  password.expunge();   notes.expunge();    binDesc.expunge();
   }
 
 
@@ -69,18 +69,18 @@ Record& Record::operator= (KpEntry* kpRcd) {        //
 
   UnlockEntryPassword(pwMgr, kpEntry);
 
-  group      = groups.getName(kpEntry->uGroupId);
-  imageId    = kpEntry->uImageId;
-  title      = kpEntry->pszTitle;
-  url        = kpEntry->pszURL;
-  name       = kpEntry->pszUserName;
-  password   = kpEntry->pszPassword;
-  notes      = kpEntry->pszAdditional;
-  creation   = toDate(kpEntry->tCreation);
-  expire     = toDate(kpEntry->tExpire);
-  binaryDesc = kpEntry->pszBinaryDesc;
-  binaryData = kpEntry->pBinaryData;
-  binDataLng = kpEntry->uBinaryDataLen;
+  group        = groups.getName(kpEntry->uGroupId);
+  imageId      = kpEntry->uImageId;
+  title        = kpEntry->pszTitle;
+  url          = kpEntry->pszURL;
+  name         = kpEntry->pszUserName;
+  password     = kpEntry->pszPassword;
+  notes        = kpEntry->pszAdditional;
+  creation     = kpEntry->tCreation;
+  expire       = kpEntry->tExpire;
+  binDesc      = kpEntry->pszBinaryDesc;
+  binData      = kpEntry->pBinaryData;
+  binDataLng   = kpEntry->uBinaryDataLen;
 
   LockEntryPassword(pwMgr, kpEntry);
 
@@ -88,12 +88,12 @@ Record& Record::operator= (KpEntry* kpRcd) {        //
   }
 
 
-bool Record::setTitle(     CEdit& ctl) {return      title.get(ctl);}
-bool Record::setURL(       CEdit& ctl) {return        url.get(ctl);}
-bool Record::setName(      CEdit& ctl) {return       name.get(ctl);}
-bool Record::setPassword(  CEdit& ctl) {return   password.get(ctl);}
-bool Record::setNotes(     CEdit& ctl) {return      notes.get(ctl);}
-bool Record::setBinaryDesc(CEdit& ctl) {return binaryDesc.get(ctl);}
+bool Record::setTitle(     CEdit& ctl) {return    title.get(ctl);}
+bool Record::setURL(       CEdit& ctl) {return      url.get(ctl);}
+bool Record::setName(      CEdit& ctl) {return     name.get(ctl);}
+bool Record::setPassword(  CEdit& ctl) {return password.get(ctl);}
+bool Record::setNotes(     CEdit& ctl) {return    notes.get(ctl);}
+bool Record::setBinaryDesc(CEdit& ctl) {return  binDesc.get(ctl);}
 
 
 //PW_ENTRY* CreateEntry(void* pMgr, DWORD dwGroupID, LPCTSTR lpTitle,
@@ -101,16 +101,13 @@ bool Record::setBinaryDesc(CEdit& ctl) {return binaryDesc.get(ctl);}
 //BOOL      AddEntry(   void* pMgr, const PW_ENTRY* pTemplate);
 
 bool Record::add() {
-uint groupId = groups.getID(group);
+uint grpId = groups.getID(group);   if (!grpId) grpId = groups.add(group);
 
-  kpEntry = CreateEntry(pwMgr, groupId, title, name, url, password, notes);
+  kpEntry = CreateEntry(pwMgr, grpId, title, name, url, password, notes);
 
   if (!kpEntry) return false;
 
-  PE_SetBinaryDesc(kpEntry, binaryDesc);
-  PE_SetBinaryData(kpEntry, binaryData, binDataLng);
-
-  return true;
+  return PE_SetBinaryDesc(kpEntry, binDesc);
   }
 
 
@@ -150,9 +147,9 @@ bool Record::updateNotes(CEdit& ctl) {
 
 
 bool Record::updateBinaryDesc(CEdit& ctl) {
-  if (!kpEntry || !binaryDesc.get(ctl)) return false;
+  if (!kpEntry || !binDesc.get(ctl)) return false;
 
-  PE_SetBinaryDesc(kpEntry, binaryDesc);   return true;
+  PE_SetBinaryDesc(kpEntry, binDesc);   return true;
   }
 
 
@@ -211,5 +208,10 @@ String q  = _T("Add "); q += (TCchar*) name;  q += _T(" to Groups?");
   if (msgYesNoBox(q) == IDYES) {PE_SetGroupID(kpEntry, groups.add(group));   return true;}
 
   return false;
+#endif
+#if 1
+#else
+  PE_SetBinaryDesc(kpEntry, binaryDesc);
+  PE_SetBinaryData(kpEntry, binaryData, binDataLng);
 #endif
 

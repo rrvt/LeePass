@@ -18,7 +18,7 @@ class MyToolBar : public ToolBarBase {
 TBCboBx   cboBx;
 TBCboBx   cboBx1;
 TBCbxMenu cbxMenu;
-
+TBCbxMenu cbxMenu1;
 
 public:
 

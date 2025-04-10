@@ -42,6 +42,14 @@ The "HTML Help Workshop" (google it) must be installed on the PC.
 
 Execute the msi file to install the app.
 
+## Updates
+
+### 4/9/25 Update
+
+This is a work in progress.  I managed to load my existing database into the app.  It will also
+loaded an example LastPass export file into the app.  Next step is to load the full LastPass
+export.  But for now this version will be uploaded.
+
 ## Authors
 
 Robert R. Van Tuyl

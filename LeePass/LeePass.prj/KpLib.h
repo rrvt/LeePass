@@ -6,27 +6,40 @@
 #include "Record.h"
 
 class CPwManager;
+class LastPassRcd;
+class LPExtras;
 
 
 class KpLib {
 
 CPwManager* pwMgr;
-Record      rcd;
 
 public:
+Record      rcd;
 
               KpLib() {InitManager((void**) &pwMgr, true);}
              ~KpLib() {DeleteManager(pwMgr);}
 
+  CPwManager* newDatabase( String& path, Cstring& password);
   CPwManager* openDatabase(TCchar* path, Cstring& password);
+
+  void        dspEncryption();
+  String      getVersion();
+
   void        saveDatabase(TCchar* path);
+  bool        setPassword(Cstring& password);
 
-  Record&     record() {return rcd;}
-
-  void        addEntry();
+  bool        importFile(String& path);
+  bool        store(LastPassRcd& lpRcd);
 
 private:
 
   bool chk(int err);
   };
+
+
+
+//////-------------------
+
+//  void        addEntry();
 

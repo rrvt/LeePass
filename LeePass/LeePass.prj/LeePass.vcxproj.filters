@@ -27,9 +27,6 @@
     <ClInclude Include="pch.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Library\Extras\AboutDlg.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Library\Extras\OptionsDlg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -60,13 +57,7 @@
     <ClInclude Include="KpLib.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="KpSDK.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Record.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Utility.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="KpStringFld.h">
@@ -81,12 +72,18 @@
     <ClInclude Include="KpID.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="PasswordNewDlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AboutDlgKp.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="KpDate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Library\Extras\AboutDlg.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Library\Extras\OptionsDlg.cpp">
@@ -119,9 +116,6 @@
     <ClCompile Include="Record.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Utility.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="KpStringFld.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -131,6 +125,15 @@
     <ClCompile Include="KpCBxFld.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="PasswordNewDlg.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AboutDlgKp.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="KpDate.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="LeePass.rc">
@@ -138,9 +141,6 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\Library\Extras\AboutDlg.rc2">
-      <Filter>Resource Files</Filter>
-    </None>
     <None Include="..\..\Library\Extras\Options.rc2">
       <Filter>Resource Files</Filter>
     </None>
@@ -148,6 +148,10 @@
       <Filter>Resource Files</Filter>
     </None>
     <None Include="C:\Users\rrvt\AppData\Roaming\LeePass\LeePass.ini" />
+    <None Include="..\README.md" />
+    <None Include="res\AboutDlgKp.rc2">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\ShortToolbar.bmp">
@@ -160,6 +164,9 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="res\Toolbar01.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\Toolbar04.bmp">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

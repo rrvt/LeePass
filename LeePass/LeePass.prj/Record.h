@@ -35,7 +35,7 @@ DWORD   uBinaryDataLen;       ///< Length of the attachment data in bytes.
 #include "KpCBxFld.h"
 #include "KpStringFld.h"
 
-
+#if 0
 extern TCchar* FFLineOpen;
 extern TCchar* FFLineClose;
 extern TCchar* FavOpen;
@@ -46,7 +46,7 @@ extern TCchar* ToTpOpen;
 extern TCchar* ToTpClose;
 extern TCchar* TimeOpen;
 extern TCchar* TimeClose;
-
+#endif
 
 class Record {
 
@@ -64,10 +64,11 @@ KpStringFld url;
 KpStringFld name;                 // User Name
 KpStringFld password;             // Password
 KpStringFld notes;                // used to hold notes (KP field: pszAdditional)
-Date        creation;             // date created
-Date        expire;               // date will expire
-KpStringFld binaryDesc;           // Description of binary data
-Byte*       binaryData;           // ptr to binary data or zero
+KpDate      creation;             // date created
+KpDate      expire;               // date will expire
+//BinData     binData;              // Descriptor (String), Byte data array, number of bytes
+KpStringFld binDesc;              // Description of binary data
+Byte*       binData;              // ptr to binary data or zero
 uint        binDataLng;           // Number of bytes in binaryData
 
   Record();
@@ -100,7 +101,7 @@ uint        binDataLng;           // Number of bytes in binaryData
 
   String& getEntryDsc();
 
-  void    setAnote() {aNote = url == NotesURL;}
+//  void    setAnote() {aNote = url == NotesURL;}
   bool    isNote()   {return aNote;}
 
 private:

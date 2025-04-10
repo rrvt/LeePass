@@ -26,6 +26,7 @@ DWORD   dwFlags;              ///< Used by KeePass internally, don't use (set to
 
 #include "pch.h"
 #include "Groups.h"
+#include "KpDate.h"
 #include "KpSDK.h"
 #include "MyToolBar.h"
 #include "Utility.h"
@@ -68,12 +69,13 @@ Group*  group;
 
 uint Groups::add(TCchar* grpName) {
 PW_GROUP grp;    ZeroMemory(&grp, sizeof(PW_GROUP));
-Date     today;  today.getToday();
+KpDate   kpDate;
+//Date     today;  today.getToday();
 
   grp.pszGroupName = (Tchar*) grpName;
-  grp.tCreation    = toPWTime(today);
-  grp.tLastAccess  = toPWTime(today);
-  grp.tLastMod     = toPWTime(today);
+  grp.tCreation    = kpDate.today();      //toPWTime(today);
+  grp.tLastAccess  = kpDate.today();      //toPWTime(today);
+  grp.tLastMod     = kpDate.today();      //toPWTime(today);
 
   if (!AddGroup(pwMgr, &grp)) return false;
 
@@ -136,7 +138,7 @@ int     i;
   for (grp = iter(); grp; grp = iter++)
                                      {i = cbx.AddString(grp->name);   cbx.SetItemData(i, grp->id);}
 
-  cbx.SetCurSel(cbx.FindString(-1, name));
+  if (name) cbx.SetCurSel(cbx.FindString(-1, name));
   }
 
 
@@ -147,8 +149,8 @@ Group& Group::operator= (PW_GROUP* pwg) {
   id       = pwg->uGroupId;
   imageID  = pwg->uImageId;
   level    = pwg->usLevel;
-  creation = toDate(pwg->tCreation);
-  lastMod  = toDate(pwg->tLastMod);
+  creation = pwg->tCreation;          // toDate(pwg->tCreation);
+  lastMod  = pwg->tLastMod;           // toDate(pwg->tLastMod);
 
   return *this;
   }

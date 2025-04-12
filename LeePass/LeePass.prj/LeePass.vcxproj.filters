@@ -81,6 +81,9 @@
     <ClInclude Include="KpDate.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="RemoveDups.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -134,6 +137,9 @@
     <ClCompile Include="KpDate.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="RemoveDups.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="LeePass.rc">
@@ -152,6 +158,9 @@
     <None Include="res\AboutDlgKp.rc2">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="..\Data\example.csv" />
+    <None Include="..\Data\Example2.csv" />
+    <None Include="..\Data\example3.csv" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\ShortToolbar.bmp">

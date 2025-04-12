@@ -27,7 +27,8 @@ String fld;
   void         set(CEdit& ctl) {ctl.SetWindowText(fld);}
   bool         get(CEdit& ctl);
 
-  KpStringFld& operator= (TCchar* tc) {fld = tc;   return *this;}
+  KpStringFld& operator=  (TCchar* tc) {fld = tc;   return *this;}
+  bool         operator== (TCchar* tc) {return fld == tc;}
 
   operator TCchar*() const {return fld;}
 

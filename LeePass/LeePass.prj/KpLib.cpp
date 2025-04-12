@@ -296,7 +296,8 @@ int         n;
 
 
 bool KpLib::store(LastPassRcd& lpRcd) {
-bool rslt;
+bool     rslt;
+KpEntry* kpEntry;
 
   rcd.clear();
 
@@ -308,7 +309,56 @@ bool rslt;
   rcd.notes      = lpRcd.extra;
   rcd.binDesc    = lpRcd.desc;
 
+  if (rcd.find(kpEntry)) {rslt = rcd.update(kpEntry);   rcd.clear();   return rslt;}
+
   rslt = rcd.add();   rcd.clear();   return rslt;
+  }
+
+
+/*
+KP_SHARE DWORD GetNumberOfEntries(void* pMgr);          // Returns number of entries in database
+KP_SHARE PW_ENTRY* GetEntry(          void* pMgr, DWORD dwIndex);
+*/
+
+void KpLib::removeDups() {
+int nEntries = GetNumberOfEntries(pwMgr);
+int index;
+
+  for (index = 0; index < nEntries; index++) findAllDups(index);
+  }
+
+
+void KpLib::findAllDups(int tgtIndex) {
+KpEntry* kpEntry = GetEntry(pwMgr, tgtIndex);    if (!kpEntry) return;
+String   tgt     = kpEntry->pszTitle;
+int      dupIndex;
+int      delIndex;
+
+  for (dupIndex = findTitle(tgt, tgtIndex+1); dupIndex >= 0; dupIndex = findTitle(tgt, dupIndex)) {
+
+    delIndex = compare(tgtIndex, dupIndex);
+
+    if (delIndex >= 0)
+                 {DeleteEntry(pwMgr, delIndex);   if (delIndex == tgtIndex) tgtIndex = dupIndex-1;}
+    }
+  }
+
+
+// returns index of entry to delete or -1
+
+int KpLib::compare(int index, int dupIndex) {
+KpEntry* kpEntry  = GetEntry(pwMgr, index);     if (!kpEntry)  return -1;
+KpEntry* dupEntry = GetEntry(pwMgr, dupIndex);  if (!dupEntry) return -1;
+String   s;
+Date     dt;
+Date     dupDt;
+
+  s = kpEntry->pszURL;         if (s != dupEntry->pszURL)      return -1;
+  s = kpEntry->pszUserName;    if (s != dupEntry->pszUserName) return -1;
+
+  dt = getDate(kpEntry->tCreation);   dupDt = getDate(dupEntry->tCreation);
+
+  return dt > dupDt ? dupIndex : index;
   }
 
 

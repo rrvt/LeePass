@@ -44,6 +44,7 @@ String caption;
 private:
 
   bool        getActual() {if (!actual) actual = GetByCmd(id);   return actual != 0;}
+  String      findNext(int index);
 
   bool        add(TCchar* txt, int data);
   TBCboBx*    finInstall(TCchar* caption);

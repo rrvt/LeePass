@@ -3,14 +3,7 @@
 
 #pragma once
 #include "Date.h"
-
-#if 0
-typedef struct _PW_TIME PW_TIME;
-
-
-Date&    toDate(PW_TIME& pwTime);
-PW_TIME& toPWTime(Date& dt);
-#endif
+#include "KpSDK.h"
 
 
 bool setField(String& fld, TCchar* tc);
@@ -27,5 +20,8 @@ inline void    clear(CEdit&     ctl) {ctl.SetWindowText(_T(""));}
 inline void    clear(CComboBox& ctl) {ctl.SetCurSel(-1);}
 inline void    reset(CComboBox& ctl) {ctl.ResetContent();}
 
-       void expunge(void* p, int nBytes);
+       void    expunge(void* p, int nBytes);
+
+       Date&   getDate(PwTime& pwTime);
+       PwTime& getPwTime(Date& dt);
 

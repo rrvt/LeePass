@@ -44,6 +44,11 @@ Execute the msi file to install the app.
 
 ## Updates
 
+### 4/11/25 Update
+
+Add a command to remove duplicates (title, url and username are the same, the most recent created
+saved).  There are some duplicates with the same title but different usernames or urls.
+
 ### 4/9/25 Update
 
 This is a work in progress.  I managed to load my existing database into the app.  It will also

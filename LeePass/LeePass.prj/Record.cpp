@@ -19,7 +19,7 @@ static TCchar* NotesLbl    = _T("<Notes>");
 static TCchar* GroupLbl    = _T("<Group>");
 static TCchar* BinDescLbl  = _T("<Binary or Extra Desc>");
 
-Record::Record() : pwMgr(0), kpEntry(0), aNote(false), group(GroupLbl), imageId(0),
+Record::Record() : pwMgr(0), kpEntry(0), group(GroupLbl), imageId(0),
                    title(TitleLbl), url(URLLbl), name(NameLbl), password(PasswordLbl),
                    notes(NotesLbl), binDesc(BinDescLbl), binData(0), binDataLng(0) {}
 
@@ -27,7 +27,7 @@ Record::~Record() {clear();}
 
 
 void Record::clear() {
-  aNote = false; imageId = 0; creation.clear();
+  imageId = 0; creation.clear();
      group.expunge();     url.expunge();      title.expunge();     name.expunge();
   password.expunge();   notes.expunge();    binDesc.expunge();
   }
@@ -96,6 +96,24 @@ bool Record::setNotes(     CEdit& ctl) {return    notes.get(ctl);}
 bool Record::setBinaryDesc(CEdit& ctl) {return  binDesc.get(ctl);}
 
 
+
+
+//KP_SHARE DWORD Find(void* pMgr, const TCHAR* pszFindString,
+//                                              BOOL bCaseSensitive, DWORD fieldFlags, DWORD nStart);
+
+bool Record::find(KpEntry*& kpEntry) {
+int       index;
+
+  for (index = findTitle(title, 0); index >= 0; index = findTitle(title, index+1)) {
+    kpEntry = GetEntry(pwMgr, index);    if (!kpEntry) continue;
+
+    if (url == kpEntry->pszURL && name == kpEntry->pszUserName) return true;
+    }
+
+  return false;
+  }
+
+
 //PW_ENTRY* CreateEntry(void* pMgr, DWORD dwGroupID, LPCTSTR lpTitle,
 //                         LPCTSTR lpUserName, LPCTSTR lpURL, LPCTSTR lpPassword, LPCTSTR lpNotes);
 //BOOL      AddEntry(   void* pMgr, const PW_ENTRY* pTemplate);
@@ -109,6 +127,32 @@ uint grpId = groups.getID(group);   if (!grpId) grpId = groups.add(group);
 
   return PE_SetBinaryDesc(kpEntry, binDesc);
   }
+
+
+bool Record::update(KpEntry* kpEntry) {
+bool dirty = false;
+uint grpId;
+bool rslt;
+
+  if (!kpEntry) return false;
+
+  grpId = getGroupId(group);
+
+  if (grpId != kpEntry->uGroupId)         {PE_SetGroupID(   kpEntry, grpId);      dirty = true;}
+  if (title != kpEntry->pszTitle)         {PE_SetTitle(     kpEntry, title);      dirty = true;}
+  if (url   != kpEntry->pszURL)           {PE_SetURL(       kpEntry, url);        dirty = true;}
+  if (name  != kpEntry->pszUserName)      {PE_SetUserName(  kpEntry, name);       dirty = true;}
+
+  UnlockEntryPassword(pwMgr, kpEntry);
+  rslt = password != kpEntry->pszPassword;
+  LockEntryPassword(pwMgr, kpEntry);
+  if (rslt)                 {PE_SetPasswordAndLock(pwMgr,   kpEntry, password);   dirty = true;}
+  if (notes    != kpEntry->pszAdditional) {PE_SetNotes(     kpEntry, notes);      dirty = true;}
+  if (binDesc  != kpEntry->pszBinaryDesc) {PE_SetBinaryDesc(kpEntry, binDesc);    dirty = true;}
+
+  return dirty;
+  }
+
 
 
 bool Record::updateTitle(CEdit& ctl) {

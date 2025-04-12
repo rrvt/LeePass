@@ -51,9 +51,7 @@ extern TCchar* TimeClose;
 class Record {
 
 CPwManager* pwMgr;
-
 KpEntry*    kpEntry;              // KeePass record pointer
-bool        aNote;                // A Last Pass Note when true
 
 public:
 
@@ -80,6 +78,8 @@ uint        binDataLng;           // Number of bytes in binaryData
 
   Record& operator= (KpEntry* kpRcd);
 
+  bool    find(KpEntry*& kpEntry);   // Find if title, name, url is in the current KeePass database
+
 // New Record
   bool    setTitle(CEdit& ctl);
   bool    setURL(CEdit& ctl);
@@ -88,6 +88,8 @@ uint        binDataLng;           // Number of bytes in binaryData
   bool    setNotes(CEdit& ctl);
   bool    setBinaryDesc(CEdit& ctl);
   bool    setGroup(CComboBox& ctl);
+
+  bool    update(KpEntry* kpEntry);
   bool    add();
 
 // Update an Existing Record
@@ -102,10 +104,11 @@ uint        binDataLng;           // Number of bytes in binaryData
   String& getEntryDsc();
 
 //  void    setAnote() {aNote = url == NotesURL;}
-  bool    isNote()   {return aNote;}
+//  bool    isNote()   {return aNote;}
 
 private:
 
   uint    getGroupId(TCchar* name);
+  int     findTitle(TCchar* title, int index) {return Find(pwMgr, title, true, PWMF_TITLE, index);}
   };
 

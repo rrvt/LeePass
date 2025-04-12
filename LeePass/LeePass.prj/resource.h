@@ -42,6 +42,8 @@
 #define ID_DeleteEntry                  421
 #define ID_DeleteGroup                  422
 
+#define ID_RemoveDups                   423
+
 #define ID_Save                         430
 #define ID_Options                      431
 #define ID_About                        432

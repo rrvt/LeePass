@@ -32,9 +32,15 @@ Record      rcd;
   bool        importFile(String& path);
   bool        store(LastPassRcd& lpRcd);
 
+  void        removeDups();
+
 private:
 
-  bool chk(int err);
+  void        findAllDups(int tgtIndex);
+  int         findTitle(TCchar* title, int index)
+                                              {return Find(pwMgr, title, true, PWMF_TITLE, index);}
+  int         compare(int index, int dupIndex);
+  bool        chk(int err);
   };
 
 

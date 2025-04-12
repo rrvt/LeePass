@@ -25,6 +25,7 @@ DECLARE_DYNAMIC(LeePassDlg)
 MyToolBar   toolBar;                            // Part of the infrastructure of the main dialog
 StatusBar   statusBar;
 bool        isInitialized;                      // OnInitDialog completed successfully
+int         noCbxEntries;
 
 String      path;
 CPwManager* pwMgr;                              // Path to Kp Database
@@ -77,6 +78,8 @@ private:
   void            setupToolBar();
   void            setEntrySts(Record& rcd);
   void            setStatus(TCchar* sts);
+  void            setDbSts();
+
   void            setTitle(TCchar* title);
   void            setLabels();
   void            finOpen();
@@ -109,6 +112,8 @@ public:
   afx_msg void    onImportFile();
   afx_msg void    onExpungeFile();
 
+  afx_msg void    onRemoveDups();
+
   afx_msg void    onFocusUrl();
   afx_msg void    onFocusName();
   afx_msg void    onFocusPswd();
@@ -116,7 +121,7 @@ public:
   afx_msg void    onFocusBinarydesc();
   afx_msg void    onFocusTitle();
   afx_msg void    onFocusGroupUpdt();
-};
+  };
 
 
 

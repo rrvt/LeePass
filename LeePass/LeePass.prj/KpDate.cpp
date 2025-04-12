@@ -3,6 +3,7 @@
 
 #include "pch.h"
 #include "KpDate.h"
+#include "Utility.h"
 
 #include "MessageBox.h"
 
@@ -25,17 +26,29 @@ BYTE   btDummy;
 
 
 KpDate&  KpDate::operator= (PwTime& pwTime) {
+#if 1
 
-if (pwTime.shYear < 1970) {Date x(1970, 1, 1, 0, 0, 0);   ((Date)*this) = x;   return *this;}
+  ((Date)*this) = ::getDate(pwTime);
 
-Date x(pwTime.shYear, pwTime.btMonth,  pwTime.btDay,
+#else
+  if (pwTime.shYear < 1970) {Date x(1970, 1, 1, 0, 0, 0);   ((Date)*this) = x;   return *this;}
+
+  Date x(pwTime.shYear, pwTime.btMonth,  pwTime.btDay,
        pwTime.btHour, pwTime.btMinute, pwTime.btSecond);
 
-  ((Date)*this) = x;   return *this;
+  ((Date)*this) = x;
+#endif
+
+  return *this;
   }
 
 
 KpDate::operator PwTime&() {
+#if 1
+
+  return getPwTime(*this);
+
+#else
 static PwTime pwTime;
 
   pwTime.shYear   = getYear();
@@ -46,6 +59,7 @@ static PwTime pwTime;
   pwTime.btSecond = getSecond();
 
   return pwTime;
+#endif
   }
 
 

@@ -17,6 +17,7 @@
 #include "PasswordDlg.h"
 #include "PasswordNewDlg.h"
 #include "Record.h"
+#include "RemoveDups.h"
 #include "StatusBar.h"
 #include "Utility.h"
 
@@ -37,10 +38,10 @@ BEGIN_MESSAGE_MAP(LeePassDlg, CDialogEx)
   ON_COMMAND(      ID_OpenKpDb,     &onOpenKpDb)
   ON_COMMAND(      ID_Login,        &onLogin)
 
-  ON_CBN_SELCHANGE(ID_GroupCbx,     &onGroupCbx)          // Process secelection from list
+  ON_CBN_SELCHANGE(ID_GroupCbx,     &onGroupCbx)          // Process selection from list
 
   ON_COMMAND(      ID_NewPswd,      &onNewPswd)
-  ON_CBN_SELCHANGE(ID_EntryCbx,     &onEntryCbx)          // Process secelection from list
+  ON_CBN_SELCHANGE(ID_EntryCbx,     &onEntryCbx)          // Process selection from list
 
   ON_COMMAND(      ID_ToggleSave,   &onToggleSave)
 
@@ -53,6 +54,8 @@ BEGIN_MESSAGE_MAP(LeePassDlg, CDialogEx)
   ON_CBN_SELCHANGE(ID_LastPassMenu, &onLastPassMenu)          // Send Command Message with ID_...
   ON_COMMAND(      ID_ImportFile,   &onImportFile)
   ON_COMMAND(      ID_ExpungeFile,  &onExpungeFile)
+
+  ON_COMMAND(      ID_RemoveDups,   &onRemoveDups)
 
   ON_COMMAND(      ID_Help,         &onHelp)
   ON_COMMAND(      ID_About,        &onAppAbout)
@@ -76,8 +79,8 @@ END_MESSAGE_MAP()
 
 LeePassDlg::LeePassDlg(TCchar* helpPth, CWnd* pParent) :
                        CDialogEx(IDD_LeePass, pParent), toolBar(), statusBar(),
-                       isInitialized(false), pwMgr(0), dbOpen(false), newRcd(true),
-                       saveRcd(false), dirty(false), helpPath(helpPth) { }
+                       isInitialized(false), noCbxEntries(0), pwMgr(0), dbOpen(false),
+                       newRcd(true), saveRcd(false), dirty(false), helpPath(helpPth) { }
 
 
 LeePassDlg::~LeePassDlg() {winPos.~WinPos();}
@@ -110,7 +113,7 @@ CRect winRect;
 
   iniFile.read(GlobalSect, KpDbPathKey, path, _T(""));
 
-  if (!path.isEmpty()) {setTitle(getMainName(path));   statusBar.setText(1, path);}
+  if (!path.isEmpty()) {setTitle(getMainName(path));   setDbSts();}
 
   setStatus(_T("Login"));   isInitialized = true;   return true;
   }
@@ -166,7 +169,18 @@ void LeePassDlg::finOpen() {
 
   setLabels();   dbOpen = true;   newRcd = true;   iniFile.write(GlobalSect, KpDbPathKey, path);
 
-  statusBar.setText(1, path);   setTitle(getMainName(path));   if (newRcd) setStatus(NewRecordSts);
+  setDbSts();   setTitle(getMainName(path));   if (newRcd) setStatus(NewRecordSts);
+  }
+
+
+void LeePassDlg::onGroupCbx() {
+String s;
+void*  x;
+
+
+  if (!toolBar.getCurSel(ID_GroupCbx, s, x)) return;
+
+  installEntries();
   }
 
 
@@ -178,29 +192,18 @@ String   group;
 void*    x;
 uint     grpId = 0;
 
-  toolBar.clearCBx(ID_EntryCbx);
+  toolBar.clearCBx(ID_EntryCbx);   noCbxEntries = 0;
 
   if (toolBar.getCurSel(ID_GroupCbx, group, x)) grpId = (uint) x;
 
   for (kpEntry = iter(); kpEntry; kpEntry = iter++) if (!grpId || kpEntry->uGroupId == grpId)
-                           toolBar.addCbxItemSorted(ID_EntryCbx, kpEntry->pszTitle, (int) kpEntry);
+       {toolBar.addCbxItemSorted(ID_EntryCbx, kpEntry->pszTitle, (int) kpEntry);   noCbxEntries++;}
 
   toolBar.setCaption(ID_EntryCbx, EntryCaption);
 
   toolBar.setWidth(ID_EntryCbx);   toolBar.setHeight(ID_EntryCbx);
-  }
 
-
-void LeePassDlg::onGroupCbx() {
-String s;
-void*  x;
-String t;
-
-  if (!toolBar.getCurSel(ID_GroupCbx, s, x)) return;
-
-  installEntries();
-
-  t.format(_T("Item = %s, Data = %i"), s.str(), (int) x);   statusBar.setText(1, t);
+  setDbSts();
   }
 
 
@@ -338,6 +341,17 @@ KpID     kpID;
   }
 
 
+void LeePassDlg::onRemoveDups() {
+RemoveDups removeDups(pwMgr);
+int        noDeleted = removeDups();
+String     s;
+
+  installEntries();
+
+  setStatus(s.format(_T("%i Duplicate entries have been removed."), noDeleted));
+  }
+
+
 void LeePassDlg::onDeleteGroup() {
 String   group;
 void*    x;
@@ -355,13 +369,9 @@ String   q;
   q = _T("Delete ") + group + _T(" Group and all Entries in the Group");
 
   if (msgYesNoBox(q) != IDYES) return;
-#if 1
-  groups.del(grpId, toolBar, ID_GroupCbx);
-#else
-  if (!DeleteGroupById(pwMgr, grpId)) return;
 
-  groups.initialize();   groups.install(toolBar, ID_GroupCbx);
-#endif
+  groups.del(grpId, toolBar, ID_GroupCbx);   dirty = true;
+
   installEntries();
 
   setLabels();   q = _T("Deleted ") + group + _T(" Group and Entries in the Group");
@@ -377,13 +387,13 @@ LastPass   lastPass;
 
   if (!kpLib.importFile(path)) return;
 
-  dirty = true;   //onSave();
+  dirty = true;
 
   groups.initialize();
 
   groups.install(toolBar, ID_GroupCbx);   groups.install(groupCtl, 0);
 
-  installEntries();   //dirty = false;
+  installEntries();
   }
 
 
@@ -413,6 +423,18 @@ String        t         = isPresent ? sts : msg.str();
   t +=  saveRcd ? _T("Save Record Changes") : _T("Read Only");
 
   statusBar.setText(0, t);
+  }
+
+
+void LeePassDlg::setDbSts() {
+String s = path;
+String t;
+int    nGrps = groups.nData();
+
+  if (nGrps)        {s += t.format(_T("   No. of Groups: %i"), nGrps);}
+  if (noCbxEntries) {s += t.format(_T("   No. of Entries: %i"), noCbxEntries);}
+
+  statusBar.setText(1, s);
   }
 
 
@@ -469,7 +491,7 @@ void LeePassDlg::onAppAbout()
 
 
 ///////-----------------
-
+#if 0
 #ifdef Examples
   toolBar.addEditBox(ID_EditBox, 20);
   toolBar.addMenu(ID_PopupMenu,  IDR_DeleteMenu, _T("My Caption"));
@@ -623,5 +645,12 @@ String   t;
   setLabels();   dbOpen = true;   newRcd = true;   iniFile.write(GlobalSect, KpDbPathKey, path);
 
   statusBar.setText(1, path);   setTitle(dbName);   if (newRcd) setStatus(NewRecordSts);
+#endif
+#endif
+#if 1
+#else
+  if (!DeleteGroupById(pwMgr, grpId)) return;
+
+  groups.initialize();   groups.install(toolBar, ID_GroupCbx);
 #endif
 

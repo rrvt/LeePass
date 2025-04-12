@@ -5,7 +5,6 @@
 #include "Date.h"
 #include "KpSDK.h"
 
-typedef struct _PW_TIME PwTime;
 
 
 class KpDate : public Date {
@@ -16,9 +15,14 @@ public:
 
   KpDate&  operator= (PwTime& pwTime);
 
-//  Date&    toDate(PW_TIME& pwTime);
-//  PW_TIME& toPTime(Date& dt);
-
   operator PwTime&();
   };
+
+
+
+
+//////////////------------------
+
+//  Date&    toDate(PW_TIME& pwTime);
+//  PW_TIME& toPTime(Date& dt);
 

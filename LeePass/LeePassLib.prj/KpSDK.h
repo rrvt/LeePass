@@ -11,6 +11,7 @@ typedef std::basic_string<TCHAR> std_string;    // Required by IKpConfig.h
 #include "StructAPI.h"
 
 typedef struct _PW_ENTRY KpEntry;
+typedef struct _PW_TIME  PwTime;
 
 
 

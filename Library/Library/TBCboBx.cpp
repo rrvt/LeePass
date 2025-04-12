@@ -6,6 +6,7 @@
 #include "CbxItem.h"
 #include "ToolBarDim.h"
 
+#include "MessageBox.h"
 
 TBCboBx* TBCboBx::install(int noChars) {maxChars = noChars;   return finInstall(_T(""));}
 
@@ -61,13 +62,36 @@ String s = txt;
 
 
 bool TBCboBx::addItemSorted(TCchar* txt, int val) {
+String tgt = txt;
+int    index;
 
   if (!getActual() || !txt) return false;
 
-  if (actual->FindItem(txt) >= 0) return true;
+  index = actual->FindItem(tgt);
 
-  setMaxChars(txt);   return actual->AddSortedItem(txt, val) >= 0;
+  if (index >= 0) tgt = findNext(index);
+
+  setMaxChars(tgt);   return actual->AddSortedItem(tgt, val) >= 0;
   }
+
+
+String TBCboBx::findNext(int index) {
+int     n   = actual->GetCount();
+TCchar* tc  = actual->GetItem(index);
+String  tgt = tc ? tc : _T("");
+int     lng = tgt.length();
+int     i;
+String  s;
+
+  for (++index, i = 1; index < n; index++, i++) {
+    s = actual->GetItem(index);
+
+    if (tgt != s.substr(0, lng)) break;
+    }
+
+  return s.format(_T("%s -- %i"), tgt.str(), i);
+  }
+
 
 
 void TBCboBx::setWidth() {

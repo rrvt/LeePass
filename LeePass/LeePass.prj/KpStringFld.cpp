@@ -15,5 +15,12 @@ bool    dirty;
   }
 
 
+bool KpStringFld::isEmpty(CEdit& ctl) {
+Cstring cs;
+
+  ctl.GetWindowText(cs);   if (cs.isEmpty() || lbl == cs) return false;
+
+  return true;
+  }
 
 

@@ -42,7 +42,10 @@
 #define ID_DeleteEntry                  421
 #define ID_DeleteGroup                  422
 
-#define ID_RemoveDups                   423
+#define ID_RmvDuplicates                423
+#define ID_RmvLPImports                 424
+#define ID_RmvRdndtGrps                 425
+#define ID_RmvBackups                   426
 
 #define ID_Save                         430
 #define ID_Options                      431

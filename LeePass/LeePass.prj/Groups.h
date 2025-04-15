@@ -77,9 +77,12 @@ public:
   TCchar* getName(uint grpID);
   uint    getID(TCchar* grpName);
 
+
   uint    add(TCchar* grpName);
   bool    del(uint grpId, MyToolBar& toolBar, uint id);     // Del group and all entries in group,
-  bool    isModified() {return dirty;}                      // initialize data and toolbar ComboBox
+                                                            // initialize data and toolbar ComboBox
+  bool    del(uint grpId);                                  // Del group from keePass group list
+  bool    isModified()    {return dirty;}
 
   DWORD   bkupID() {initialize(); return backupID;}
 

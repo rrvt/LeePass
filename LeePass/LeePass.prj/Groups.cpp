@@ -70,7 +70,6 @@ Group*  group;
 uint Groups::add(TCchar* grpName) {
 PW_GROUP grp;    ZeroMemory(&grp, sizeof(PW_GROUP));
 KpDate   kpDate;
-//Date     today;  today.getToday();
 
   grp.pszGroupName = (Tchar*) grpName;
   grp.tCreation    = kpDate.today();      //toPWTime(today);
@@ -85,10 +84,14 @@ KpDate   kpDate;
 
 bool Groups::del(uint grpId, MyToolBar& toolBar, uint id) {
 
-  if (!DeleteGroupById(pwMgr, grpId)) return false;
+  if (!del(grpId)) return false;
 
-  initialize();   dirty= true;   install(toolBar, id);   return true;
+  initialize();   install(toolBar, id);   return true;
   }
+
+
+bool Groups::del(uint grpId)
+                        {bool rslt = DeleteGroupById(pwMgr, grpId);  dirty |= rslt;   return rslt;}
 
 
 

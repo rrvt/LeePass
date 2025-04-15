@@ -168,7 +168,7 @@
     <ClInclude Include="PasswordDlg.h" />
     <ClInclude Include="PasswordNewDlg.h" />
     <ClInclude Include="Record.h" />
-    <ClInclude Include="RemoveDups.h" />
+    <ClInclude Include="Remove.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="pch.h" />
@@ -192,7 +192,7 @@
     <ClCompile Include="PasswordNewDlg.cpp" />
     <ClCompile Include="pch.cpp" />
     <ClCompile Include="Record.cpp" />
-    <ClCompile Include="RemoveDups.cpp" />
+    <ClCompile Include="Remove.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="LeePass.rc" />
@@ -209,10 +209,7 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\LeePass.ico" />
-    <Image Include="res\ShortToolbar.bmp" />
     <Image Include="res\Toolbar.bmp" />
-    <Image Include="res\Toolbar01.bmp" />
-    <Image Include="res\Toolbar04.bmp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Library\Library\Library.vcxproj">

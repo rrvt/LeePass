@@ -17,7 +17,7 @@
 #include "PasswordDlg.h"
 #include "PasswordNewDlg.h"
 #include "Record.h"
-#include "RemoveDups.h"
+#include "Remove.h"
 #include "StatusBar.h"
 #include "Utility.h"
 
@@ -34,40 +34,43 @@ IMPLEMENT_DYNAMIC(LeePassDlg, CDialogEx)
 
 BEGIN_MESSAGE_MAP(LeePassDlg, CDialogEx)
 
-  ON_COMMAND(      ID_NewKpDb,      &onNewKpDb)
-  ON_COMMAND(      ID_OpenKpDb,     &onOpenKpDb)
-  ON_COMMAND(      ID_Login,        &onLogin)
+  ON_COMMAND(      ID_NewKpDb,       &onNewKpDb)
+  ON_COMMAND(      ID_OpenKpDb,      &onOpenKpDb)
+  ON_COMMAND(      ID_Login,         &onLogin)
 
-  ON_CBN_SELCHANGE(ID_GroupCbx,     &onGroupCbx)          // Process selection from list
+  ON_CBN_SELCHANGE(ID_GroupCbx,      &onGroupCbx)          // Process selection from list
 
-  ON_COMMAND(      ID_NewPswd,      &onNewPswd)
-  ON_CBN_SELCHANGE(ID_EntryCbx,     &onEntryCbx)          // Process selection from list
+  ON_COMMAND(      ID_NewPswd,       &onNewPswd)
+  ON_CBN_SELCHANGE(ID_EntryCbx,      &onEntryCbx)          // Process selection from list
 
-  ON_COMMAND(      ID_ToggleSave,   &onToggleSave)
+  ON_COMMAND(      ID_ToggleSave,    &onToggleSave)
 
-  ON_COMMAND(      ID_Save,         &onSave)
+  ON_COMMAND(      ID_Save,          &onSave)
 
-  ON_CBN_SELCHANGE(ID_DeleteMenu,   &onDeleteMenu)          // Send Command Message with ID_...
-  ON_COMMAND(      ID_DeleteEntry,  &onDeleteEntry)
-  ON_COMMAND(      ID_DeleteGroup,  &onDeleteGroup)
+  ON_CBN_SELCHANGE(ID_DeleteMenu,    &onDeleteMenu)          // Send Command Message with ID_...
+  ON_COMMAND(      ID_DeleteEntry,   &onDeleteEntry)
+  ON_COMMAND(      ID_DeleteGroup,   &onDeleteGroup)
 
-  ON_CBN_SELCHANGE(ID_LastPassMenu, &onLastPassMenu)          // Send Command Message with ID_...
-  ON_COMMAND(      ID_ImportFile,   &onImportFile)
-  ON_COMMAND(      ID_ExpungeFile,  &onExpungeFile)
+  ON_CBN_SELCHANGE(ID_LastPassMenu,  &onLastPassMenu)          // Send Command Message with ID_...
+  ON_COMMAND(      ID_ImportFile,    &onImportFile)
+  ON_COMMAND(      ID_ExpungeFile,   &onExpungeFile)
 
-  ON_COMMAND(      ID_RemoveDups,   &onRemoveDups)
+  ON_COMMAND(      ID_RmvDuplicates, &onRemoveDups)
+  ON_COMMAND(      ID_RmvLPImports,  &onRmvLPImports)
+  ON_COMMAND(      ID_RmvRdndtGrps,  &onRmvRdndtGrps)
+  ON_COMMAND(      ID_RmvBackups,    &onRmvBackups)
 
-  ON_COMMAND(      ID_Help,         &onHelp)
-  ON_COMMAND(      ID_About,        &onAppAbout)
-  ON_COMMAND(      ID_Exit,         &onExit)
+  ON_COMMAND(      ID_Help,          &onHelp)
+  ON_COMMAND(      ID_About,         &onAppAbout)
+  ON_COMMAND(      ID_Exit,          &onExit)
 
-  ON_EN_SETFOCUS(  IDC_URL,         &onFocusUrl)
-  ON_EN_SETFOCUS(  IDC_Name,        &onFocusName)
-  ON_EN_SETFOCUS(  IDC_Pswd,        &onFocusPswd)
-  ON_EN_SETFOCUS(  IDC_Notes,       &onFocusNotes)
-  ON_EN_SETFOCUS(  IDC_BinaryDesc,  &onFocusBinarydesc)
-  ON_EN_SETFOCUS(  IDC_Title,       &onFocusTitle)
-  ON_CBN_SETFOCUS( IDC_GroupUpdt,   &onFocusGroupUpdt)
+  ON_EN_SETFOCUS(  IDC_URL,          &onFocusUrl)
+  ON_EN_SETFOCUS(  IDC_Name,         &onFocusName)
+  ON_EN_SETFOCUS(  IDC_Pswd,         &onFocusPswd)
+  ON_EN_SETFOCUS(  IDC_Notes,        &onFocusNotes)
+  ON_EN_SETFOCUS(  IDC_BinaryDesc,   &onFocusBinarydesc)
+  ON_EN_SETFOCUS(  IDC_Title,        &onFocusTitle)
+  ON_CBN_SETFOCUS( IDC_GroupUpdt,    &onFocusGroupUpdt)
 
   ON_WM_CREATE()
   ON_REGISTERED_MESSAGE(AFX_WM_RESETTOOLBAR, &OnResetToolBar)
@@ -80,7 +83,8 @@ END_MESSAGE_MAP()
 LeePassDlg::LeePassDlg(TCchar* helpPth, CWnd* pParent) :
                        CDialogEx(IDD_LeePass, pParent), toolBar(), statusBar(),
                        isInitialized(false), noCbxEntries(0), pwMgr(0), dbOpen(false),
-                       newRcd(true), saveRcd(false), dirty(false), helpPath(helpPth) { }
+                       newRcd(true), saveRcd(false), dirty(false), saveDB(false),
+                       helpPath(helpPth) { }
 
 
 LeePassDlg::~LeePassDlg() {winPos.~WinPos();}
@@ -96,6 +100,7 @@ int LeePassDlg::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 
 BOOL LeePassDlg::OnInitDialog() {
 CRect winRect;
+HICON hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
 
   CDialogEx::OnInitDialog();
 
@@ -103,7 +108,9 @@ CRect winRect;
 
   if (!toolBar.create(this, IDR_TOOLBAR)) return false;
 
-  SetBackgroundColor(RGB(255,255,255));               // toolBar.move(winRect);
+  SetBackgroundColor(RGB(255,255,255));
+
+  SetIcon(hIcon, TRUE);                               // Set the icon in the upper left hand corner
 
   if (!statusBar.create(this, IDC_StatusBar)) return false;
 
@@ -242,8 +249,8 @@ Record&  rcd = kpLib.rcd;
 void LeePassDlg::saveCurrentRcd() {
 Record& rcd = kpLib.rcd;
 
-  if (!dbOpen || !saveRcd) {rcd.clear();   return;}
-  if (newRcd)              {saveNewRcd(rcd);  return;}
+  if (!dbOpen || !saveRcd || !isLegalRcd(rcd)) {rcd.clear();      return;}
+  if (newRcd)                                  {saveNewRcd(rcd);  return;}
 
   dirty |= rcd.updateTitle(titleCtl);
   dirty |= rcd.updateURL(urlCtl);
@@ -252,8 +259,10 @@ Record& rcd = kpLib.rcd;
   dirty |= rcd.updateNotes(notesCtl);
   dirty |= rcd.updateBinaryDesc(binaryDescCtl);
   dirty |= rcd.updateGroup(groupCtl);
+  shiftDirty();
 
   if (groups.isModified()) groups.install(toolBar, ID_GroupCbx);
+
   }
 
 
@@ -268,8 +277,19 @@ void LeePassDlg::saveNewRcd(Record& rcd) {
 
   if (dirty && rcd.add()) {
     newRcd = false;   setEntrySts(rcd);   groups.install(toolBar, ID_GroupCbx);
-    groups.install(groupCtl, rcd.group);   installEntries();
+    groups.install(groupCtl, rcd.group);   installEntries();   shiftDirty();
     }
+  }
+
+
+bool LeePassDlg::isLegalRcd(Record& rcd) {
+int n = 0;
+
+  if (!rcd.isTitleEmpty(titleCtl)) n++;
+  if (!rcd.isURLEmpty(urlCtl))     n++;
+  if (!rcd.isNameEmpty(nameCtl))   n++;
+
+  return n >= 2;
   }
 
 
@@ -280,22 +300,22 @@ void LeePassDlg::onSave() {
 
   saveCurrentRcd();
 
-  if (dirty) {backupCopy(path, 5);   kpLib.saveDatabase(path);}
+  if (saveDB) {backupCopy(path, 5);   kpLib.saveDatabase(path);}
 
-  dirty = false;
+  saveDB = dirty = false;
   }
 
 
 void LeePassDlg::setLabels() {
 Record& rcd = kpLib.rcd;
 
-  rcd.title.setLabel(titleCtl);
-  rcd.url.setLabel(urlCtl);
-  rcd.name.setLabel(nameCtl);
+     rcd.title.setLabel(titleCtl);
+       rcd.url.setLabel(urlCtl);
+      rcd.name.setLabel(nameCtl);
   rcd.password.setLabel(pswdCtl);
-  rcd.notes.setLabel(notesCtl);
-  rcd.binDesc.setLabel(binaryDescCtl);
-  rcd.group.setLabel(groupCtl);
+     rcd.notes.setLabel(notesCtl);
+   rcd.binDesc.setLabel(binaryDescCtl);
+     rcd.group.setLabel(groupCtl);
   }
 
 
@@ -337,26 +357,91 @@ KpID     kpID;
                                                if (kpID == kpEntry->uuid) {iter.remove();   break;}
   installEntries();
 
-  q = dsc + _T(" has been deleted");   setStatus(q);   setLabels();
+  q = dsc + _T(" has been deleted");   setStatus(q);   setDbSts();   setLabels();
   }
 
 
 void LeePassDlg::onRemoveDups() {
-RemoveDups removeDups(pwMgr);
-int        noDeleted = removeDups();
-String     s;
+Remove remove(pwMgr);
+int    noDeleted = remove.duplicates();    saveDB |= noDeleted != 0;
+String s;
+
+  if (!saveDB) return;
 
   installEntries();
 
-  setStatus(s.format(_T("%i Duplicate entries have been removed."), noDeleted));
+  switch (noDeleted) {
+    case 0  : s.format(_T("No duplicate entries were deleted"));                  break;
+    case 1  : s.format(_T("One duplicate entry was deleted"));                    break;
+    default : s.format(_T("%i duplicate entries have been deleted."), noDeleted); break;
+    }
+
+  setStatus(s);   setDbSts();
+  }
+
+
+void LeePassDlg::onRmvLPImports() {
+Remove remove(pwMgr);
+int    noDeleted = remove.oldLPImports();    saveDB |= noDeleted != 0;
+String s;
+
+  if (!saveDB) return;
+
+  installEntries();
+
+  switch (noDeleted) {
+    case 0  : s.format(_T("No Old LP Import entries were deleted"));                  break;
+    case 1  : s.format(_T("One Old LP Import entry was deleted"));                    break;
+    default : s.format(_T("%i Old LP Import entries have been deleted."), noDeleted); break;
+    }
+
+  setStatus(s);   setDbSts();
+  }
+
+
+void LeePassDlg::onRmvRdndtGrps() {
+Remove remove(pwMgr);
+int    noDeleted = remove.redundantGrps();   saveDB |= noDeleted != 0;
+String s;
+
+  if (!saveDB) return;
+
+  groups.initialize();   groups.install(toolBar, ID_GroupCbx);
+
+  switch (noDeleted) {
+    case 0  : s.format(_T("No groups were deleted"));                  break;
+    case 1  : s.format(_T("One group was deleted"));                   break;
+    default : s.format(_T("%i groups have been deleted."), noDeleted); break;
+    }
+
+  setStatus(s);   setDbSts();
+  }
+
+
+void LeePassDlg::onRmvBackups() {
+Remove remove(pwMgr);
+int    noDeleted = remove.backups();   saveDB |= noDeleted != 0;
+String s;
+
+  if (!saveDB) return;
+
+  groups.initialize();   groups.install(toolBar, ID_GroupCbx);
+
+  switch (noDeleted) {
+    case 0  : s.format(_T("No backups were deleted"));                  break;
+    case 1  : s.format(_T("One backup was deleted"));                   break;
+    default : s.format(_T("%i backups have been deleted."), noDeleted); break;
+    }
+
+  setStatus(s);   setDbSts();
   }
 
 
 void LeePassDlg::onDeleteGroup() {
-String   group;
-void*    x;
-uint     grpId;
-String   q;
+String group;
+void*  x;
+uint   grpId;
+String q;
 
   if (!saveRcd) return;
 
@@ -370,7 +455,7 @@ String   q;
 
   if (msgYesNoBox(q) != IDYES) return;
 
-  groups.del(grpId, toolBar, ID_GroupCbx);   dirty = true;
+  groups.del(grpId, toolBar, ID_GroupCbx);   saveDB |= true;
 
   installEntries();
 
@@ -387,7 +472,7 @@ LastPass   lastPass;
 
   if (!kpLib.importFile(path)) return;
 
-  dirty = true;
+  saveDB |= true;
 
   groups.initialize();
 

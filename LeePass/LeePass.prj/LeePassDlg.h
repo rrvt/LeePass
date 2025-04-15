@@ -35,6 +35,7 @@ bool        saveRcd;
 
 KpLib       kpLib;
 bool        dirty;
+bool        saveDB;
 
 String      helpPath;
 
@@ -84,6 +85,9 @@ private:
   void            setLabels();
   void            finOpen();
 
+  bool            isLegalRcd(Record& rcd);
+  void            shiftDirty() {saveDB |= dirty;   dirty = false;}
+
 public:
 
   afx_msg int     OnCreate(LPCREATESTRUCT lpCreateStruct);
@@ -113,6 +117,9 @@ public:
   afx_msg void    onExpungeFile();
 
   afx_msg void    onRemoveDups();
+  afx_msg void    onRmvLPImports();
+  afx_msg void    onRmvRdndtGrps();
+  afx_msg void    onRmvBackups();
 
   afx_msg void    onFocusUrl();
   afx_msg void    onFocusName();

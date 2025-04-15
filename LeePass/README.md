@@ -44,6 +44,11 @@ Execute the msi file to install the app.
 
 ## Updates
 
+### 4/14/25 Update
+
+Added commands to remove redundant groups, former last pass imports (&lt;tags&gt;), and all
+backup group entries.  Fixed the icon to look a little like a safe.
+
 ### 4/11/25 Update
 
 Add a command to remove duplicates (title, url and username are the same, the most recent created

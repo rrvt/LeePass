@@ -101,6 +101,10 @@ uint        binDataLng;           // Number of bytes in binaryData
   bool    updateBinaryDesc(CEdit& ctl);
   bool    updateGroup(CComboBox& ctl);
 
+  bool    isTitleEmpty(CEdit& ctl) {return title.isEmpty();}
+  bool    isURLEmpty(  CEdit& ctl) {return   url.isEmpty();}
+  bool    isNameEmpty( CEdit& ctl) {return  name.isEmpty();}
+
   String& getEntryDsc();
 
 //  void    setAnote() {aNote = url == NotesURL;}

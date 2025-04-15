@@ -2,18 +2,19 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
 
 <Product Id="*" UpgradeCode="03C04848-3CCC-43DE-8B1A-57C3A44B70FF" Language="1033"
-                  Manufacturer="Bob -- K6RWY" Name="LeePass"
-                  Version="!(bind.fileVersion.LeePass.cmp)"
-                  >
+                Manufacturer="Bob -- K6RWY" Name="LeePass"
+                Version="!(bind.fileVersion.LeePass.cmp)"
+                >
 
   <Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine"
-                      Manufacturer="Bob -- K6RWY" Description="Installs LeePass"
-                      Comments="Copyright (c) Bob -- K6RWY"
-                      />
+                Manufacturer="Bob -- K6RWY" Description="Installs LeePass"
+                Comments="Copyright (c) Bob -- K6RWY"
+                />
 
   <MajorUpgrade Schedule="afterInstallInitialize"
-                                AllowDowngrades="no"   IgnoreRemoveFailure="no"   AllowSameVersionUpgrades="no"
-                                DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
+                AllowDowngrades="no"   IgnoreRemoveFailure="no"   AllowSameVersionUpgrades="no"
+                DowngradeErrorMessage="A newer version of [ProductName] is already installed."
+                />
 
   <MediaTemplate EmbedCab="yes" />
 
@@ -40,20 +41,21 @@
 </Product>
 
 <Fragment>
-<ComponentGroup Id="App.ftr">
-  <ComponentRef Id="LeePass.cmp"/>
-  <ComponentRef Id="Help.cmp"/>
-</ComponentGroup>
-<ComponentGroup Id="Uninstall_LeePass.ftr">
-  <ComponentRef Id="Uninstall_LeePass.cmp"/>
-</ComponentGroup>
+  <ComponentGroup Id="App.ftr">
+    <ComponentRef Id="LeePass.cmp"/>
+    <ComponentRef Id="Help.cmp"/>
+    <ComponentRef Id="KeePassLib.cmp"/>
+  </ComponentGroup>
+  <ComponentGroup Id="Uninstall_LeePass.ftr">
+    <ComponentRef Id="Uninstall_LeePass.cmp"/>
+  </ComponentGroup>
 </Fragment>
 
 <!--Directory structure-->
 <Fragment>
   <Directory Id="TARGETDIR" Name="SourceDir">
     <Directory Id="ProgramFilesFolder">
-      <Directory Id="LeePass.pff" Name="LeePass" />
+      <Directory Id="LEEPASS.PFF" Name="LeePass" />
     </Directory>
 
     <Directory Id="ProgramMenuFolder">
@@ -61,17 +63,15 @@
     </Directory>
 
     <Directory Id="DesktopFolder" />
-
   </Directory>
 
   <Property Id="ApplicationFolderName" Value="LeePass" />
-  <Property Id="WIXUI_INSTALLDIR"      Value="LeePass.pff"/>
+  <Property Id="WIXUI_INSTALLDIR"      Value="LEEPASS.PFF"/>
   <Property Id="WixAppFolder"          Value="WixPerMachineFolder" />
 </Fragment>
 
 <Fragment>
-
-  <Component Id="LeePass.cmp"  Guid="E5CCC90C-6E4D-4A58-A5F2-260607D54336" Directory="LeePass.pff">
+  <Component Id="LeePass.cmp" Guid="E5CCC90C-6E4D-4A58-A5F2-260607D54336" Directory="LEEPASS.PFF">
     <File Id="LeePass.cmp" Source="$(var.SolutionDir)..\Release\LeePass.exe" KeyPath="yes"/>
 
     <Shortcut Id               = "LeePass.shc"
@@ -79,7 +79,7 @@
               Description      = "A Dialog Application"
               Advertise        = "yes"
               Directory        = "LeePass.pmf"
-              WorkingDirectory = "LeePass.pff"
+              WorkingDirectory = "LEEPASS.PFF"
               Icon             = "LeePass_Icon.exe"
               />
 
@@ -88,7 +88,7 @@
               Description      = "A Dialog Application"
               Advertise        = "yes"
               Directory        = "DesktopFolder"
-              WorkingDirectory = "LeePass.pff"
+              WorkingDirectory = "LEEPASS.PFF"
               Icon             = "LeePass_Icon.exe"
               />
     <Condition>
@@ -96,16 +96,19 @@
     </Condition>
   </Component>
 
-  <Component Id="Help.cmp"  Guid="8C497D10-FF19-42BE-A02F-1273A9120C39" Directory="LeePass.pff">
+  <Component Id="Help.cmp" Guid="8C497D10-FF19-42BE-A02F-1273A9120C39" Directory="LEEPASS.PFF">
     <File Id="Help.cmp" Source="$(var.SolutionDir)..\Release\LeePass.chm" KeyPath="yes"/>
   </Component>
 
+  <Component Id="KeePassLib.cmp" Guid="D4D54CB4-E99D-490C-B885-3AE656DAE32F"
+                                                                           Directory="LEEPASS.PFF">
+    <File Id="KeePassLib.cmp" Source="$(var.SolutionDir)..\Release\KeePassLibC.dll" KeyPath="yes"/>
+  </Component>
 </Fragment>
 
 <Fragment>
-
-  <Component Id="Uninstall_LeePass.cmp" 
-                                Guid="327C454D-7CE8-4320-AB17-7D000EC44E68" Directory="LeePass.pmf">
+  <Component Id="Uninstall_LeePass.cmp" Guid="B683905C-2546-4181-8D6F-EEE2C43F4023"
+                                                                           Directory="LeePass.pmf">
 
     <Shortcut Id               = "UninstallLeePass.shc"
               Name             = "Uninstall LeePass"
@@ -115,10 +118,8 @@
               Icon             = "LeePass_Icon.exe"
               />
     <RemoveFolder Id="LeePass.uni" Directory="LeePass.pmf" On="uninstall"/>
-    <RegistryValue Root="HKCU" Key="Software\Uninstall_LeePass.cmp" Name="installed"
-                   Type="integer" Value="1" KeyPath="yes"/>
+    <RegistryValue Root="HKCU" Key="Software\Uninstall_LeePass.cmp"
+                                          Name="installed" Type="integer" Value="1" KeyPath="yes"/>
   </Component>
-
 </Fragment>
-
 </Wix>

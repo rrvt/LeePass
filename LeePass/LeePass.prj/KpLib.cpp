@@ -315,6 +315,52 @@ KpEntry* kpEntry;
   }
 
 
+
+static TCchar* ErrorCodes[] = {_T("UNKNOWN"),                _T("SUCCESS"),
+                               _T("INVALID_PARAM"),          _T("NO_MEM"),
+                               _T("INVALID_KEY"),            _T("NOFILEACCESS_READ"),
+                               _T("NOFILEACCESS_WRITE"),     _T("FILEERROR_READ"),
+                               _T("FILEERROR_WRITE"),        _T("INVALID_RANDOMSOURCE"),
+                               _T("INVALID_FILESTRUCTURE"),  _T("CRYPT_ERROR"),
+                               _T("INVALID_FILESIZE"),       _T("INVALID_FILESIGNATURE"),
+                               _T("INVALID_FILEHEADER"),     _T("NOFILEACCESS_READ_KEY"),
+                               _T("KEYPROV_INVALID_KEY"),    _T("FILEERROR_VERIFY"),
+                               _T("UNSUPPORTED_KDBX"),       _T("GETLASTERROR"),
+                               _T("DB_EMPTY"),               _T("ATTACH_TOOLARGE")
+                               };
+
+
+bool KpLib::chk(int err) {
+String s;
+
+  if (err == PWE_SUCCESS) return true;
+
+#ifdef _DEBUG
+
+  s = 0 <= err && err < noElements(ErrorCodes) ? ErrorCodes[err] :
+                                                  s.format(_T("Err: %i"), err).str();
+  messageBox(s);
+#endif
+
+  return false;
+  }
+
+
+
+
+
+///////--------------------
+
+#if 0
+void KpLib::addEntry() {
+String  sampleBlock;
+Date    today;      today.getToday();
+
+
+  rcd.add();
+  }
+#endif
+#if 0
 /*
 KP_SHARE DWORD GetNumberOfEntries(void* pMgr);          // Returns number of entries in database
 KP_SHARE PW_ENTRY* GetEntry(          void* pMgr, DWORD dwIndex);
@@ -359,52 +405,6 @@ Date     dupDt;
   dt = getDate(kpEntry->tCreation);   dupDt = getDate(dupEntry->tCreation);
 
   return dt > dupDt ? dupIndex : index;
-  }
-
-
-
-static TCchar* ErrorCodes[] = {_T("UNKNOWN"),                _T("SUCCESS"),
-                               _T("INVALID_PARAM"),          _T("NO_MEM"),
-                               _T("INVALID_KEY"),            _T("NOFILEACCESS_READ"),
-                               _T("NOFILEACCESS_WRITE"),     _T("FILEERROR_READ"),
-                               _T("FILEERROR_WRITE"),        _T("INVALID_RANDOMSOURCE"),
-                               _T("INVALID_FILESTRUCTURE"),  _T("CRYPT_ERROR"),
-                               _T("INVALID_FILESIZE"),       _T("INVALID_FILESIGNATURE"),
-                               _T("INVALID_FILEHEADER"),     _T("NOFILEACCESS_READ_KEY"),
-                               _T("KEYPROV_INVALID_KEY"),    _T("FILEERROR_VERIFY"),
-                               _T("UNSUPPORTED_KDBX"),       _T("GETLASTERROR"),
-                               _T("DB_EMPTY"),               _T("ATTACH_TOOLARGE")
-                               };
-
-
-bool KpLib::chk(int err) {
-String s;
-
-  if (err == PWE_SUCCESS) return true;
-
-#ifdef _DEBUG
-
-  s = 0 <= err && err < noElements(ErrorCodes) ? ErrorCodes[err] :
-                                                  s.format(_T("Err: %i"), err).str();
-  messageBox(s);
-#endif
-
-  return false;
-  }
-
-
-
-
-
-///////--------------------
-
-#if 0
-void KpLib::addEntry() {
-String  sampleBlock;
-Date    today;      today.getToday();
-
-
-  rcd.add();
   }
 #endif
 

@@ -25,7 +25,7 @@ String caption;
   TBCboBx*    install(const CbxItem cbxItem[], int n, TCchar* caption);
 
   // The following functions deal with the installed combo box.
-  void        clear() {if (getActual()) actual->RemoveAllItems();}
+  void        clear() {if (getActual()) actual->RemoveAllItems();   maxChars = 0;}
   bool        setCaption();
   void        setCaption(TCchar* caption) {this->caption = caption;   setCaption();}
   bool        addItem(TCchar* txt, int val);

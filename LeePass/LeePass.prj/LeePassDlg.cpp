@@ -127,15 +127,18 @@ HICON hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
 
 
 void LeePassDlg::DoDataExchange(CDataExchange* pDX) {
-    CDialogEx::DoDataExchange(pDX);
-    DDX_Control(pDX, IDC_Title, titleCtl);
-    DDX_Control(pDX, IDC_URL, urlCtl);
-    DDX_Control(pDX, IDC_Name, nameCtl);
-    DDX_Control(pDX, IDC_Pswd, pswdCtl);
-    DDX_Control(pDX, IDC_Notes, notesCtl);
-    DDX_Control(pDX, IDC_BinaryDesc, binaryDescCtl);
-    DDX_Control(pDX, IDC_GroupUpdt, groupCtl);
-    }
+  CDialogEx::DoDataExchange(pDX);
+  DDX_Control(pDX, IDC_Title,      titleCtl);
+  DDX_Control(pDX, IDC_URL,        urlCtl);
+  DDX_Control(pDX, IDC_Name,       nameCtl);
+  DDX_Control(pDX, IDC_Pswd,       pswdCtl);
+  DDX_Control(pDX, IDC_Notes,      notesCtl);
+  DDX_Control(pDX, IDC_BinaryDesc, binaryDescCtl);
+  DDX_Control(pDX, IDC_GroupUpdt,  groupCtl);
+  DDX_Control(pDX, IDC_Creation,   creationCtl);
+  DDX_Control(pDX, IDC_LastMod,    lastModCtl);
+  DDX_Control(pDX, IDC_LastAccess, lastAccessCtl);
+  }
 
 
 void LeePassDlg::onNewKpDb() {
@@ -166,7 +169,8 @@ String      dbName = getMainName(path);
 
   if (dlg.DoModal() != IDOK) return;
 
-  pwMgr = kpLib.openDatabase(path, dlg.password);   if (!pwMgr) return;
+  try {pwMgr = kpLib.openDatabase(path, dlg.password);   if (!pwMgr) return;}
+  catch (...) {return;}
 
   groups.install(toolBar, ID_GroupCbx);    installEntries();   finOpen();
   }
@@ -239,6 +243,9 @@ Record&  rcd = kpLib.rcd;
   rcd.name.set(nameCtl);
   rcd.password.set(pswdCtl);
   rcd.notes.set(notesCtl);
+  rcd.creation.set(creationCtl);
+  rcd.lastMod.set(lastModCtl);
+  rcd.lastAccess.set(lastAccessCtl);
   rcd.binDesc.set(binaryDescCtl);
   rcd.group.set(groupCtl);
 
@@ -259,6 +266,12 @@ Record& rcd = kpLib.rcd;
   dirty |= rcd.updateNotes(notesCtl);
   dirty |= rcd.updateBinaryDesc(binaryDescCtl);
   dirty |= rcd.updateGroup(groupCtl);
+
+  if (dirty) {rcd.lastMod.today();      rcd.lastMod.set(lastModCtl);}
+  else {
+    rcd.lastAccess.today();   dirty = rcd.updateLastAccess();   rcd.lastAccess.set(lastAccessCtl);
+    }
+
   shiftDirty();
 
   if (groups.isModified()) groups.install(toolBar, ID_GroupCbx);
@@ -276,6 +289,8 @@ void LeePassDlg::saveNewRcd(Record& rcd) {
   dirty |= rcd.setGroup(groupCtl);
 
   if (dirty && rcd.add()) {
+    rcd.creation.set(creationCtl);   rcd.lastMod.set(lastModCtl);
+    rcd.lastAccess.set(lastAccessCtl);
     newRcd = false;   setEntrySts(rcd);   groups.install(toolBar, ID_GroupCbx);
     groups.install(groupCtl, rcd.group);   installEntries();   shiftDirty();
     }
@@ -309,13 +324,16 @@ void LeePassDlg::onSave() {
 void LeePassDlg::setLabels() {
 Record& rcd = kpLib.rcd;
 
-     rcd.title.setLabel(titleCtl);
-       rcd.url.setLabel(urlCtl);
-      rcd.name.setLabel(nameCtl);
-  rcd.password.setLabel(pswdCtl);
-     rcd.notes.setLabel(notesCtl);
-   rcd.binDesc.setLabel(binaryDescCtl);
-     rcd.group.setLabel(groupCtl);
+        rcd.title.setLabel(titleCtl);
+          rcd.url.setLabel(urlCtl);
+         rcd.name.setLabel(nameCtl);
+     rcd.password.setLabel(pswdCtl);
+        rcd.notes.setLabel(notesCtl);
+      rcd.binDesc.setLabel(binaryDescCtl);
+     rcd.creation.setLabel(creationCtl);
+      rcd.lastMod.setLabel(lastModCtl);
+   rcd.lastAccess.setLabel(lastAccessCtl);
+        rcd.group.setLabel(groupCtl);
   }
 
 
@@ -363,10 +381,12 @@ KpID     kpID;
 
 void LeePassDlg::onRemoveDups() {
 Remove remove(pwMgr);
-int    noDeleted = remove.duplicates();    saveDB |= noDeleted != 0;
+int    noDeleted;
 String s;
 
-  if (!saveDB) return;
+  saveCurrentRcd();
+
+  noDeleted = remove.duplicates();    saveDB |= noDeleted != 0;    if (!saveDB) return;
 
   installEntries();
 
@@ -382,10 +402,12 @@ String s;
 
 void LeePassDlg::onRmvLPImports() {
 Remove remove(pwMgr);
-int    noDeleted = remove.oldLPImports();    saveDB |= noDeleted != 0;
+int    noDeleted;
 String s;
 
-  if (!saveDB) return;
+  saveCurrentRcd();
+
+  noDeleted = remove.oldLPImports();    saveDB |= noDeleted != 0;    if (!saveDB) return;
 
   installEntries();
 
@@ -401,10 +423,12 @@ String s;
 
 void LeePassDlg::onRmvRdndtGrps() {
 Remove remove(pwMgr);
-int    noDeleted = remove.redundantGrps();   saveDB |= noDeleted != 0;
+int    noDeleted;
 String s;
 
-  if (!saveDB) return;
+  saveCurrentRcd();
+
+  noDeleted = remove.redundantGrps();   saveDB |= noDeleted != 0;   if (!saveDB) return;
 
   groups.initialize();   groups.install(toolBar, ID_GroupCbx);
 
@@ -420,10 +444,12 @@ String s;
 
 void LeePassDlg::onRmvBackups() {
 Remove remove(pwMgr);
-int    noDeleted = remove.backups();   saveDB |= noDeleted != 0;
+int    noDeleted;
 String s;
 
-  if (!saveDB) return;
+  saveCurrentRcd();
+
+  noDeleted = remove.backups();   saveDB |= noDeleted != 0;   if (!saveDB) return;
 
   groups.initialize();   groups.install(toolBar, ID_GroupCbx);
 
@@ -470,6 +496,8 @@ PathDlgDsc dsc;
 String     path;
 LastPass   lastPass;
 
+  saveCurrentRcd();
+
   if (!kpLib.importFile(path)) return;
 
   saveDB |= true;
@@ -486,6 +514,8 @@ void LeePassDlg::onExpungeFile() {
 PathDlgDsc dsc;
 String     path;
 LastPass   lastPass;
+
+  saveCurrentRcd();
 
   dsc(_T("Expunge File"), _T(""), _T("*"), _T("*.*"));
 
@@ -573,169 +603,4 @@ String topic = helpPath; topic += _T(">Introduction");
 void LeePassDlg::onAppAbout()
         {AboutDlgKp aboutDlg;   aboutDlg.keePassLibVer = kpLib.getVersion();   aboutDlg.DoModal();}
 
-
-
-///////-----------------
-#if 0
-#ifdef Examples
-  toolBar.addEditBox(ID_EditBox, 20);
-  toolBar.addMenu(ID_PopupMenu,  IDR_DeleteMenu, _T("My Caption"));
-  toolBar.addMenu(ID_PopupMenu1, PopupItems1, noElements(PopupItems1), _T("My Caption #1"));
-#endif
-#ifdef Examples
-static TCchar* CbxCaption =   _T("Greeks +");
-
-static CbxItem CbxText[]  = {{_T("Zeta"),    1},
-                             {_T("Beta"),    2},
-                             {_T("Alpha"),   3},
-                             {_T("Omega"),   4},
-                             {_T("Phi"),     5},
-                             {_T("Mu"),      6},
-                             {_T("Xi"),      7},
-                             {_T("Omicron"), 8},
-                             {_T("Pi"),      9},
-                             {_T("Rho"),    10},
-                             {_T("Sigma"),  11},
-                             {_T("Nu"),     12},
-                             {_T("Kappa"),  13},
-                             {_T("Iota"),   14}
-                             };
-
-
-static CbxItem PopupItems1[] = {{_T("Option11"), ID_Option11},
-                                {_T("Option12"), ID_Option12}
-                                };
-#endif
-
-#ifdef Examples
-
-
-  ON_COMMAND(      ID_ChangeReady,  &changeReady)
-
-  ON_EN_KILLFOCUS( ID_EditBox,      &onTBEditBox)           // Process content of edit box
-
-
-  ON_CBN_SELCHANGE(ID_PopupMenu,    &onDispatch)            // Send Command Message with ID_...
-  ON_COMMAND(      ID_Option01,     &onOption01)
-  ON_COMMAND(      ID_Option02,     &onOption02)
-
-  ON_CBN_SELCHANGE(ID_PopupMenu1,   &onDispatch1)           // Send Command Message with ID_...
-  ON_COMMAND(      ID_Option11,     &onOption11)
-  ON_COMMAND(      ID_Option12,     &onOption12)
-
-#endif
-#ifdef Examples
-
-void LeePassDlg::changeReady() {
-bool status = statusBar.isReady();
-
-  statusBar.setReady(!status);
-  }
-#endif
-#ifdef Examples
-
-void LeePassDlg::onDispatch()  {toolBar.dispatch(ID_PopupMenu);}
-
-
-void LeePassDlg::onOption00() {SetFocus();   onOption01();}
-
-
-void LeePassDlg::onOption01() {
-  statusBar.setText(1, _T("Option 0.1"));
-  }
-
-
-void LeePassDlg::onOption02() {
-  statusBar.setText(1, _T("Option 0.2"));
-  }
-
-
-void LeePassDlg::onDispatch1() {toolBar.dispatch(ID_PopupMenu1);}
-
-
-void LeePassDlg::onOption11() {
-  statusBar.setText(1, _T("Option 1.1"));
-  }
-
-
-void LeePassDlg::onOption12() {
-  statusBar.setText(1, _T("Option 1.2"));
-  }
-
-
-void LeePassDlg::onTBEditBox() {
-CString s = toolBar.getText(ID_EditBox);   statusBar.setText(1, s);
-}
-#endif
-#ifdef Examples
-void LeePassDlg::onTBChange(NMHDR* pNMHDR, LRESULT* pResult) {
-
-  LV_KEYDOWN* pLVKeyDow = (LV_KEYDOWN*)pNMHDR;
-
-  // TODO: Add your control notification handler code here
-
-  *pResult = 0;
-  }
-#endif
-#if 0
-void LeePassDlg::installGroups() {
-GrpIter iter(groups);
-Group*  grp;
-
-  for (grp = iter(); grp; grp = iter++) toolBar.addCbxItemSorted(ID_GroupCbx, grp->name, grp->id);
-
-  toolBar.addCbxItemSorted(ID_GroupCbx, _T(" All Groups "), 0);
-
-  toolBar.setWidth(ID_GroupCbx);   toolBar.setHeight(ID_GroupCbx);
-  }
-#endif
-#if 0
-    DDX_Text(pDX, IDC_Title, title);
-    DDX_Text(pDX, IDC_URL, url);
-    DDX_Text(pDX, IDC_Name, name);
-    DDX_Text(pDX, IDC_Pswd, pwsd);
-    DDX_Text(pDX, IDC_Notes, notes);
-    DDX_Text(pDX, IDC_BinaryDesc, binaryDesc);
-    DDX_CBString(pDX, IDC_GroupUpdt, group);
-#endif
-
-#if 1
-#else
-  if (!rcd.title.isEmpty()) q += _T(' ')  + rcd.title;
-  if (!rcd.url.isEmpty())   q += _T(", ") + rcd.url;
-#endif
-//  toolBar.addButton(ID_Login, _T(" Login "));
-#if 0
-bool     urlEmpty = rcd.url.isEmpty();
-String   t;
-
-  if (!rcd.title.isEmpty()) {t = rcd.title;   if (!urlEmpty) t += _T(", ");}
-  if (!urlEmpty) t += rcd.url;
-#endif
-#if 1
-#else
-  if (!rcd.title.isEmpty()) {q += rcd.title;   if (!rcd.url.isEmpty()) q += _T(", ");}
-
-  if (!rcd.url.isEmpty())   q += rcd.url;
-  q += _T(" has been deleted");    setStatus(q);
-#endif
-#if 1
-#else
-  setLabels();   dbOpen = true;   newRcd = true;   iniFile.write(GlobalSect, KpDbPathKey, path);
-
-  statusBar.setText(1, path);   setTitle(getMainName(path));   if (newRcd) setStatus(NewRecordSts);
-#endif
-#if 1
-#else
-  setLabels();   dbOpen = true;   newRcd = true;   iniFile.write(GlobalSect, KpDbPathKey, path);
-
-  statusBar.setText(1, path);   setTitle(dbName);   if (newRcd) setStatus(NewRecordSts);
-#endif
-#endif
-#if 1
-#else
-  if (!DeleteGroupById(pwMgr, grpId)) return;
-
-  groups.initialize();   groups.install(toolBar, ID_GroupCbx);
-#endif
 

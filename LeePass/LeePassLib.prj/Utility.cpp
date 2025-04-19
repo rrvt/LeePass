@@ -27,6 +27,9 @@ void    clrLbl(CEdit& ctl, TCchar* txt)
 
 void    clrLbl(CComboBox& ctl, TCchar* txt)
                              {Cstring lbl;   ctl.GetWindowText(lbl);   if (lbl == txt) clear(ctl);}
+void    clrLbl(CStatic&   ctl, TCchar* txt)
+                             {Cstring lbl;   ctl.GetWindowText(lbl);   if (lbl == txt) clear(ctl);}
+
 
 
 void expunge(void* p, int nBytes) {

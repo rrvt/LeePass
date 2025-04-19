@@ -25,46 +25,13 @@ BYTE   btDummy;
 */
 
 
-KpDate&  KpDate::operator= (PwTime& pwTime) {
-#if 1
-
-  ((Date)*this) = ::getDate(pwTime);
-
-#else
-  if (pwTime.shYear < 1970) {Date x(1970, 1, 1, 0, 0, 0);   ((Date)*this) = x;   return *this;}
-
-  Date x(pwTime.shYear, pwTime.btMonth,  pwTime.btDay,
-       pwTime.btHour, pwTime.btMinute, pwTime.btSecond);
-
-  ((Date)*this) = x;
-#endif
-
-  return *this;
-  }
-
-
-KpDate::operator PwTime&() {
-#if 1
-
-  return getPwTime(*this);
-
-#else
-static PwTime pwTime;
-
-  pwTime.shYear   = getYear();
-  pwTime.btMonth  = getMonth();
-  pwTime.btDay    = getDay();
-  pwTime.btHour   = getHour();
-  pwTime.btMinute = getMinute();
-  pwTime.btSecond = getSecond();
-
-  return pwTime;
-#endif
-  }
+KpDate&  KpDate::operator= (PwTime& pwTime) {dt = getDate(pwTime);   return *this;}
 
 
 
 ////----------
+
+//KpDate::operator PwTime&() {return getPwTime(dt);}
 
 #if 0
 Date& KpDate::toDate(PW_TIME& pwTime) {
@@ -87,5 +54,27 @@ static PW_TIME pwTime;
   pwTime.btSecond = dt.getSecond();
   return pwTime;
   }
+#endif
+#if 1
+#else
+  if (pwTime.shYear < 1970) {Date x(1970, 1, 1, 0, 0, 0);   ((Date)*this) = x;   return *this;}
+
+  Date x(pwTime.shYear, pwTime.btMonth,  pwTime.btDay,
+       pwTime.btHour, pwTime.btMinute, pwTime.btSecond);
+
+  ((Date)*this) = x;
+#endif
+#if 1
+#else
+static PwTime pwTime;
+
+  pwTime.shYear   = getYear();
+  pwTime.btMonth  = getMonth();
+  pwTime.btDay    = getDay();
+  pwTime.btHour   = getHour();
+  pwTime.btMinute = getMinute();
+  pwTime.btSecond = getSecond();
+
+  return pwTime;
 #endif
 

@@ -15,8 +15,10 @@ bool setField(int&    fld, int      v);
 
        void    clrLbl(CEdit&     ctl, TCchar* txt);
        void    clrLbl(CComboBox& ctl, TCchar* txt);
+       void    clrLbl(CStatic&   ctl, TCchar* txt);
 
 inline void    clear(CEdit&     ctl) {ctl.SetWindowText(_T(""));}
+inline void    clear(CStatic&   ctl) {ctl.SetWindowText(_T(""));}
 inline void    clear(CComboBox& ctl) {ctl.SetCurSel(-1);}
 inline void    reset(CComboBox& ctl) {ctl.ResetContent();}
 

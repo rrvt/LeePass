@@ -24,7 +24,11 @@
 #define IDC_Notes                       309
 #define IDC_BinaryDesc                  310
 #define IDC_COMBO1                      311
+#define IDC_Creation                    311
 #define IDC_GroupUpdt                   312
+#define IDC_LastMod                     313
+#define IDC_LastAccess                  314
+#define IDC_Expire                      315
 
 #define ID_NewKpDb                      400
 #define ID_OpenKpDb                     401
@@ -33,20 +37,16 @@
 #define ID_NewPswd                      404
 #define ID_EntryCbx                     405
 #define ID_ToggleSave                   406
-
 #define ID_LastPassMenu                 407
 #define ID_ExpungeFile                  408
 #define ID_ImportFile                   409
-
 #define ID_DeleteMenu                   420
 #define ID_DeleteEntry                  421
 #define ID_DeleteGroup                  422
-
 #define ID_RmvDuplicates                423
 #define ID_RmvLPImports                 424
 #define ID_RmvRdndtGrps                 425
 #define ID_RmvBackups                   426
-
 #define ID_Save                         430
 #define ID_Options                      431
 #define ID_About                        432
@@ -57,13 +57,14 @@
 #define DlgWidth                        400
 #define DlgDepth                        131
 
+
 // Next default values for new objects
 //
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        103
 #define _APS_NEXT_COMMAND_VALUE         435
-#define _APS_NEXT_CONTROL_VALUE         309
+#define _APS_NEXT_CONTROL_VALUE         316
 #define _APS_NEXT_SYMED_VALUE           203
 #endif
 #endif

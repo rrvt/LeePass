@@ -46,6 +46,9 @@ CEdit       urlCtl;
 CEdit       nameCtl;
 CEdit       pswdCtl;
 CEdit       notesCtl;
+CStatic     creationCtl;
+CStatic     lastModCtl;
+CStatic     lastAccessCtl;
 CEdit       binaryDescCtl;
 CComboBox   groupCtl;
 
@@ -131,33 +134,4 @@ public:
   };
 
 
-
-
-////--------------
-
-#ifdef Examples
-  afx_msg void    changeReady();
-
-  afx_msg void    onTBChange(NMHDR* pNMHDR, LRESULT* pResult);
-
-  afx_msg void    onDispatch();
-  afx_msg void    onOption00();
-  afx_msg void    onOption01();
-  afx_msg void    onOption02();
-  afx_msg void    onDispatch1();
-  afx_msg void    onOption11();
-  afx_msg void    onOption12();
-
-
-  afx_msg void    onTBEditBox();
-#endif
-  //Cstring     title;
-  //Cstring     url;
-  //Cstring     name;
-  //Cstring     pwsd;
-  //Cstring     notes;
-  //Cstring     binaryDesc;
-  //Cstring     group;
-
-  //        void installGroups();
 

@@ -44,6 +44,10 @@ Execute the msi file to install the app.
 
 ## Updates
 
+### 4/16/25 Update
+
+Added Access and Modification dates to entries.  Fixed getToday in date to get local date/time.
+
 ### 4/14/25 Update
 
 Added commands to remove redundant groups, former last pass imports (&lt;tags&gt;), and all

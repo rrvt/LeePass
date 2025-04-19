@@ -63,8 +63,8 @@ KpStringFld name;                 // User Name
 KpStringFld password;             // Password
 KpStringFld notes;                // used to hold notes (KP field: pszAdditional)
 KpDate      creation;             // date created
-KpDate      expire;               // date will expire
-//BinData     binData;              // Descriptor (String), Byte data array, number of bytes
+KpDate      lastMod;              // Last Modification
+KpDate      lastAccess;           // Last Access
 KpStringFld binDesc;              // Description of binary data
 Byte*       binData;              // ptr to binary data or zero
 uint        binDataLng;           // Number of bytes in binaryData
@@ -98,6 +98,8 @@ uint        binDataLng;           // Number of bytes in binaryData
   bool    updateName(CEdit& ctl);
   bool    updatePassword(CEdit& ctl);
   bool    updateNotes(CEdit& ctl);
+  bool    updateLastMod();
+  bool    updateLastAccess();
   bool    updateBinaryDesc(CEdit& ctl);
   bool    updateGroup(CComboBox& ctl);
 

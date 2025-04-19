@@ -4,18 +4,32 @@
 #pragma once
 #include "Date.h"
 #include "KpSDK.h"
+#include "Utility.h"
 
 
 
-class KpDate : public Date {
+class KpDate {
+
+Date   dt;
+String lbl;
 
 public:
 
-  PwTime& today() {getToday();   return *this;}
+  KpDate() { }
+  KpDate(TCchar* label) : lbl(label) { }
+
+  void     clear() {dt.clear();}
+
+  PwTime&  today() {dt.getToday();   return getPwTime(dt);}
 
   KpDate&  operator= (PwTime& pwTime);
 
-  operator PwTime&();
+  void     setLabel(CStatic& ctl) {ctl.SetWindowText(lbl);}
+  void     clrLabel(CStatic& ctl) {clrLbl(ctl, lbl);}
+
+  void     set(CStatic& ctl) {String s = dt;   ctl.SetWindowText(s);}
+
+  operator PwTime*() {return &getPwTime(dt);}
   };
 
 

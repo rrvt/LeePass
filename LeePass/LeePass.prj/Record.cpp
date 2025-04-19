@@ -11,25 +11,31 @@
 #include "Utility.h"
 
 
-static TCchar* TitleLbl    = _T("<Title>");
-static TCchar* URLLbl      = _T("<URL>");
-static TCchar* NameLbl     = _T("<Name>");
-static TCchar* PasswordLbl = _T("<Password>");
-static TCchar* NotesLbl    = _T("<Notes>");
-static TCchar* GroupLbl    = _T("<Group>");
-static TCchar* BinDescLbl  = _T("<Binary or Extra Desc>");
+static TCchar* TitleLbl      = _T("<Title>");
+static TCchar* URLLbl        = _T("<URL>");
+static TCchar* NameLbl       = _T("<Name>");
+static TCchar* PasswordLbl   = _T("<Password>");
+static TCchar* NotesLbl      = _T("<Notes>");
+static TCchar* GroupLbl      = _T("<Group>");
+static TCchar* CreationLbl   = _T("<Creation>");
+static TCchar* LastModLbl    = _T("<Last Mod>");
+static TCchar* LastAccessLbl = _T("<Last Acc>");
+static TCchar* ExpireLbl     = _T("Expire Date");
+static TCchar* BinDescLbl    = _T("<Binary or Extra Desc>");
 
 Record::Record() : pwMgr(0), kpEntry(0), group(GroupLbl), imageId(0),
                    title(TitleLbl), url(URLLbl), name(NameLbl), password(PasswordLbl),
-                   notes(NotesLbl), binDesc(BinDescLbl), binData(0), binDataLng(0) {}
+                   notes(NotesLbl), creation(CreationLbl), lastMod(LastModLbl),
+                   lastAccess(LastAccessLbl), binDesc(BinDescLbl), binData(0), binDataLng(0) {}
 
 Record::~Record() {clear();}
 
 
 void Record::clear() {
-  imageId = 0; creation.clear();
-     group.expunge();     url.expunge();      title.expunge();     name.expunge();
-  password.expunge();   notes.expunge();    binDesc.expunge();
+  imageId = 0;
+       group.expunge();     url.expunge();      title.expunge();     name.expunge();
+    password.expunge();   notes.expunge();   creation.clear();    lastMod.clear();
+  lastAccess.clear();   binDesc.expunge();
   }
 
 
@@ -77,7 +83,8 @@ Record& Record::operator= (KpEntry* kpRcd) {        //
   password     = kpEntry->pszPassword;
   notes        = kpEntry->pszAdditional;
   creation     = kpEntry->tCreation;
-  expire       = kpEntry->tExpire;
+  lastMod      = kpEntry->tLastMod;
+  lastAccess   = kpEntry->tLastAccess;
   binDesc      = kpEntry->pszBinaryDesc;
   binData      = kpEntry->pBinaryData;
   binDataLng   = kpEntry->uBinaryDataLen;
@@ -125,14 +132,18 @@ uint grpId = groups.getID(group);   if (!grpId) grpId = groups.add(group);
 
   if (!kpEntry) return false;
 
+  creation     = kpEntry->tCreation;
+  lastMod      = kpEntry->tLastMod;
+  lastAccess   = kpEntry->tLastAccess;
+
   return PE_SetBinaryDesc(kpEntry, binDesc);
   }
 
 
 bool Record::update(KpEntry* kpEntry) {
-bool dirty = false;
-uint grpId;
-bool rslt;
+bool   dirty = false;
+uint   grpId;
+bool   rslt;
 
   if (!kpEntry) return false;
 
@@ -148,7 +159,11 @@ bool rslt;
   LockEntryPassword(pwMgr, kpEntry);
   if (rslt)                 {PE_SetPasswordAndLock(pwMgr,   kpEntry, password);   dirty = true;}
   if (notes    != kpEntry->pszAdditional) {PE_SetNotes(     kpEntry, notes);      dirty = true;}
+
   if (binDesc  != kpEntry->pszBinaryDesc) {PE_SetBinaryDesc(kpEntry, binDesc);    dirty = true;}
+
+  if (dirty) lastMod.today();
+  else      {lastAccess.today();   dirty = true;}
 
   return dirty;
   }
@@ -186,8 +201,14 @@ bool Record::updatePassword(CEdit& ctl) {
 bool Record::updateNotes(CEdit& ctl) {
   if (!kpEntry || !notes.get(ctl)) return false;
 
-  PE_SetNotes(kpEntry, notes);   return true;
+  return PE_SetNotes(kpEntry, notes);
   }
+
+
+bool Record::updateLastMod() {return PE_SetLastModTime(kpEntry, lastMod);}
+
+
+bool Record::updateLastAccess() {return PE_SetLastAccessTime(kpEntry, lastAccess);}
 
 
 bool Record::updateBinaryDesc(CEdit& ctl) {

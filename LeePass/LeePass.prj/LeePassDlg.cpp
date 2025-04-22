@@ -683,6 +683,8 @@ LastPass   lastPass;
   groups.install(toolBar, ID_GroupCbx);   groups.install(groupCtl, 0);
 
   installEntries();
+
+  lastPass.expungeFile(path);
   }
 
 

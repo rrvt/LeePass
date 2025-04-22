@@ -44,6 +44,10 @@ Execute the msi file to install the app.
 
 ## Updates
 
+### 4/22/25 Update
+
+Added expunge file after importing LandPass export.
+
 ### 4/21/25 Update
 
 Added Find, Next, and move left and right commands.

@@ -44,7 +44,7 @@ TBCbxMenu& TBCbxMenu::finInstall(TCchar* caption) {
 
   this->caption = caption;   setMaxChars(caption);
 
-  m_iWidth = toolBarDim.getHoriz(maxChars) + 20;
+  m_iWidth = toolBarDim.getHoriz(maxChars) * percent / 100 + 20;
 
   m_dwStyle = CBS_DROPDOWNLIST | WS_VSCROLL | BS_VCENTER;   SetFlatMode(true);
 

@@ -7,11 +7,11 @@
 #define IDR_TOOLBAR                     101
 #define IDR_DeleteMenu                  102
 #define IDR_LastPassMenu                103
-
+#define DlgDepth                        138
 #define IDD_LeePass                     200
 #define IDD_Password                    201
 #define IDD_NewPassword                 202
-
+#define IDD_Search                      203
 #define IDC_KeePassVer                  300
 #define IDC_StatusBar                   301
 #define IDC_Password                    302
@@ -29,8 +29,22 @@
 #define IDC_LastMod                     313
 #define IDC_LastAccess                  314
 #define IDC_Expire                      315
-
+#define IDC_Target                      316
+#define IDC_CaseSens                    317
+#define IDC_WholeWord                   318
+#define IDC_RegExpr                     319
+#define IDC_WholeField                  320
+#define IDC_TitleFld                    321
+#define IDC_UserNameFld                 322
+#define IDC_URLFld                      323
+#define IDC_MiscFld                     324
+#define IDC_BinDescFld                  325
+#define IDC_AnyWhere                    326
+#define IDC_Beginning                   327
+#define IDC_RADIO1                      328
+#define IDC_RADIO2                      329
 #define ID_NewKpDb                      400
+#define DlgWidth                        400
 #define ID_OpenKpDb                     401
 #define ID_Login                        402
 #define ID_GroupCbx                     403
@@ -48,23 +62,22 @@
 #define ID_RmvRdndtGrps                 425
 #define ID_RmvBackups                   426
 #define ID_Save                         430
-#define ID_Options                      431
-#define ID_About                        432
-#define ID_Exit                         433
-#define ID_Help                         434
-
-
-#define DlgWidth                        400
-#define DlgDepth                        131
-
+#define ID_MoveLeft                     431
+#define ID_FindEntry                    432
+#define ID_FindNext                     433
+#define ID_MoveRight                    434
+#define ID_Options                      435
+#define ID_About                        436
+#define ID_Exit                         437
+#define ID_Help                         438
 
 // Next default values for new objects
-//
+// 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        103
-#define _APS_NEXT_COMMAND_VALUE         435
-#define _APS_NEXT_CONTROL_VALUE         316
-#define _APS_NEXT_SYMED_VALUE           203
+#define _APS_NEXT_RESOURCE_VALUE        105
+#define _APS_NEXT_COMMAND_VALUE         450
+#define _APS_NEXT_CONTROL_VALUE         330
+#define _APS_NEXT_SYMED_VALUE           204
 #endif
 #endif

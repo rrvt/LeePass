@@ -84,6 +84,12 @@
     <ClInclude Include="Remove.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="KpSearch.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SearchDlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -140,6 +146,12 @@
     <ClCompile Include="Remove.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="KpSearch.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SearchDlg.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="LeePass.rc">
@@ -167,6 +179,9 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="res\Toolbar.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\Toolbar02.bmp">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

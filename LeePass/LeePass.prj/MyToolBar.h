@@ -27,7 +27,8 @@ public:
 
   bool    addButton( uint id, TCchar* caption);
 
-  bool    addMenu(   uint id, int     idr, TCchar* caption);
+
+  bool    addMenu(   uint id, int idr, TCchar* caption);
   void    dispatch(  uint id);
 
 // Tool Bar ComboBox Functions
@@ -41,12 +42,17 @@ public:
   bool    addCbxItemSorted(uint id, TCchar* txt, int data = 0);
 
   bool    find(      uint cbxId, TCchar* tc);
+  void*   getCbxData(uint cbxId, int index);
+  int     getCurSel( uint cbxId);
   bool    getCurSel( uint cbxId, String& s, void*& data);
+
   bool    setCurSel( uint cbxId, int index);
   bool    setCurSel( uint cbxId, TCchar* tc);
 
   uint    getCbxCount(uint id);
   void    setCaption(uint id, TCchar* caption);
+
+  void    setWthPercent(uint id, int prcnt);            // good for Menus and ComboBoxes
   void    setWidth(  uint id);
   void    setHeight( uint id);
   };

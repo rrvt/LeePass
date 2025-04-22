@@ -79,6 +79,9 @@ protected:
 
 private:
 
+  int             findEntry(void* kpe);
+  void            loadEntry();
+
   void            setupToolBar();
   void            setEntrySts(Record& rcd);
   void            setStatus(TCchar* sts);
@@ -109,6 +112,12 @@ public:
   afx_msg void    onGroupCbx();
   afx_msg void    onNewPswd();
   afx_msg void    onEntryCbx();
+
+  afx_msg void    onMoveLeft();
+  afx_msg void    onFindEntry();
+  afx_msg void    onFindNext();
+  afx_msg void    onMoveRight();
+
   afx_msg void    onToggleSave();
 
   afx_msg void    onDeleteMenu() {toolBar.dispatch(ID_DeleteMenu);}

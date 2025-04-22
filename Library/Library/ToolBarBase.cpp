@@ -4,7 +4,6 @@
 #include "pch.h"
 #include "ToolBarBase.h"
 #include "TBButton.h"
-#include "TBCbxMenu.h"                    // Use for Menus on Dialog Box Tool Bars
 #include "TBMenu.h"                       // Use for Menus in Doc/View applications
 #include "WinPos.h"
 #ifdef DsplyHistory
@@ -91,6 +90,9 @@ bool ToolBarBase::add(TBMenu&  button, uint id, int idr, int index) {
 bool ToolBarBase::add(TBMenu&  button, uint id, const CbxItem cbxItem[], int n, TCchar* caption) {
   bool rslt = ReplaceButton(id, *button.install(cbxItem, n, caption)) > 0;   return rslt;
   }
+
+
+//void ToolBarBase::setWthPercent(TBCbxMenu& button, int prcnt) {button.setWthPercent(prcnt);}
 
 
 bool ToolBarBase::add(TBCbxMenu& button, uint id, int idr, TCchar* caption) {

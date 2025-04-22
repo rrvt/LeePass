@@ -127,7 +127,7 @@ Group*  grp;
 
   if (!toolBar.setCurSel(id, s) && !toolBar.setCurSel(id, AllGroups)) toolBar.setCurSel(id, 0);
 
-  toolBar.setWidth(id);   toolBar.setHeight(id);   dirty = false;
+  toolBar.setWthPercent(id, 70);   toolBar.setWidth(id);   toolBar.setHeight(id);   dirty = false;
   }
 
 

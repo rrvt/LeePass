@@ -13,12 +13,12 @@
 #pragma once
 #include "CbxItem.h"
 #include "TBCboBx.h"
+#include "TBCbxMenu.h"                    // Use for Menus on Dialog Box Tool Bars
 #include "TBEditBox.h"
 #include "ToolBarDim.h"
 
 class  TBButton;
 class  TBMenu;
-class  TBCbxMenu;
 
 
 class ToolBarBase : public CMFCToolBar {
@@ -57,6 +57,7 @@ protected:
 
   // The following Menu items are useful only in Dialog Boxes
 
+  void           setWthPercent(TBCbxMenu& button, int prcnt) {button.setWthPercent(prcnt);}
   bool           add(TBCbxMenu&  button, uint id, int           idr,              TCchar* caption);
   bool           add(TBCbxMenu&  button, uint id, const CbxItem cbxItem[], int n, TCchar* caption);
   void           dispatch(TBCbxMenu& cbxMenu);
@@ -75,11 +76,16 @@ protected:
   bool           setCurSel(TBCboBx& button, int index)   {return button.setCurSel(index);}
   bool           setCurSel(TBCboBx& button, TCchar* txt) {return button.setCurSel(txt);}
 
-  void           setCaption(TBCboBx& button, TCchar* caption) {button.setCaption(caption);}
-  void           setWidth(  TBCboBx& button) {button.setWidth();   AdjustLayout();}
-  void           setHeight( TBCboBx& button) {button.setHeight();}
-  bool           getCurSel(TBCboBx& button, String& s, void*& data)
+  void           setCaption(   TBCboBx& button, TCchar* caption) {button.setCaption(caption);}
+  void           setWthPercent(TBCboBx& button, int prcnt)       {button.setWthPercent(prcnt);}
+  void           setWidth(     TBCboBx& button) {button.setWidth();   AdjustLayout();}
+  void           setHeight(    TBCboBx& button) {button.setHeight();}
+
+  void*          getCbxData(   TBCboBx& button, int index) {return button.getData(index);}
+
+  bool           getCurSel(    TBCboBx& button, String& s, void*& data)
                                                                 {return button.getCurSel(s, data);}
+  int            getCurSel(    TBCboBx& button) {return button.getCurSel();}
 
 private:
   void           OnFillBackground(CDC* pDC);

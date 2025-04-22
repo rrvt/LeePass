@@ -114,6 +114,11 @@ int       index;
   for (index = findTitle(title, 0); index >= 0; index = findTitle(title, index+1)) {
     kpEntry = GetEntry(pwMgr, index);    if (!kpEntry) continue;
 
+    if (url == _T("http://sn")) {
+      if (name == kpEntry->pszUserName && binDesc == kpEntry->pszBinaryDesc) return true;
+      continue;
+      }
+
     if (url == kpEntry->pszURL && name == kpEntry->pszUserName) return true;
     }
 

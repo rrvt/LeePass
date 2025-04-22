@@ -44,6 +44,10 @@ Execute the msi file to install the app.
 
 ## Updates
 
+### 4/21/25 Update
+
+Added Find, Next, and move left and right commands.
+
 ### 4/16/25 Update
 
 Added Access and Modification dates to entries.  Fixed getToday in date to get local date/time.

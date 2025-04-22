@@ -3,6 +3,7 @@
 
 #pragma once
 #include "KpSDK.h"
+#include "KpSearch.h"
 #include "Record.h"
 
 class CPwManager;
@@ -13,6 +14,7 @@ class LPExtras;
 class KpLib {
 
 CPwManager* pwMgr;
+KpSearch    kpSrch;
 
 public:
 Record      rcd;
@@ -31,6 +33,12 @@ Record      rcd;
 
   bool        importFile(String& path);
   bool        store(LastPassRcd& lpRcd);
+
+  void        clrSrch() {                  kpSrch.clear();}
+  bool        isSrchInit() {        return kpSrch.isInitialized();}
+  void        setSrchGrp(uint x) {         kpSrch.setGroup(x);}
+  KpEntry*    find(SearchDlg& dlg) {    return kpSrch.find(dlg);}
+  KpEntry*    findNext()       {    return kpSrch.next();}
 
 private:
 

@@ -5,6 +5,7 @@
 #include "LeePass.h"
 #include "LeePassDlg.h"
 #include "IniFile.h"
+#include "SearchDlg.h"
 
 
 #ifdef _DEBUG
@@ -34,5 +35,10 @@ LeePassDlg dlg(m_pszHelpFilePath);
   }
 
 
-int LeePass::ExitInstance() {return CWinApp::ExitInstance();}
+int LeePass::ExitInstance() {
+
+  iniFile.deleteSection(SearchSect);
+
+  return CWinApp::ExitInstance();
+  }
 

@@ -96,6 +96,24 @@ bool MyToolBar::find(uint cbxId, TCchar* tc) {
   }
 
 
+void* MyToolBar::getCbxData(uint cbxId, int index) {
+  if (cbxId == cboBx.getId())  return ToolBarBase::getCbxData(cboBx,  index);
+  if (cbxId == cboBx1.getId()) return ToolBarBase::getCbxData(cboBx1, index);
+
+  return 0;
+  }
+
+
+// Returns Index >= 0 or -1
+
+int MyToolBar::getCurSel( uint cbxId) {
+  if (cbxId == cboBx.getId())  return ToolBarBase::getCurSel(cboBx);
+  if (cbxId == cboBx1.getId()) return ToolBarBase::getCurSel(cboBx1);
+
+  return -1;
+  }
+
+
 bool MyToolBar::getCurSel( uint id, String& s, void*& data) {
   if (id == cboBx.getId())  return ToolBarBase::getCurSel(cboBx,  s, data);
   if (id == cboBx1.getId()) return ToolBarBase::getCurSel(cboBx1, s, data);
@@ -134,6 +152,15 @@ void MyToolBar::setCaption(uint id, TCchar* caption) {
   }
 
 
+void MyToolBar::setWthPercent(uint id, int prcnt) {
+  if (id == cboBx.getId())    {ToolBarBase::setWthPercent(cboBx,    prcnt);   return;}
+  if (id == cboBx1.getId())   {ToolBarBase::setWthPercent(cboBx1,   prcnt);   return;}
+  if (id == cbxMenu.getId())  {ToolBarBase::setWthPercent(cbxMenu,  prcnt);   return;}
+  if (id == cbxMenu1.getId()) {ToolBarBase::setWthPercent(cbxMenu1, prcnt);   return;}
+  }
+
+
+
 void MyToolBar::setWidth(uint id) {
   if (id == cboBx.getId())  ToolBarBase::setWidth(cboBx);
   if (id == cboBx1.getId()) ToolBarBase::setWidth(cboBx1);
@@ -164,6 +191,12 @@ CString MyToolBar::getText(uint id) {
   if (id == editBox.getId()) {return ToolBarBase::getText(editBox);}
 
   return _T("");
+  }
+
+
+void MyToolBar::setWthPercent(uint id, int prcnt) {
+  if (id == cbxMenu.getId())   {setWthPercent(cbxMenu,  prcnt);   return;}
+  if (id == cbxMenu1.getId())  {setWthPercent(cbxMenu1, prcnt);   return;}
   }
 
 

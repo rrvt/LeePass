@@ -194,6 +194,8 @@ KP_SHARE void   ProtectProcessWithDacl();
 
 
 
+
+
 #include "pch.h"
 #include "KpLib.h"
 #include "FileName.h"
@@ -205,6 +207,7 @@ KP_SHARE void   ProtectProcessWithDacl();
 #include "LibraryAPI.h"
 #include "MessageBox.h"
 #include "Record.h"
+#include "SearchDlg.h"
 #include "Utility.h"
 
 
@@ -235,7 +238,9 @@ PWDB_REPAIR_INFO info;   ZeroMemory(&info, sizeof(PWDB_REPAIR_INFO));
     if (!chk(OpenDatabase(pwMgr, path, &info))) return 0;
     } catch (...) {password.expunge();   return 0;}
 
-  groups.setPwMgr(pwMgr);   groups.initialize();   rcd.setPwMgr(pwMgr);   return pwMgr;
+  groups.setPwMgr(pwMgr);   groups.initialize();   rcd.setPwMgr(pwMgr);   kpSrch.setPwMgr(pwMgr);
+
+  return pwMgr;
   }
 
 
@@ -262,9 +267,6 @@ String s;
 
   s.format(_T("KeePass Version: %s, Library Build: %u"), kpVer.str(), libBld);   return s;
   }
-
-
-
 
 
 void KpLib::saveDatabase(TCchar* path) {if (pwMgr) SaveDatabase(pwMgr, path);}

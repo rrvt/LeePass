@@ -18,6 +18,7 @@
 #include "PasswordNewDlg.h"
 #include "Record.h"
 #include "Remove.h"
+#include "SearchDlg.h"
 #include "StatusBar.h"
 #include "Utility.h"
 
@@ -44,6 +45,11 @@ BEGIN_MESSAGE_MAP(LeePassDlg, CDialogEx)
   ON_CBN_SELCHANGE(ID_EntryCbx,      &onEntryCbx)          // Process selection from list
 
   ON_COMMAND(      ID_ToggleSave,    &onToggleSave)
+
+  ON_COMMAND(      ID_MoveLeft,      &onMoveLeft)
+  ON_COMMAND(      ID_FindEntry,     &onFindEntry)
+  ON_COMMAND(      ID_FindNext,      &onFindNext)
+  ON_COMMAND(      ID_MoveRight,     &onMoveRight)
 
   ON_COMMAND(      ID_Save,          &onSave)
 
@@ -188,10 +194,8 @@ void LeePassDlg::onGroupCbx() {
 String s;
 void*  x;
 
-
-  if (!toolBar.getCurSel(ID_GroupCbx, s, x)) return;
-
-  installEntries();
+  if (toolBar.getCurSel(ID_GroupCbx, s, x))
+                        {saveCurrentRcd();   kpLib.rcd.clear();   setLabels();   installEntries();}
   }
 
 
@@ -212,6 +216,8 @@ uint     grpId = 0;
 
   toolBar.setCaption(ID_EntryCbx, EntryCaption);
 
+  toolBar.setWthPercent(ID_EntryCbx, 70);
+
   toolBar.setWidth(ID_EntryCbx);   toolBar.setHeight(ID_EntryCbx);
 
   setDbSts();
@@ -227,12 +233,181 @@ Record& rcd = kpLib.rcd;
   }
 
 
+void LeePassDlg::onMoveLeft() {
+int i = toolBar.getCurSel(ID_EntryCbx) - 1;   if (i < 0) return;
+
+  saveCurrentRcd();   toolBar.setCurSel(ID_EntryCbx, i);   loadEntry();
+  }
+
+
+/*
+Boolean "or"
+
+    A vertical bar separates alternatives. For example,
+
+      gray|grey can match "gray" or "grey".
+
+Grouping
+
+    Parentheses are used to define the scope and precedence of the operators (among other uses).
+    For example,
+      gray|grey and gr(a|e)y are equivalent patterns which both describe the set of
+      "gray" or "grey".
+
+Quantification
+
+    A quantifier after an element (such as a token, character, or group) specifies how many times
+    the preceding element is allowed to repeat. The most common quantifiers are the question mark
+    ?, the asterisk * (derived from the Kleene star), and the plus sign + (Kleene plus).
+
+    ?           The question mark indicates zero or one occurrences of the preceding element. For
+                example, colou?r matches both "color" and "colour".
+
+    *           The asterisk indicates zero or more occurrences of the preceding element. For
+                example, ab*c matches "ac", "abc", "abbc", "abbbc", and so on.
+    +           The plus sign indicates one or more occurrences of the preceding element. For
+                example, ab+c matches "abc", "abbc", "abbbc", and so on, but not "ac".
+    {n}         The preceding item is matched exactly n times.
+    {min,}      The preceding item is matched min or more times.
+    {,max}      The preceding item is matched up to max times.
+    {min,max}   The preceding item is matched at least min times, but not more than max times.
+
+Character Classes
+
+    .                     matches any character. For example,
+
+                            a.b matches any string that contains an "a", and then any character and
+                            then "b".
+                            a.*b matches any string that contains an "a", and then the character
+                            "b" at some later point.
+
+    [ character_group ]   Matches any single character in character_group. By default, the match is
+                          case-sensitive.
+
+                            [ae]  "a" in "gray"
+                                  "a", "e" in "lane"
+
+    [^ character_group ]  Negation: Matches any single character that is not in character_group.
+                          By default, characters in character_group are case-sensitive.
+
+                            [^aei]  "r", "g", "n" in "reign"
+
+    [ first - last ]      Character range: Matches any single character in the range from first to
+                          last.
+
+                            [A-Z]   "A", "B" in "AB123"
+
+
+Anchors
+    ^   By default, the match must start at the beginning of the string; in multiline mode, it must
+        start at the beginning of the line.
+
+        ^\d{3}  "901" in "901-333-"
+
+    $   By default, the match must occur at the end of the string or before \n at the end of the
+        string; in multiline mode, it must occur before the end of the line or before \n at the
+        end of the line.
+
+These constructions can be combined to form arbitrarily complex expressions, much like one can
+construct arithmetical expressions from numbers and the operations +, ?, ×, and ÷.
+*/
+
+void LeePassDlg::onFindEntry() {
+SearchDlg dlg;
+String    s;
+void*     x;
+uint      grpId = 0;
+KpEntry*  kpEntry;
+int       cboBxX;
+
+  kpLib.clrSrch();
+
+  if (dlg.DoModal() != IDOK) return;
+
+  if (toolBar.getCurSel(ID_GroupCbx, s, x)) kpLib.setSrchGrp((uint) x);
+
+  kpEntry = kpLib.find(dlg);   if (!kpEntry) return;
+
+  cboBxX = findEntry(kpEntry);   if (cboBxX < 0) return;
+
+  saveCurrentRcd();   toolBar.setCurSel(ID_EntryCbx, cboBxX);   loadEntry();
+  }
+
+
+void LeePassDlg::onFindNext() {
+KpEntry* kpEntry;
+int      cboBxX;
+
+  if (!kpLib.isSrchInit()) return;
+
+  kpEntry = kpLib.findNext();
+
+  cboBxX = findEntry(kpEntry);   if (cboBxX < 0) return;
+
+  saveCurrentRcd();   toolBar.setCurSel(ID_EntryCbx, cboBxX);   loadEntry();
+  }
+
+
+int LeePassDlg::findEntry(void* kpe) {
+int    n = toolBar.getCbxCount(ID_EntryCbx);
+int    i;
+String s;
+void*  x;
+
+  for (i = 0; i < n; i++) {
+    x = toolBar.getCbxData(ID_EntryCbx, i);
+
+    if (x == kpe) return i;
+    }
+
+  return -1;
+  }
+
+
+
+void LeePassDlg::onMoveRight() {
+int n = toolBar.getCbxCount(ID_EntryCbx);
+int i = toolBar.getCurSel(ID_EntryCbx) + 1;   if (i >= n) return;
+
+  saveCurrentRcd();   toolBar.setCurSel(ID_EntryCbx, i);   loadEntry();
+  }
+
+
 void LeePassDlg::onEntryCbx() {
+
+  saveCurrentRcd();
+
+#if 1
+  loadEntry();
+#else
 String   s;
 void*    x;
 Record&  rcd = kpLib.rcd;
 
-  saveCurrentRcd();
+  if (!toolBar.getCurSel(ID_EntryCbx, s, x)) return;
+
+  newRcd = false;   rcd = (KpEntry*) x;
+
+  rcd.title.set(titleCtl);
+  rcd.url.set(urlCtl);
+  rcd.name.set(nameCtl);
+  rcd.password.set(pswdCtl);
+  rcd.notes.set(notesCtl);
+  rcd.creation.set(creationCtl);
+  rcd.lastMod.set(lastModCtl);
+  rcd.lastAccess.set(lastAccessCtl);
+  rcd.binDesc.set(binaryDescCtl);
+  rcd.group.set(groupCtl);
+
+  setEntrySts(rcd);
+#endif
+  }
+
+
+void LeePassDlg::loadEntry() {
+String   s;
+void*    x;
+Record&  rcd = kpLib.rcd;
 
   if (!toolBar.getCurSel(ID_EntryCbx, s, x)) return;
 
@@ -251,6 +426,7 @@ Record&  rcd = kpLib.rcd;
 
   setEntrySts(rcd);
   }
+
 
 
 void LeePassDlg::saveCurrentRcd() {
@@ -583,7 +759,9 @@ CRect winRect;   GetWindowRect(&winRect);   toolBar.set(winRect);
   toolBar.addCBx(   ID_GroupCbx,  _T(" Groups "));
   toolBar.addCBx(   ID_EntryCbx, EntryCaption);
 
+  toolBar.setWthPercent(ID_DeleteMenu,   70);
   toolBar.addMenu(ID_DeleteMenu,   IDR_DeleteMenu,   _T("Delete"));
+  toolBar.setWthPercent(ID_LastPassMenu, 70);
   toolBar.addMenu(ID_LastPassMenu, IDR_LastPassMenu, _T("LastPass"));
   }
 

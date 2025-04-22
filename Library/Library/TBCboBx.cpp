@@ -8,6 +8,11 @@
 
 #include "MessageBox.h"
 
+
+TBCboBx::TBCboBx(uint myId) :
+              CMFCToolBarComboBoxButton(myId, -1), id(myId), maxChars(0), percent(1), actual(0) { }
+
+
 TBCboBx* TBCboBx::install(int noChars) {maxChars = noChars;   return finInstall(_T(""));}
 
 
@@ -98,7 +103,7 @@ void TBCboBx::setWidth() {
 
   if (!getActual()) return;
 
-  ((TBCboBx*)actual)->m_iWidth  = toolBarDim.getHoriz(maxChars) + 20;
+  ((TBCboBx*)actual)->m_iWidth  = toolBarDim.getHoriz(maxChars) * percent / 100 + 20;
   }
 
 
@@ -117,15 +122,17 @@ int maxHeight = (toolBarDim.height/25 - 3) * 25;
   }
 
 
+void* TBCboBx::getData(int index) {return (void*) (getActual() ? actual->GetItemData(index) : 0);}
+
+
 bool TBCboBx::getCurSel(String& s, void*& data) {
-int i;
+int i = getCurSel();   if (i < 0) return false;
 
-  if (!getActual()) return false;
-
-  i = actual->GetCurSel();    if (i < 0) return false;
-
-   s = actual->GetItem(i);  data = (void*) actual->GetItemData(i);  return true;
+  s = actual->GetItem(i);  data = (void*) actual->GetItemData(i);  return true;
   }
+
+
+int TBCboBx::getCurSel() {return getActual() ? actual->GetCurSel() : -1;}
 
 
 int TBCboBx::find(TCchar* tc) {

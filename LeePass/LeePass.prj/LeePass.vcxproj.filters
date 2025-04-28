@@ -45,9 +45,6 @@
     <ClInclude Include="PasswordDlg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Groups.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="KpFldLngs.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -76,9 +73,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="AboutDlgKp.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="KpDate.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Remove.h">
@@ -110,9 +104,6 @@
     <ClCompile Include="PasswordDlg.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Groups.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="KpFldLngs.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -140,9 +131,6 @@
     <ClCompile Include="AboutDlgKp.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="KpDate.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Remove.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -150,6 +138,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="SearchDlg.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LPtoKP.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

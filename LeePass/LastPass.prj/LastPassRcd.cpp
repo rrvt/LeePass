@@ -4,6 +4,7 @@
 #include "pch.h"
 #include "LastPassRcd.h"
 #include "GetPathDlg.h"
+#include "Groups.h"
 #include <random>
 
 
@@ -16,8 +17,7 @@ LastPassRcd::~LastPassRcd() {clear();}
 
 void LastPassRcd::clear() {
   clr(url);     clr(userName);  clr(password);   clr(totp);
-  clr(extra);   clr(name);      clr(grouping);   clr(fav);
-  clr(desc);
+  clr(extra);   clr(name);      clr(group);      clr(fav);
   }
 
 
@@ -27,7 +27,7 @@ void LastPassRcd::clr(String& s) {s.expunge();   s.clear();}
 bool LastPassRcd::open(String& path) {
 PathDlgDsc dsc;
 
-  dsc(_T("LastPass Export File"), _T(""), _T("csv"), _T("*.csv"));
+  dsc(_T("LastPass Export File"), _T(""), _T("*"), _T("*.*"));
 
   return lex.open(dsc, path);
   }
@@ -55,7 +55,7 @@ String     stg;
       case 3: totp     = tok.name; break;
       case 4: extra    = tok.name; parse(); break;
       case 5: name     = tok.name; break;
-      case 6: grouping = tok.name; break;
+      case 6: group    = tok.name; break;
       case 7: fav      = tok.name; break;
       }
 
@@ -76,26 +76,27 @@ String     stg;
 
 
 
-static TCchar*   NoteType = _T("NoteType:");
-static TCchar*   AddrType = _T("NoteType:Address");
-static TCchar*   BankType = _T("NoteType:Bank Account");
-static TCchar*   CCType   = _T("NoteType:Credit Card");
-static TCchar*   WiFiType = _T("NoteType:Wi-Fi Password");
+       TCchar*   NoteType = _T("NoteType:");
+       TCchar*   AddrType = _T("NoteType:Address");
+       TCchar*   BankType = _T("NoteType:Bank Account");
+       TCchar*   CCType   = _T("NoteType:Credit Card");
+       TCchar*   WiFiType = _T("NoteType:Wi-Fi Password");
 static TCchar*   EOL      = _T("\n");
 
 
 bool LastPassRcd::parse() {
+String noteType;
 
   if (url != _T("http://sn")) return false;
 
-  desc = extract(NoteType, EOL);   if (desc.isEmpty()) desc = _T("Note");
-  desc = NoteType + desc;
+  noteType = extract(NoteType, EOL);   if (noteType.isEmpty()) noteType = _T("Note");
+  noteType = NoteType + noteType;
 
   loop {
-    if (desc == AddrType)  {parseAddr(); break;}
-    if (desc == BankType)  {parseBank(); break;}
-    if (desc == CCType)    {parseCC();   break;}
-    if (desc == WiFiType)  {parseWiFi(); break;}
+    if (noteType == AddrType)  {parseAddr(); break;}
+    if (noteType == BankType)  {parseBank(); break;}
+    if (noteType == CCType)    {parseCC();   break;}
+    if (noteType == WiFiType)  {parseWiFi(); break;}
     break;
     }
 
@@ -283,6 +284,68 @@ String s;
 
 
 
+// Export KeePass Entries to LastPass
+
+void LastPassRcd::header(CSVOutF& csv) {
+
+  csv << _T("url") << Comma;
+  csv << _T("username") << Comma;
+  csv << _T("password") << Comma;
+  csv << _T("totp") << Comma;
+  csv << _T("extra") << Comma;
+  csv << _T("name") << Comma;
+  csv << _T("grouping") << Comma;
+  csv << _T("fav") << vCrlf;
+  }
+
+
+/*
+BYTE    uuid[16];       ///< Unique GUID identifying this entry (not only in this database).
+DWORD   uGroupId;       ///< ID of the group that contains this entry.
+DWORD   uImageId;       ///< Index of the icon in the image list to use for this entry.
+
+TCHAR*  pszTitle;       ///< Title.
+TCHAR*  pszURL;         ///< URL.
+TCHAR*  pszUserName;    ///< User name.
+
+DWORD   uPasswordLen;   ///< Length of the password (required for memory protection).
+TCHAR*  pszPassword;    ///< Password (may be encrypted, use IKpDatabase::UnlockEntryPassword to decrypt).
+
+TCHAR*  pszAdditional;  ///< Notes.
+
+PW_TIME tCreation;      ///< Time when the entry was created.
+PW_TIME tLastMod;       ///< Time when the entry was last modified.
+PW_TIME tLastAccess;    ///< Time when the entry was last accessed.
+PW_TIME tExpire;        ///< Time when the entry will expire.
+
+TCHAR*  pszBinaryDesc;  ///< A string describing the contents of pBinaryData.
+BYTE*   pBinaryData;    ///< Attachment data (of length uBinaryDataLen), may be NULL.
+DWORD   uBinaryDataLen; ///< Length of the attachment data in bytes.
+*/
+
+// url,username,password,totp,extra,name,grouping,fav
+
+
+void LastPassRcd::writeRecord(KpEntry* kpEntry, CSVOutF& csv) {
+String s = kpEntry->pszBinaryDesc;
+int    pos = s.find(_T(','));
+String totp;
+String fav;
+
+  if (pos >= 0) {totp = s.substr(0, pos);   fav = s.substr(pos+1);}
+
+  csv << kpEntry->pszURL                   << Comma;
+  csv << kpEntry->pszUserName              << Comma;
+  csv << kpEntry->pszPassword              << Comma;
+  csv << totp                              << Comma;
+  csv << kpEntry->pszAdditional            << Comma;
+  csv << kpEntry->pszTitle                 << Comma;
+  csv << groups.getName(kpEntry->uGroupId) << Comma;
+  csv << fav                               << vCrlf;
+  }
+
+
+
 
 
 //////------------------
@@ -298,5 +361,18 @@ TCchar* TimeOpen    = _T("<Time~>");
 TCchar* TimeClose   = _T("</Time~>\n");
 TCchar* FFLineOpen  = _T("<FFLine~>");
 TCchar* FFLineClose = _T("</FFLine~>\n");
+#endif
+#if 1
+#else
+
+  if (!isNote) {
+    csv << kpEntry->pszUserName << Comma;
+    csv << kpEntry->pszPassword << Comma;
+    }
+  else csv << Comma << Comma;
+#endif
+#if 0
+  csv << _T("Test Entry")       << Comma;
+#else
 #endif
 

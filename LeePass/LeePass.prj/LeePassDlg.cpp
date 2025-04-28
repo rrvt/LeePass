@@ -59,6 +59,7 @@ BEGIN_MESSAGE_MAP(LeePassDlg, CDialogEx)
 
   ON_CBN_SELCHANGE(ID_LastPassMenu,  &onLastPassMenu)          // Send Command Message with ID_...
   ON_COMMAND(      ID_ImportFile,    &onImportFile)
+  ON_COMMAND(      ID_ExportFile,    &onExportFile)
   ON_COMMAND(      ID_ExpungeFile,   &onExpungeFile)
 
   ON_COMMAND(      ID_RmvDuplicates, &onRemoveDups)
@@ -71,7 +72,7 @@ BEGIN_MESSAGE_MAP(LeePassDlg, CDialogEx)
   ON_COMMAND(      ID_Exit,          &onExit)
 
   ON_EN_SETFOCUS(  IDC_URL,          &onFocusUrl)
-  ON_EN_SETFOCUS(  IDC_Name,         &onFocusName)
+  ON_EN_SETFOCUS(  IDC_UserName,     &onFocusUserName)
   ON_EN_SETFOCUS(  IDC_Pswd,         &onFocusPswd)
   ON_EN_SETFOCUS(  IDC_Notes,        &onFocusNotes)
   ON_EN_SETFOCUS(  IDC_BinaryDesc,   &onFocusBinarydesc)
@@ -136,9 +137,9 @@ void LeePassDlg::DoDataExchange(CDataExchange* pDX) {
   CDialogEx::DoDataExchange(pDX);
   DDX_Control(pDX, IDC_Title,      titleCtl);
   DDX_Control(pDX, IDC_URL,        urlCtl);
-  DDX_Control(pDX, IDC_Name,       nameCtl);
+  DDX_Control(pDX, IDC_UserName,   userNameCtl);
   DDX_Control(pDX, IDC_Pswd,       pswdCtl);
-  DDX_Control(pDX, IDC_Notes,      notesCtl);
+  DDX_Control(pDX, IDC_Notes,      extraCtl);
   DDX_Control(pDX, IDC_BinaryDesc, binaryDescCtl);
   DDX_Control(pDX, IDC_GroupUpdt,  groupCtl);
   DDX_Control(pDX, IDC_Creation,   creationCtl);
@@ -178,7 +179,7 @@ String      dbName = getMainName(path);
   try {pwMgr = kpLib.openDatabase(path, dlg.password);   if (!pwMgr) return;}
   catch (...) {return;}
 
-  groups.install(toolBar, ID_GroupCbx);    installEntries();   finOpen();
+  installGroups();   installEntries();   finOpen();
   }
 
 
@@ -198,6 +199,32 @@ void*  x;
                         {saveCurrentRcd();   kpLib.rcd.clear();   setLabels();   installEntries();}
   }
 
+
+
+static TCchar* AllGroups = _T(" All Groups ");
+
+
+void LeePassDlg::installGroups() {
+String  s;
+void*   x;
+GrpIter iter(groups);
+Group*  grp;
+
+  if (!dirty) return;
+
+  toolBar.getCurSel(ID_GroupCbx, s, x);
+
+  toolBar.clearCBx(ID_GroupCbx);   toolBar.addCbxItemSorted(ID_GroupCbx, AllGroups, 0);
+
+  for (grp = iter(); grp; grp = iter++) toolBar.addCbxItemSorted(ID_GroupCbx, grp->name, grp->id);
+
+  if (!toolBar.setCurSel(ID_GroupCbx, s) && !toolBar.setCurSel(ID_GroupCbx, AllGroups))
+                                                                 toolBar.setCurSel(ID_GroupCbx, 0);
+
+  toolBar.setWthPercent(ID_GroupCbx, 70);   toolBar.setWidth(ID_GroupCbx);
+
+  toolBar.setHeight(ID_GroupCbx);   dirty = false;
+  }
 
 
 void LeePassDlg::installEntries() {
@@ -377,30 +404,7 @@ void LeePassDlg::onEntryCbx() {
 
   saveCurrentRcd();
 
-#if 1
   loadEntry();
-#else
-String   s;
-void*    x;
-Record&  rcd = kpLib.rcd;
-
-  if (!toolBar.getCurSel(ID_EntryCbx, s, x)) return;
-
-  newRcd = false;   rcd = (KpEntry*) x;
-
-  rcd.title.set(titleCtl);
-  rcd.url.set(urlCtl);
-  rcd.name.set(nameCtl);
-  rcd.password.set(pswdCtl);
-  rcd.notes.set(notesCtl);
-  rcd.creation.set(creationCtl);
-  rcd.lastMod.set(lastModCtl);
-  rcd.lastAccess.set(lastAccessCtl);
-  rcd.binDesc.set(binaryDescCtl);
-  rcd.group.set(groupCtl);
-
-  setEntrySts(rcd);
-#endif
   }
 
 
@@ -415,9 +419,9 @@ Record&  rcd = kpLib.rcd;
 
   rcd.title.set(titleCtl);
   rcd.url.set(urlCtl);
-  rcd.name.set(nameCtl);
+  rcd.userName.set(userNameCtl);
   rcd.password.set(pswdCtl);
-  rcd.notes.set(notesCtl);
+  rcd.extra.set(extraCtl);
   rcd.creation.set(creationCtl);
   rcd.lastMod.set(lastModCtl);
   rcd.lastAccess.set(lastAccessCtl);
@@ -437,9 +441,9 @@ Record& rcd = kpLib.rcd;
 
   dirty |= rcd.updateTitle(titleCtl);
   dirty |= rcd.updateURL(urlCtl);
-  dirty |= rcd.updateName(nameCtl);
+  dirty |= rcd.updateUserName(userNameCtl);
   dirty |= rcd.updatePassword(pswdCtl);
-  dirty |= rcd.updateNotes(notesCtl);
+  dirty |= rcd.updateExtra(extraCtl);
   dirty |= rcd.updateBinaryDesc(binaryDescCtl);
   dirty |= rcd.updateGroup(groupCtl);
 
@@ -450,7 +454,7 @@ Record& rcd = kpLib.rcd;
 
   shiftDirty();
 
-  if (groups.isModified()) groups.install(toolBar, ID_GroupCbx);
+  if (groups.isModified()) installGroups();
 
   }
 
@@ -458,16 +462,16 @@ Record& rcd = kpLib.rcd;
 void LeePassDlg::saveNewRcd(Record& rcd) {
   dirty |= rcd.setTitle(titleCtl);
   dirty |= rcd.setURL(urlCtl);
-  dirty |= rcd.setName(nameCtl);
+  dirty |= rcd.setUserName(userNameCtl);
   dirty |= rcd.setPassword(pswdCtl);
-  dirty |= rcd.setNotes(notesCtl);
+  dirty |= rcd.setExtra(extraCtl);
   dirty |= rcd.setBinaryDesc(binaryDescCtl);
   dirty |= rcd.setGroup(groupCtl);
 
   if (dirty && rcd.add()) {
     rcd.creation.set(creationCtl);   rcd.lastMod.set(lastModCtl);
     rcd.lastAccess.set(lastAccessCtl);
-    newRcd = false;   setEntrySts(rcd);   groups.install(toolBar, ID_GroupCbx);
+    newRcd = false;   setEntrySts(rcd);    installGroups();
     groups.install(groupCtl, rcd.group);   installEntries();   shiftDirty();
     }
   }
@@ -476,9 +480,9 @@ void LeePassDlg::saveNewRcd(Record& rcd) {
 bool LeePassDlg::isLegalRcd(Record& rcd) {
 int n = 0;
 
-  if (!rcd.isTitleEmpty(titleCtl)) n++;
-  if (!rcd.isURLEmpty(urlCtl))     n++;
-  if (!rcd.isNameEmpty(nameCtl))   n++;
+  if (!rcd.isTitleEmpty(titleCtl))         n++;
+  if (!rcd.isURLEmpty(urlCtl))             n++;
+  if (!rcd.isUserNameEmpty(userNameCtl))   n++;
 
   return n >= 2;
   }
@@ -502,9 +506,9 @@ Record& rcd = kpLib.rcd;
 
         rcd.title.setLabel(titleCtl);
           rcd.url.setLabel(urlCtl);
-         rcd.name.setLabel(nameCtl);
+     rcd.userName.setLabel(userNameCtl);
      rcd.password.setLabel(pswdCtl);
-        rcd.notes.setLabel(notesCtl);
+        rcd.extra.setLabel(extraCtl);
       rcd.binDesc.setLabel(binaryDescCtl);
      rcd.creation.setLabel(creationCtl);
       rcd.lastMod.setLabel(lastModCtl);
@@ -515,9 +519,9 @@ Record& rcd = kpLib.rcd;
 
 void LeePassDlg::onFocusTitle()      {kpLib.rcd.title.clrLabel(titleCtl);}
 void LeePassDlg::onFocusUrl()        {kpLib.rcd.url.clrLabel(urlCtl);}
-void LeePassDlg::onFocusName()       {kpLib.rcd.name.clrLabel(nameCtl);}
+void LeePassDlg::onFocusUserName()   {kpLib.rcd.userName.clrLabel(userNameCtl);}
 void LeePassDlg::onFocusPswd()       {kpLib.rcd.password.clrLabel(pswdCtl);}
-void LeePassDlg::onFocusNotes()      {kpLib.rcd.notes.clrLabel(notesCtl);}
+void LeePassDlg::onFocusNotes()      {kpLib.rcd.extra.clrLabel(extraCtl);}
 void LeePassDlg::onFocusBinarydesc() {kpLib.rcd.binDesc.clrLabel(binaryDescCtl);}
 void LeePassDlg::onFocusGroupUpdt()  {kpLib.rcd.group.clrLabel(groupCtl);}
 
@@ -529,12 +533,11 @@ void LeePassDlg::onToggleSave() {saveRcd ^= true;   setStatus(0);}
 void LeePassDlg::onDeleteEntry() {
 String   s;
 void*    x;
-Record&  rcd = kpLib.rcd;
-String   dsc = rcd.getEntryDsc();
+Record   rcd;
+String   dsc;
 String   q;
 KpIter   iter(pwMgr);
 KpEntry* kpEntry;
-KpID     kpID;
 
   if (!saveRcd) return;
 
@@ -543,12 +546,12 @@ KpID     kpID;
   if (!toolBar.getCurSel(ID_EntryCbx, s, x)) return;
 
   kpEntry = (KpEntry*) x;
-  rcd     = kpEntry;   kpID = kpEntry->uuid;
+  rcd     = kpEntry;   dsc = rcd.getLongEntryDsc();
 
   q = _T("Delete Entry: ") + dsc;   if (msgYesNoBox(q) != IDYES) return;
 
   for (kpEntry = iter(); kpEntry; kpEntry = iter++)
-                                               if (kpID == kpEntry->uuid) {iter.remove();   break;}
+                                           if (rcd.kpId == kpEntry->uuid) {iter.remove();   break;}
   installEntries();
 
   q = dsc + _T(" has been deleted");   setStatus(q);   setDbSts();   setLabels();
@@ -606,7 +609,7 @@ String s;
 
   noDeleted = remove.redundantGrps();   saveDB |= noDeleted != 0;   if (!saveDB) return;
 
-  groups.initialize();   groups.install(toolBar, ID_GroupCbx);
+  groups.initialize();   installGroups();
 
   switch (noDeleted) {
     case 0  : s.format(_T("No groups were deleted"));                  break;
@@ -627,7 +630,7 @@ String s;
 
   noDeleted = remove.backups();   saveDB |= noDeleted != 0;   if (!saveDB) return;
 
-  groups.initialize();   groups.install(toolBar, ID_GroupCbx);
+  groups.initialize();   installGroups();
 
   switch (noDeleted) {
     case 0  : s.format(_T("No backups were deleted"));                  break;
@@ -657,9 +660,9 @@ String q;
 
   if (msgYesNoBox(q) != IDYES) return;
 
-  groups.del(grpId, toolBar, ID_GroupCbx);   saveDB |= true;
+  if (!groups.del(grpId, toolBar, ID_GroupCbx)) return;
 
-  installEntries();
+  saveDB |= true;   installGroups();   installEntries();
 
   setLabels();   q = _T("Deleted ") + group + _T(" Group and Entries in the Group");
 
@@ -680,12 +683,13 @@ LastPass   lastPass;
 
   groups.initialize();
 
-  groups.install(toolBar, ID_GroupCbx);   groups.install(groupCtl, 0);
-
-  installEntries();
+  installGroups();   groups.install(groupCtl, 0);    installEntries();
 
   lastPass.expungeFile(path);
   }
+
+
+void LeePassDlg::onExportFile() {saveCurrentRcd();   kpLib.exportFile();}
 
 
 void LeePassDlg::onExpungeFile() {
@@ -733,6 +737,7 @@ int    nGrps = groups.nData();
 
 void LeePassDlg::setTitle(TCchar* title)
                                     {String s = _T("LeePass -- ");  s += title;  SetWindowText(s);}
+
 
 
 void LeePassDlg::OnMove(int x, int y)
@@ -783,4 +788,91 @@ String topic = helpPath; topic += _T(">Introduction");
 void LeePassDlg::onAppAbout()
         {AboutDlgKp aboutDlg;   aboutDlg.keePassLibVer = kpLib.getVersion();   aboutDlg.DoModal();}
 
+
+
+///////-------------------
+
+#if 0
+/*
+    void CYourDialog::OnContextMenu(CWnd* pWnd, CPoint point)
+    {
+        if (pWnd->IsKindOf(RUNTIME_CLASS(CEdit)))
+        {
+            // Get the CEdit control's ID
+            int nID = pWnd->GetDlgCtrlID();
+            if (nID == IDC_EDIT1) // Replace IDC_EDIT1 with your CEdit control's ID
+            {
+                CMenu menu;
+                menu.LoadMenu(IDR_MENU1); // Load the menu resource
+                CMenu* pPopupMenu = menu.GetSubMenu(0);
+
+                // Track and display the popup menu
+                pPopupMenu->TrackPopupMenu(TPM_LEFTALIGN | TPM_RIGHTBUTTON, point.x, point.y, this);
+            }
+        }
+        else
+            CDialog::OnContextMenu(pWnd, point);
+    }
+*/
+
+
+void LeePassDlg::OnContextMenu(CWnd* pWnd, CPoint point) {
+int    nID;
+CMenu  menu;
+CMenu* popup;
+
+  messageBox(_T("OnContextMenu"));
+
+  if (!pWnd->IsKindOf(RUNTIME_CLASS(CEdit))) {CDialog::OnContextMenu(pWnd, point);  return;}
+
+  nID = pWnd->GetDlgCtrlID();
+  if (nID == IDC_Title) box = &titleCtl;
+  menu.LoadMenu(IDR_PopupMenu);   popup = menu.GetSubMenu(0);
+
+  popup->TrackPopupMenu(TPM_LEFTALIGN | TPM_RIGHTBUTTON, point.x, point.y, this);
+  }
+
+
+void LeePassDlg::onOption1() {
+  if (!box) return;
+
+  box->SendMessage(WM_COPY);
+  }
+
+
+void LeePassDlg::onOption2() {
+  if (!box) return;
+
+  box->SendMessage(WM_PASTE);
+  }
+#endif
+#if 1
+#else
+String   s;
+void*    x;
+Record&  rcd = kpLib.rcd;
+
+  if (!toolBar.getCurSel(ID_EntryCbx, s, x)) return;
+
+  newRcd = false;   rcd = (KpEntry*) x;
+
+  rcd.title.set(titleCtl);
+  rcd.url.set(urlCtl);
+  rcd.name.set(nameCtl);
+  rcd.password.set(pswdCtl);
+  rcd.notes.set(notesCtl);
+  rcd.creation.set(creationCtl);
+  rcd.lastMod.set(lastModCtl);
+  rcd.lastAccess.set(lastAccessCtl);
+  rcd.binDesc.set(binaryDescCtl);
+  rcd.group.set(groupCtl);
+
+  setEntrySts(rcd);
+#endif
+/*groups.install(toolBar, ID_GroupCbx);*/
+/*groups.install(toolBar, ID_GroupCbx);*/
+/*groups.install(toolBar, ID_GroupCbx);*/
+/*groups.install(toolBar, ID_GroupCbx);*/
+/*groups.install(toolBar, ID_GroupCbx);*/
+/*groups.install(toolBar, ID_GroupCbx);*/
 

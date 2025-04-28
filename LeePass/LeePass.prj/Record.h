@@ -31,6 +31,7 @@ DWORD   uBinaryDataLen;       ///< Length of the attachment data in bytes.
 
 #pragma once
 #include "Date.h"
+#include "KpID.h"
 #include "KpSDK.h"
 #include "KpCBxFld.h"
 #include "KpStringFld.h"
@@ -55,13 +56,14 @@ KpEntry*    kpEntry;              // KeePass record pointer
 
 public:
 
+KpID        kpId;                 // Unique ID of KeePass record
 KpCBxFld    group;                // Group Name that corresponds to groupId
 uint        imageId;              // Icon id -- Ignored in this implementation
 KpStringFld title;                // Entry title
 KpStringFld url;
-KpStringFld name;                 // User Name
+KpStringFld userName;             // User Name
 KpStringFld password;             // Password
-KpStringFld notes;                // used to hold notes (KP field: pszAdditional)
+KpStringFld extra;                // used to hold notes (KP field: pszAdditional)
 KpDate      creation;             // date created
 KpDate      lastMod;              // Last Modification
 KpDate      lastAccess;           // Last Access
@@ -81,11 +83,12 @@ uint        binDataLng;           // Number of bytes in binaryData
   bool    find(KpEntry*& kpEntry);   // Find if title, name, url is in the current KeePass database
 
 // New Record
+
   bool    setTitle(CEdit& ctl);
   bool    setURL(CEdit& ctl);
-  bool    setName(CEdit& ctl);
+  bool    setUserName(CEdit& ctl);
   bool    setPassword(CEdit& ctl);
-  bool    setNotes(CEdit& ctl);
+  bool    setExtra(CEdit& ctl);
   bool    setBinaryDesc(CEdit& ctl);
   bool    setGroup(CComboBox& ctl);
 
@@ -95,19 +98,20 @@ uint        binDataLng;           // Number of bytes in binaryData
 // Update an Existing Record
   bool    updateTitle(CEdit& ctl);
   bool    updateURL(CEdit& ctl);
-  bool    updateName(CEdit& ctl);
+  bool    updateUserName(CEdit& ctl);
   bool    updatePassword(CEdit& ctl);
-  bool    updateNotes(CEdit& ctl);
+  bool    updateExtra(CEdit& ctl);
   bool    updateLastMod();
   bool    updateLastAccess();
   bool    updateBinaryDesc(CEdit& ctl);
   bool    updateGroup(CComboBox& ctl);
 
-  bool    isTitleEmpty(CEdit& ctl) {return title.isEmpty();}
-  bool    isURLEmpty(  CEdit& ctl) {return   url.isEmpty();}
-  bool    isNameEmpty( CEdit& ctl) {return  name.isEmpty();}
+  bool    isTitleEmpty(    CEdit& ctl) {return     title.isEmpty();}
+  bool    isURLEmpty(      CEdit& ctl) {return       url.isEmpty();}
+  bool    isUserNameEmpty( CEdit& ctl) {return  userName.isEmpty();}
 
   String& getEntryDsc();
+  String& getLongEntryDsc();
 
 //  void    setAnote() {aNote = url == NotesURL;}
 //  bool    isNote()   {return aNote;}

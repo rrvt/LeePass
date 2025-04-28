@@ -43,9 +43,9 @@ String      helpPath;
 // Dialog Box
 CEdit       titleCtl;
 CEdit       urlCtl;
-CEdit       nameCtl;
+CEdit       userNameCtl;
 CEdit       pswdCtl;
-CEdit       notesCtl;
+CEdit       extraCtl;
 CStatic     creationCtl;
 CStatic     lastModCtl;
 CStatic     lastAccessCtl;
@@ -59,6 +59,7 @@ public:
 
   virtual BOOL OnInitDialog();
 
+          void installGroups();
           void installEntries();
 
           void saveCurrentRcd();
@@ -101,6 +102,7 @@ public:
   afx_msg void    onAppAbout();
   afx_msg void    onHelp();
 
+  afx_msg void    OnContextMenu(CWnd* pWnd, CPoint point);
   afx_msg void    OnMove(int x, int y);
   afx_msg void    OnSize(UINT nType, int cx, int cy);
   afx_msg BOOL    OnTtnNeedText(UINT id, NMHDR* pNMHDR, LRESULT* pResult);
@@ -126,6 +128,7 @@ public:
 
   afx_msg void    onLastPassMenu() {toolBar.dispatch(ID_LastPassMenu);}
   afx_msg void    onImportFile();
+  afx_msg void    onExportFile();
   afx_msg void    onExpungeFile();
 
   afx_msg void    onRemoveDups();
@@ -134,7 +137,7 @@ public:
   afx_msg void    onRmvBackups();
 
   afx_msg void    onFocusUrl();
-  afx_msg void    onFocusName();
+  afx_msg void    onFocusUserName();
   afx_msg void    onFocusPswd();
   afx_msg void    onFocusNotes();
   afx_msg void    onFocusBinarydesc();

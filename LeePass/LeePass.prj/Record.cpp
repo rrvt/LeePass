@@ -13,9 +13,9 @@
 
 static TCchar* TitleLbl      = _T("<Title>");
 static TCchar* URLLbl        = _T("<URL>");
-static TCchar* NameLbl       = _T("<Name>");
+static TCchar* UserNameLbl   = _T("<user Name>");
 static TCchar* PasswordLbl   = _T("<Password>");
-static TCchar* NotesLbl      = _T("<Notes>");
+static TCchar* ExtraLbl      = _T("<Extra>");
 static TCchar* GroupLbl      = _T("<Group>");
 static TCchar* CreationLbl   = _T("<Creation>");
 static TCchar* LastModLbl    = _T("<Last Mod>");
@@ -24,8 +24,8 @@ static TCchar* ExpireLbl     = _T("Expire Date");
 static TCchar* BinDescLbl    = _T("<Binary or Extra Desc>");
 
 Record::Record() : pwMgr(0), kpEntry(0), group(GroupLbl), imageId(0),
-                   title(TitleLbl), url(URLLbl), name(NameLbl), password(PasswordLbl),
-                   notes(NotesLbl), creation(CreationLbl), lastMod(LastModLbl),
+                   title(TitleLbl), url(URLLbl), userName(UserNameLbl), password(PasswordLbl),
+                   extra(ExtraLbl), creation(CreationLbl), lastMod(LastModLbl),
                    lastAccess(LastAccessLbl), binDesc(BinDescLbl), binData(0), binDataLng(0) {}
 
 Record::~Record() {clear();}
@@ -33,8 +33,8 @@ Record::~Record() {clear();}
 
 void Record::clear() {
   imageId = 0;
-       group.expunge();     url.expunge();      title.expunge();     name.expunge();
-    password.expunge();   notes.expunge();   creation.clear();    lastMod.clear();
+       group.expunge();     url.expunge();      title.expunge();  userName.expunge();
+    password.expunge();   extra.expunge();   creation.clear();     lastMod.clear();
   lastAccess.clear();   binDesc.expunge();
   }
 
@@ -75,13 +75,14 @@ Record& Record::operator= (KpEntry* kpRcd) {        //
 
   UnlockEntryPassword(pwMgr, kpEntry);
 
+  kpId         = kpEntry->uuid;
   group        = groups.getName(kpEntry->uGroupId);
   imageId      = kpEntry->uImageId;
   title        = kpEntry->pszTitle;
   url          = kpEntry->pszURL;
-  name         = kpEntry->pszUserName;
+  userName     = kpEntry->pszUserName;
   password     = kpEntry->pszPassword;
-  notes        = kpEntry->pszAdditional;
+  extra        = kpEntry->pszAdditional;
   creation     = kpEntry->tCreation;
   lastMod      = kpEntry->tLastMod;
   lastAccess   = kpEntry->tLastAccess;
@@ -97,9 +98,9 @@ Record& Record::operator= (KpEntry* kpRcd) {        //
 
 bool Record::setTitle(     CEdit& ctl) {return    title.get(ctl);}
 bool Record::setURL(       CEdit& ctl) {return      url.get(ctl);}
-bool Record::setName(      CEdit& ctl) {return     name.get(ctl);}
+bool Record::setUserName(  CEdit& ctl) {return userName.get(ctl);}
 bool Record::setPassword(  CEdit& ctl) {return password.get(ctl);}
-bool Record::setNotes(     CEdit& ctl) {return    notes.get(ctl);}
+bool Record::setExtra(     CEdit& ctl) {return    extra.get(ctl);}
 bool Record::setBinaryDesc(CEdit& ctl) {return  binDesc.get(ctl);}
 
 
@@ -115,11 +116,11 @@ int       index;
     kpEntry = GetEntry(pwMgr, index);    if (!kpEntry) continue;
 
     if (url == _T("http://sn")) {
-      if (name == kpEntry->pszUserName && binDesc == kpEntry->pszBinaryDesc) return true;
+      if (userName == kpEntry->pszUserName && binDesc == kpEntry->pszBinaryDesc) return true;
       continue;
       }
 
-    if (url == kpEntry->pszURL && name == kpEntry->pszUserName) return true;
+    if (url == kpEntry->pszURL && userName == kpEntry->pszUserName) return true;
     }
 
   return false;
@@ -133,10 +134,11 @@ int       index;
 bool Record::add() {
 uint grpId = groups.getID(group);   if (!grpId) grpId = groups.add(group);
 
-  kpEntry = CreateEntry(pwMgr, grpId, title, name, url, password, notes);
+  kpEntry = CreateEntry(pwMgr, grpId, title, userName, url, password, extra);
 
   if (!kpEntry) return false;
 
+  kpId         = kpEntry->uuid;
   creation     = kpEntry->tCreation;
   lastMod      = kpEntry->tLastMod;
   lastAccess   = kpEntry->tLastAccess;
@@ -154,16 +156,16 @@ bool   rslt;
 
   grpId = getGroupId(group);
 
-  if (grpId != kpEntry->uGroupId)         {PE_SetGroupID(   kpEntry, grpId);      dirty = true;}
-  if (title != kpEntry->pszTitle)         {PE_SetTitle(     kpEntry, title);      dirty = true;}
-  if (url   != kpEntry->pszURL)           {PE_SetURL(       kpEntry, url);        dirty = true;}
-  if (name  != kpEntry->pszUserName)      {PE_SetUserName(  kpEntry, name);       dirty = true;}
+  if (grpId     != kpEntry->uGroupId)    {PE_SetGroupID(   kpEntry, grpId);      dirty = true;}
+  if (title     != kpEntry->pszTitle)    {PE_SetTitle(     kpEntry, title);      dirty = true;}
+  if (url       != kpEntry->pszURL)      {PE_SetURL(       kpEntry, url);        dirty = true;}
+  if (userName  != kpEntry->pszUserName) {PE_SetUserName(  kpEntry, userName);   dirty = true;}
 
   UnlockEntryPassword(pwMgr, kpEntry);
   rslt = password != kpEntry->pszPassword;
   LockEntryPassword(pwMgr, kpEntry);
   if (rslt)                 {PE_SetPasswordAndLock(pwMgr,   kpEntry, password);   dirty = true;}
-  if (notes    != kpEntry->pszAdditional) {PE_SetNotes(     kpEntry, notes);      dirty = true;}
+  if (extra    != kpEntry->pszAdditional) {PE_SetNotes(     kpEntry, extra);      dirty = true;}
 
   if (binDesc  != kpEntry->pszBinaryDesc) {PE_SetBinaryDesc(kpEntry, binDesc);    dirty = true;}
 
@@ -189,10 +191,10 @@ bool Record::updateURL(CEdit& ctl) {
   }
 
 
-bool Record::updateName(CEdit& ctl) {
-  if (!kpEntry || !name.get(ctl)) return false;
+bool Record::updateUserName(CEdit& ctl) {
+  if (!kpEntry || !userName.get(ctl)) return false;
 
-  PE_SetUserName(kpEntry, name);   return true;
+  PE_SetUserName(kpEntry, userName);   return true;
   }
 
 
@@ -203,10 +205,10 @@ bool Record::updatePassword(CEdit& ctl) {
   }
 
 
-bool Record::updateNotes(CEdit& ctl) {
-  if (!kpEntry || !notes.get(ctl)) return false;
+bool Record::updateExtra(CEdit& ctl) {
+  if (!kpEntry || !extra.get(ctl)) return false;
 
-  return PE_SetNotes(kpEntry, notes);
+  return PE_SetNotes(kpEntry, extra);
   }
 
 
@@ -223,17 +225,28 @@ bool Record::updateBinaryDesc(CEdit& ctl) {
   }
 
 
-String& Record::getEntryDsc() {
-bool          urlEmpty = url.isEmpty();
+
+
+String& Record::getLongEntryDsc() {
 static String dsc;
 
-  dsc.clear();
-  if (!title.isEmpty()) {dsc = title;   if (!urlEmpty) dsc += _T(", ");}
-  if (!urlEmpty) dsc += url;
+  dsc.clear();                                                      dsc  = title;
+  if (!url.isEmpty())      {if (!dsc.isEmpty()) dsc += _T(", ");    dsc += url;}
+  if (!userName.isEmpty()) {if (!dsc.isEmpty()) dsc += _T(", ");    dsc += userName;}
+  if (!group.isEmpty())    {if (!dsc.isEmpty()) dsc += _T(", ");    dsc += group;}
 
   return dsc;
   }
 
+
+String& Record::getEntryDsc() {
+static String dsc;
+
+  dsc.clear();                                                      dsc  = title;
+  if (!url.isEmpty())      {if (!dsc.isEmpty()) dsc += _T(", ");    dsc += url;}
+
+  return dsc;
+  }
 
 
 bool Record::setGroup( CComboBox& ctl) {

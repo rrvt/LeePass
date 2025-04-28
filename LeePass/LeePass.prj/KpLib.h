@@ -9,6 +9,7 @@
 class CPwManager;
 class LastPassRcd;
 class LPExtras;
+class CSVOutF;
 
 
 class KpLib {
@@ -34,6 +35,8 @@ Record      rcd;
   bool        importFile(String& path);
   bool        store(LastPassRcd& lpRcd);
 
+  void        exportFile();
+
   void        clrSrch() {                  kpSrch.clear();}
   bool        isSrchInit() {        return kpSrch.isInitialized();}
   void        setSrchGrp(uint x) {         kpSrch.setGroup(x);}
@@ -42,6 +45,7 @@ Record      rcd;
 
 private:
 
+  void        writeRecord(KpEntry* kpEntry, CSVOutF& csv);
   bool        chk(int err);
   };
 

@@ -153,10 +153,8 @@
     <ClInclude Include="..\..\Library\Extras\OptionsDlg.h" />
     <ClInclude Include="..\..\Library\Extras\ResourceExtra.h" />
     <ClInclude Include="AboutDlgKp.h" />
-    <ClInclude Include="Groups.h" />
     <ClInclude Include="KpBinaryFld.h" />
     <ClInclude Include="KpCBxFld.h" />
-    <ClInclude Include="KpDate.h" />
     <ClInclude Include="KpFldLngs.h" />
     <ClInclude Include="KpID.h" />
     <ClInclude Include="KpIter.h" />
@@ -179,10 +177,8 @@
   <ItemGroup>
     <ClCompile Include="..\..\Library\Extras\OptionsDlg.cpp" />
     <ClCompile Include="AboutDlgKp.cpp" />
-    <ClCompile Include="Groups.cpp" />
     <ClCompile Include="KpBinaryFld.cpp" />
     <ClCompile Include="KpCBxFld.cpp" />
-    <ClCompile Include="KpDate.cpp" />
     <ClCompile Include="KpFldLngs.cpp" />
     <ClCompile Include="KpIter.cpp" />
     <ClCompile Include="KpLib.cpp" />
@@ -190,6 +186,7 @@
     <ClCompile Include="KpStringFld.cpp" />
     <ClCompile Include="LeePass.cpp" />
     <ClCompile Include="LeePassDlg.cpp" />
+    <ClCompile Include="LPtoKP.cpp" />
     <ClCompile Include="MyToolBar.cpp" />
     <ClCompile Include="PasswordDlg.cpp" />
     <ClCompile Include="PasswordNewDlg.cpp" />

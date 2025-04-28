@@ -44,6 +44,11 @@ Execute the msi file to install the app.
 
 ## Updates
 
+### 4/27/25
+
+Added export to LandPass.  LandPass does not restore notes as they were when exported from
+LandPass.  Shame on LandPass...
+
 ### 4/22/25 Update
 
 Added expunge file after importing LandPass export.

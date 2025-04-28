@@ -14,11 +14,11 @@ int titleMax;
 int urlMax;
 int userNameMax;
 int passwordMax;
-int notesMax;
+int extraMax;
 int binaryDescMax;
 
   KpFldLngs() : groupNameMax(0), titleMax(0), urlMax(0), userNameMax(0), passwordMax(0),
-                                                                  notesMax(0), binaryDescMax(0) { }
+                                                                  extraMax(0), binaryDescMax(0) { }
 
   void get(Record& rcd);
 

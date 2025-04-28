@@ -6,6 +6,8 @@
 #include "KpSDK.h"
 
 
+inline bool isEmpty(TCchar* tc) {return !tc || !*tc;}
+
 bool setField(String& fld, TCchar* tc);
 bool setField(int&    fld, int      v);
 

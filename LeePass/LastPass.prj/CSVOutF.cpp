@@ -6,7 +6,7 @@
 #include "GetPathDlg.h"
 
 
-static TCchar quote = _T('"');
+static TCchar Quote = _T('"');
        TCchar Comma = _T(',');
 
 
@@ -22,19 +22,19 @@ bool   addQuotes = false;
 
   s = p;
 
-  if (s.find(quote) >= 0) {
+  if (s.find(Quote) >= 0) {
     String t;
     int    n = s.length();
     int    i;
 
-    for (i = 0; i < n; i++) {Tchar ch = s[i];   if (ch == quote) t += quote;   t += ch;}
+    for (i = 0; i < n; i++) {Tchar ch = s[i];   if (ch == Quote) t += Quote;   t += ch;}
 
     s = t; addQuotes = true;
     }
 
-  if (s.find(_T(',')) >= 0) addQuotes = true;
+  if (s.findOneOf(_T(",\n")) >= 0) addQuotes = true;
 
-  if (addQuotes) s = quote + s + quote;
+  if (addQuotes) s = Quote + s + Quote;
 
   return s;
   }

@@ -303,19 +303,53 @@ KpEntry* kpEntry;
 
   rcd.clear();
 
-  rcd.group      = lpRcd.grouping;
+  rcd.group      = lpRcd.group;
   rcd.title      = lpRcd.name;
   rcd.url        = lpRcd.url;
-  rcd.name       = lpRcd.userName;
+  rcd.userName   = lpRcd.userName;
   rcd.password   = lpRcd.password;
-  rcd.notes      = lpRcd.extra;
-  rcd.binDesc    = lpRcd.desc;
+  rcd.extra      = lpRcd.extra;
+  rcd.binDesc    = lpRcd.totp + _T(',') + lpRcd.fav;
 
   if (rcd.find(kpEntry)) {rslt = rcd.update(kpEntry);   rcd.clear();   return rslt;}
 
   rslt = rcd.add();   rcd.clear();   return rslt;
   }
 
+
+// url,username,password,totp,extra,name,grouping,fav
+
+void KpLib::exportFile() {
+PathDlgDsc  dsc;
+CSVOutF     csv;
+KpIter      iter(pwMgr);
+KpEntry*    kpEntry;
+LastPassRcd lpRcd;
+#if 0
+int         n;
+bool        passwordSent = false;
+bool        addrNoteSent = false;
+bool        bankNoteSent = false;
+bool        ccNoteSent   = false;
+bool        wifiNoteSent = false;
+#endif
+
+  dsc(_T("Export LandPass File"), _T("foo"), _T("csv"), _T("*.csv"));
+
+  if (!csv.open(dsc)) return;
+
+  lpRcd.header(csv);
+
+  for (kpEntry = iter(); kpEntry; kpEntry = iter++) writeRecord(kpEntry, csv);
+  }
+
+
+void KpLib::writeRecord(KpEntry* kpEntry, CSVOutF& csv) {
+LastPassRcd lpRcd;
+  UnlockEntryPassword(pwMgr, kpEntry);
+    lpRcd.writeRecord(kpEntry, csv);
+  LockEntryPassword(pwMgr, kpEntry);
+  }
 
 
 static TCchar* ErrorCodes[] = {_T("UNKNOWN"),                _T("SUCCESS"),
@@ -408,5 +442,31 @@ Date     dupDt;
 
   return dt > dupDt ? dupIndex : index;
   }
+#endif
+#if 1
+#else
+    String extra = kpEntry->pszAdditional ? kpEntry->pszAdditional : _T("");
+
+    if (!passwordSent) {
+      n = 0;
+      if (!isEmpty(kpEntry->pszURL))      ++n;
+      if (!isEmpty(kpEntry->pszUserName)) ++n;
+      if (!isEmpty(kpEntry->pszTitle))    ++n;
+      if (n >= 3) {writeRecord(kpEntry, csv);   passwordSent = true;   continue;}
+      }
+
+    if (!addrNoteSent && extra.find(AddrType) >= 0)
+                                    {writeRecord(kpEntry, csv);   addrNoteSent = true;   continue;}
+
+    if (!bankNoteSent && extra.find(BankType) >= 0)
+                                    {writeRecord(kpEntry, csv);   bankNoteSent = true;   continue;}
+
+
+    if (!ccNoteSent && extra.find(CCType) >= 0)
+                                    {writeRecord(kpEntry, csv);   ccNoteSent = true;   continue;}
+
+
+    if (!wifiNoteSent && extra.find(WiFiType) >= 0)
+                                    {writeRecord(kpEntry, csv);   wifiNoteSent = true;   continue;}
 #endif
 

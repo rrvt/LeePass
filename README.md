@@ -44,6 +44,10 @@ Execute the msi file to install the app.
 
 ## Updates
 
+### 4/28/25
+
+Added Change Master Key command.  Added verification of master key before exporting data.
+
 ### 4/27/25
 
 Added export to LandPass.  LandPass does not restore notes as they were when exported from

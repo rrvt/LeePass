@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <!-- InstanceBeginEditable name="doctitle" -->
-<title>Introduction</title>
+<title>LeePass Introduction</title>
 <!-- InstanceEndEditable -->
 <!-- InstanceBeginEditable name="head" -->
 <!-- InstanceEndEditable -->
@@ -15,21 +15,33 @@
 <div class="container">
 <div class="content">
 <!-- InstanceBeginEditable name="Title" -->
-<h1>Dialog App</h1>
+<h1>LeePass</h1>
 <!-- InstanceEndEditable -->
 
 <!-- InstanceBeginEditable name="Body" -->
 <h2>Introduction</h2>
 <p>
-DialogApp is an example of a Windows Dialog application.  It includes a trimmed down MFC starting application
-InitInstance.  The main dialog has a menu, a toolbar with various features and a status bar on the bottom of the
-client part of the window.  The main dialog has a fixed size and may be populated with all the usual controls
-that are available in Visual Studio 17's Resource editor.
+KeePass is an open source password vault.  It is composed of two parts: a dynamic link library (dll) that encrypts and decrypts the data and a user interface.  LeeApp is just a different user interface to the KeePass dll.
 </p>
 <p>
-There is a lot of functionality buried in the MainFrame of the normal MFC application.  For example the tool bar
-depends heavily of the MainFrame.  This example has a tool bar but and status bar but the functionality is 
-a subset of that available in a normal MFC application.  The operations available are discussed on the 
+The app shows one record in the window.  The specific record may be chosen in several different ways.  Here are the
+the possibilities:
+</p>
+<ul>
+<li>Pick an entry from the toolbar Entries drop down list</li>
+<li>
+Restrict the number of entries in the toolbar Entries drop down list by selecting a group in the
+Group drop down list.
+</li>
+<li>
+Search for a specific entry with the search command.  The search may be performed according to several constraints
+or attributes specified in the search dialog box.  There may be more than one record that match the seach string.  The
+"Search Next" command will find the next match.
+</li>
+<li>Browse through the entries in the Entries drop down list by using the "<" and ">" toolbard commands</li>
+</ul>
+<p>
+  The operations available are discussed on the 
   <a href="Operations.htm">operations page</a>. </p>
 <!-- InstanceEndEditable -->
 </div><!-- end .content -->

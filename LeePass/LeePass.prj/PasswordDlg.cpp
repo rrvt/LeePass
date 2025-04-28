@@ -4,30 +4,27 @@
 #include "pch.h"
 #include "PasswordDlg.h"
 #include "Resource.h"
+#include "Utility.h"
 
-
-static TCchar BulletCh = 0x25CF;
 
 
 IMPLEMENT_DYNAMIC(PasswordDlg, CDialogEx)
 
 
 BEGIN_MESSAGE_MAP(PasswordDlg, CDialogEx)
-  ON_BN_CLICKED(IDC_SeePassword, &PasswordDlg::onSeePassword)
+  ON_BN_CLICKED(IDC_SeePassword, &PasswordDlg::onToggleVisibility)
 END_MESSAGE_MAP()
 
 
-PasswordDlg::PasswordDlg(CWnd* pParent) : CDialogEx(IDD_Password, pParent), toggle(true) { }
+PasswordDlg::PasswordDlg(CWnd* pParent) : CDialogEx(IDD_Password, pParent), visible(false) { }
 
 PasswordDlg::~PasswordDlg() { }
 
 
 BOOL PasswordDlg::OnInitDialog() {
-  CDialogEx::OnInitDialog();   passwordCtl.SetPasswordChar(BulletCh);
+  CDialogEx::OnInitDialog();   setVisible(passwordCtl, visible);
 
-  SetWindowText(title);
-
-  return true;
+  SetWindowText(title);   return true;
   }
 
 
@@ -38,8 +35,13 @@ void PasswordDlg::DoDataExchange(CDataExchange* pDX) {
   }
 
 
-void PasswordDlg::onSeePassword() {
-Tchar ch = toggle ? 0 : BulletCh;
+void PasswordDlg::onToggleVisibility() {visible ^= true;   setVisible(passwordCtl, visible);}
 
-  toggle ^= true;   passwordCtl.SetPasswordChar(ch);   passwordCtl.Invalidate();
-  }
+
+
+///////////--------------
+
+//static TCchar BulletCh = 0x25CF;
+//Tchar ch = toggle ? 0 : BulletCh; //passwordCtl.SetPasswordChar(ch);   passwordCtl.Invalidate();
+
+

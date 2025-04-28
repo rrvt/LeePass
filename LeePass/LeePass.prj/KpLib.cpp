@@ -198,6 +198,7 @@ KP_SHARE void   ProtectProcessWithDacl();
 
 #include "pch.h"
 #include "KpLib.h"
+#include "ChngMstrKeyDlg.h"
 #include "FileName.h"
 #include "GetPathDlg.h"
 #include "Groups.h"
@@ -209,6 +210,7 @@ KP_SHARE void   ProtectProcessWithDacl();
 #include "Record.h"
 #include "SearchDlg.h"
 #include "Utility.h"
+#include "VerifyDlg.h"
 
 
 
@@ -230,17 +232,94 @@ PathDlgDsc pathDlgDsc(_T("LeePass Database"), path, _T("kdb"), _T("*.kdb"));
 
 CPwManager* KpLib::openDatabase(TCchar* path, Cstring& password) {
 PWDB_REPAIR_INFO info;   ZeroMemory(&info, sizeof(PWDB_REPAIR_INFO));
+bool             rslt = true;
 
   try {
 
-    if (!chk(setPassword(password))) return 0;
+    if (!setPassword(password)) return 0;
 
-    if (!chk(OpenDatabase(pwMgr, path, &info))) return 0;
-    } catch (...) {password.expunge();   return 0;}
+    rslt = chk(OpenDatabase(pwMgr, path, &info));
+    } catch (...) {rslt = false;}
+
+    if (!rslt) {password.expunge();   return 0;}
 
   groups.setPwMgr(pwMgr);   groups.initialize();   rcd.setPwMgr(pwMgr);   kpSrch.setPwMgr(pwMgr);
 
   return pwMgr;
+  }
+
+
+bool KpLib::setPassword(Cstring& password) {
+bool rslt = chk(SetMasterKey(pwMgr, password, false, 0, 0, false));
+
+  if (!rslt) password.expunge();   return rslt;
+  }
+
+
+bool KpLib::changeMasterKey() {
+ChngMstrKeyDlg dlg;
+bool           rslt = true;
+
+  rslt &= dlg.DoModal() == IDOK;
+
+  rslt &= isMasterKey(dlg.curPswd);
+
+  rslt &= dlg.newPswd == dlg.confirmPswd;
+
+  if (rslt) {
+
+    rslt = chk(SetMasterKey(pwMgr, dlg.newPswd, false, 0, 0, true));
+
+    if (rslt) saveMasterKey(dlg.newPswd);
+    else      dlg.newPswd.expunge();
+    }
+
+  dlg.confirmPswd.expunge();   return rslt;
+  }
+
+
+
+void KpLib::saveMasterKey(Cstring& masterKey) {
+KpEntry* kpEntry = kpSrch.findMasterKey();
+uint     grpId   = groups.getID(MasterKey);   if (!grpId) grpId = groups.add(MasterKey);
+bool     rslt;
+
+  if (kpEntry) {
+    UnlockEntryPassword(pwMgr, kpEntry);
+      rslt = masterKey != kpEntry->pszPassword;
+    LockEntryPassword(pwMgr, kpEntry);
+
+    if (rslt) {PE_SetPasswordAndLock(pwMgr, kpEntry, masterKey);}
+    }
+
+  else CreateEntry(pwMgr, grpId, MasterKey, MasterKey, 0, masterKey, 0);
+
+  masterKey.expunge();
+  }
+
+
+bool KpLib::verifyMasterKey() {
+VerifyDlg dlg;
+bool      rslt;
+
+  rslt = dlg.DoModal() == IDOK;
+
+  if (rslt) rslt &= isMasterKey(dlg.curPswd);
+  else      dlg.curPswd.expunge();
+
+  return rslt;
+  }
+
+
+bool KpLib::isMasterKey(Cstring& tgt) {
+KpEntry* kpEntry = kpSrch.findMasterKey();   if (!kpEntry) return false;
+bool     rslt;
+
+  UnlockEntryPassword(pwMgr, kpEntry);
+    rslt = tgt == kpEntry->pszPassword;
+  LockEntryPassword(pwMgr, kpEntry);
+
+  tgt.expunge();   return rslt;
   }
 
 
@@ -250,6 +329,7 @@ void KpLib::dspEncryption() {
 int    algo;
 uint    n;
 String s;
+
   if (!pwMgr) return;
 
   algo = GetAlgorithm(pwMgr);     n = GetKeyEncRounds(pwMgr);
@@ -270,13 +350,6 @@ String s;
 
 
 void KpLib::saveDatabase(TCchar* path) {if (pwMgr) SaveDatabase(pwMgr, path);}
-
-
-bool KpLib::setPassword(Cstring& password) {
-bool rslt = chk(SetMasterKey(pwMgr, password, false, 0, 0, false));
-
-  password.expunge();   return rslt;
-  }
 
 
 
@@ -301,10 +374,15 @@ bool KpLib::store(LastPassRcd& lpRcd) {
 bool     rslt;
 KpEntry* kpEntry;
 
+  if (isProhibited(lpRcd.title) || isProhibited(lpRcd.userName) || isProhibited(lpRcd.group)) {
+    String s = lpRcd.url + Comma + lpRcd.userName + Comma + lpRcd.title + Comma + lpRcd.group;
+    s += _T(" prohibited");   messageBox(s);   return false;
+    }
+
   rcd.clear();
 
   rcd.group      = lpRcd.group;
-  rcd.title      = lpRcd.name;
+  rcd.title      = lpRcd.title;
   rcd.url        = lpRcd.url;
   rcd.userName   = lpRcd.userName;
   rcd.password   = lpRcd.password;
@@ -333,6 +411,8 @@ bool        bankNoteSent = false;
 bool        ccNoteSent   = false;
 bool        wifiNoteSent = false;
 #endif
+
+  if (!verifyMasterKey()) return;
 
   dsc(_T("Export LandPass File"), _T("foo"), _T("csv"), _T("*.csv"));
 

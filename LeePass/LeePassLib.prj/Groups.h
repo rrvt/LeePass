@@ -74,6 +74,8 @@ public:
   void    setPwMgr(CPwManager* pMgr) {pwMgr = pMgr;}
   void    initialize();
 
+  bool    isDirty() {return dirty;}
+
   TCchar* getName(uint grpID);
   uint    getID(TCchar* grpName);
 
@@ -82,7 +84,7 @@ public:
   bool    del(uint grpId, MyToolBar& toolBar, uint id);     // Del group and all entries in group,
                                                             // initialize data and toolbar ComboBox
   bool    del(uint grpId);                                  // Del group from keePass group list
-  bool    isModified()    {return dirty;}
+//  bool    isModified()    {return dirty;}
 
   DWORD   bkupID() {initialize(); return backupID;}
 

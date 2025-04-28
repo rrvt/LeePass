@@ -10,7 +10,7 @@ class PasswordDlg : public CDialogEx {
 
   DECLARE_DYNAMIC(PasswordDlg)
 
-bool    toggle;
+bool    visible;
 
 public:
 String  title;
@@ -35,5 +35,5 @@ protected:
 
 public:
 
-  afx_msg void onSeePassword();
+  afx_msg void onToggleVisibility();
   };

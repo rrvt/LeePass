@@ -24,3 +24,7 @@ Cstring cs;
   }
 
 
+
+bool KpStringFld::isProhibited(CEdit& ctl)
+                                {Cstring cs;   ctl.GetWindowText(cs);   return ::isProhibited(cs);}
+

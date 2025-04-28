@@ -4,21 +4,19 @@
 #include "pch.h"
 #include "PasswordNewDlg.h"
 #include "Resource.h"
+#include "Utility.h"
 
-
-static TCchar BulletCh = 0x25CF;
 
 IMPLEMENT_DYNAMIC(PasswordNewDlg, CDialogEx)
 
 
 PasswordNewDlg::PasswordNewDlg(CWnd* pParent) :
-                                              CDialogEx(IDD_NewPassword, pParent), toggle(true) { }
+                                            CDialogEx(IDD_NewPassword, pParent), visible(false) { }
 
 
 BOOL PasswordNewDlg::OnInitDialog() {
   CDialogEx::OnInitDialog();
-  pswdCtl.SetPasswordChar(BulletCh);   confirmCtl.SetPasswordChar(BulletCh);
-  return TRUE;
+  setVisible(pswdCtl, visible);   setVisible(confirmCtl, visible);   return TRUE;
   }
 
 
@@ -38,11 +36,7 @@ END_MESSAGE_MAP()
 // PasswordNewDlg message handlers
 
 void PasswordNewDlg::onToggleVisible() {
-Tchar ch = toggle ? 0 : BulletCh;
-
-  toggle ^= true;
-     pswdCtl.SetPasswordChar(ch);      pswdCtl.Invalidate();
-  confirmCtl.SetPasswordChar(ch);   confirmCtl.Invalidate();
+  visible ^= true;   setVisible(pswdCtl, visible);   setVisible(confirmCtl, visible);
   }
 
 
@@ -57,3 +51,10 @@ Cstring cfrm;
 
 
 void PasswordNewDlg::OnOK() {pswdCtl.Clear();   confirmCtl.Clear();   CDialogEx::OnOK();}
+
+
+
+//////----------------
+
+//static TCchar BulletCh = 0x25CF;
+

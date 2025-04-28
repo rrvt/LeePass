@@ -25,6 +25,7 @@ String fld;
   bool         get(CComboBox& ctl);
 
   bool         isEmpty() {return fld.isEmpty();}
+  bool         isProhibited(CComboBox& ctl);
 
   int          length()  {return fld.length();}
 

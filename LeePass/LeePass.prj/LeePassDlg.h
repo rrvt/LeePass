@@ -80,6 +80,8 @@ protected:
 
 private:
 
+  void            installEntry(TCchar* name, void* data);
+
   int             findEntry(void* kpe);
   void            loadEntry();
 
@@ -91,6 +93,7 @@ private:
   void            setTitle(TCchar* title);
   void            setLabels();
   void            finOpen();
+  void            saveMasterKey(Cstring& masterKey);
 
   bool            isLegalRcd(Record& rcd);
   void            shiftDirty() {saveDB |= dirty;   dirty = false;}
@@ -106,6 +109,7 @@ public:
   afx_msg void    OnMove(int x, int y);
   afx_msg void    OnSize(UINT nType, int cx, int cy);
   afx_msg BOOL    OnTtnNeedText(UINT id, NMHDR* pNMHDR, LRESULT* pResult);
+  afx_msg void    onchangeMasterKey();
   afx_msg void    onSave();
 
   afx_msg void    onNewKpDb();

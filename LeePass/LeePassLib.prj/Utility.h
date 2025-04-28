@@ -6,10 +6,14 @@
 #include "KpSDK.h"
 
 
-inline bool isEmpty(TCchar* tc) {return !tc || !*tc;}
+extern TCchar* MasterKey;
 
-bool setField(String& fld, TCchar* tc);
-bool setField(int&    fld, int      v);
+
+inline bool isEmpty(TCchar* tc)        {return !tc || !*tc;}
+inline bool isProhibited(TCchar* tgt)  {return String(tgt) == MasterKey;}
+
+       bool setField(String& fld, TCchar* tc);
+       bool setField(int&    fld, int      v);
 
 
        TCchar* setLbl(CEdit&     ctl, TCchar* txt);
@@ -28,4 +32,7 @@ inline void    reset(CComboBox& ctl) {ctl.ResetContent();}
 
        Date&   getDate(PwTime& pwTime);
        PwTime& getPwTime(Date& dt);
+
+       void    setVisible(CEdit* ctl, bool visible);
+       void    setVisible(CEdit& ctl, bool visible);
 

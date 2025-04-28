@@ -30,6 +30,9 @@ DWORD   dwFlags;              ///< Used by KeePass internally, don't use (set to
 #include "Utility.h"
 
 
+extern TCchar* MasterKey;
+
+
 Groups groups;
 
 
@@ -135,7 +138,7 @@ int     i;
   cbx.ResetContent();
 
   for (grp = iter(); grp; grp = iter++)
-                                     {i = cbx.AddString(grp->name);   cbx.SetItemData(i, grp->id);}
+         if (grp->name != MasterKey) {i = cbx.AddString(grp->name);   cbx.SetItemData(i, grp->id);}
 
   if (name) cbx.SetCurSel(cbx.FindString(-1, name));
   }

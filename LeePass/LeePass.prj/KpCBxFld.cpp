@@ -15,3 +15,8 @@ bool    dirty;
   }
 
 
+bool KpCBxFld::isProhibited(CComboBox& ctl)
+                                {Cstring cs;   ctl.GetWindowText(cs);   return ::isProhibited(cs);}
+
+
+

@@ -84,6 +84,12 @@
     <ClInclude Include="SearchDlg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ChngMstrKeyDlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="VerifyDlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -141,6 +147,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="LPtoKP.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ChngMstrKeyDlg.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="VerifyDlg.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -17,7 +17,7 @@ LastPassRcd::~LastPassRcd() {clear();}
 
 void LastPassRcd::clear() {
   clr(url);     clr(userName);  clr(password);   clr(totp);
-  clr(extra);   clr(name);      clr(group);      clr(fav);
+  clr(extra);   clr(title);      clr(group);      clr(fav);
   }
 
 
@@ -54,7 +54,7 @@ String     stg;
       case 2: password = tok.name; break;
       case 3: totp     = tok.name; break;
       case 4: extra    = tok.name; parse(); break;
-      case 5: name     = tok.name; break;
+      case 5: title    = tok.name; break;
       case 6: group    = tok.name; break;
       case 7: fav      = tok.name; break;
       }

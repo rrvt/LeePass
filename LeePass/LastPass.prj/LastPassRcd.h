@@ -49,7 +49,7 @@ String  userName;
 String  password;
 String  totp;
 String  extra;
-String  name;
+String  title;
 String  group;
 String  fav;
 

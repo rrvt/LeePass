@@ -8,7 +8,7 @@ class PasswordNewDlg : public CDialogEx {
 
   DECLARE_DYNAMIC(PasswordNewDlg)
 
-bool    toggle;
+bool    visible;
 CEdit   pswdCtl;
 CEdit   confirmCtl;
 Cstring password;

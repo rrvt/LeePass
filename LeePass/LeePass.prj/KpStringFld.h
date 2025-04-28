@@ -28,6 +28,7 @@ String fld;
   bool         get(CEdit& ctl);
 
   bool         isEmpty(CEdit& ctl);
+  bool         isProhibited(CEdit& ctl);
 
   KpStringFld& operator=  (TCchar* tc) {fld = tc;   return *this;}
   bool         operator== (TCchar* tc) {return fld == tc;}

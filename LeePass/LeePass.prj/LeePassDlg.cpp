@@ -51,6 +51,7 @@ BEGIN_MESSAGE_MAP(LeePassDlg, CDialogEx)
   ON_COMMAND(      ID_FindNext,      &onFindNext)
   ON_COMMAND(      ID_MoveRight,     &onMoveRight)
 
+  ON_COMMAND(      ID_ChngMasterKey, &onchangeMasterKey)
   ON_COMMAND(      ID_Save,          &onSave)
 
   ON_CBN_SELCHANGE(ID_DeleteMenu,    &onDeleteMenu)          // Send Command Message with ID_...
@@ -153,7 +154,9 @@ PasswordNewDlg dlg;
 
   if (dlg.DoModal() != IDOK) return;
 
-  pwMgr = kpLib.newDatabase(path, dlg.password);   finOpen();   kpLib.dspEncryption();
+  pwMgr = kpLib.newDatabase(path, dlg.password);
+
+  kpLib.saveMasterKey(dlg.password);   finOpen();   kpLib.dspEncryption();
   }
 
 
@@ -176,10 +179,9 @@ String      dbName = getMainName(path);
 
   if (dlg.DoModal() != IDOK) return;
 
-  try {pwMgr = kpLib.openDatabase(path, dlg.password);   if (!pwMgr) return;}
-  catch (...) {return;}
+  pwMgr = kpLib.openDatabase(path, dlg.password);   if (!pwMgr) return;
 
-  installGroups();   installEntries();   finOpen();
+  kpLib.saveMasterKey(dlg.password);  installGroups();   installEntries();   finOpen();
   }
 
 
@@ -210,13 +212,14 @@ void*   x;
 GrpIter iter(groups);
 Group*  grp;
 
-  if (!dirty) return;
+  if (!groups.isDirty()) return;
 
   toolBar.getCurSel(ID_GroupCbx, s, x);
 
   toolBar.clearCBx(ID_GroupCbx);   toolBar.addCbxItemSorted(ID_GroupCbx, AllGroups, 0);
 
-  for (grp = iter(); grp; grp = iter++) toolBar.addCbxItemSorted(ID_GroupCbx, grp->name, grp->id);
+  for (grp = iter(); grp; grp = iter++)
+             if (grp->name != MasterKey) toolBar.addCbxItemSorted(ID_GroupCbx, grp->name, grp->id);
 
   if (!toolBar.setCurSel(ID_GroupCbx, s) && !toolBar.setCurSel(ID_GroupCbx, AllGroups))
                                                                  toolBar.setCurSel(ID_GroupCbx, 0);
@@ -238,8 +241,8 @@ uint     grpId = 0;
 
   if (toolBar.getCurSel(ID_GroupCbx, group, x)) grpId = (uint) x;
 
-  for (kpEntry = iter(); kpEntry; kpEntry = iter++) if (!grpId || kpEntry->uGroupId == grpId)
-       {toolBar.addCbxItemSorted(ID_EntryCbx, kpEntry->pszTitle, (int) kpEntry);   noCbxEntries++;}
+  for (kpEntry = iter(); kpEntry; kpEntry = iter++)
+    if (!grpId || kpEntry->uGroupId == grpId) installEntry(kpEntry->pszTitle, kpEntry);
 
   toolBar.setCaption(ID_EntryCbx, EntryCaption);
 
@@ -248,6 +251,13 @@ uint     grpId = 0;
   toolBar.setWidth(ID_EntryCbx);   toolBar.setHeight(ID_EntryCbx);
 
   setDbSts();
+  }
+
+
+void LeePassDlg::installEntry(TCchar* title, void* data) {
+String s = title;   if (s == MasterKey) return;
+
+  toolBar.addCbxItemSorted(ID_EntryCbx, s, (int) data);   noCbxEntries++;
   }
 
 
@@ -437,6 +447,10 @@ void LeePassDlg::saveCurrentRcd() {
 Record& rcd = kpLib.rcd;
 
   if (!dbOpen || !saveRcd || !isLegalRcd(rcd)) {rcd.clear();      return;}
+  if (rcd.title.isProhibited(titleCtl)       ||
+      rcd.userName.isProhibited(userNameCtl) ||
+      rcd.group.isProhibited(groupCtl))
+                  {messageBox(_T("The text in title, username or group is prohibited"));   return;}
   if (newRcd)                                  {saveNewRcd(rcd);  return;}
 
   dirty |= rcd.updateTitle(titleCtl);
@@ -454,8 +468,7 @@ Record& rcd = kpLib.rcd;
 
   shiftDirty();
 
-  if (groups.isModified()) installGroups();
-
+  installGroups();
   }
 
 
@@ -486,6 +499,9 @@ int n = 0;
 
   return n >= 2;
   }
+
+
+void LeePassDlg::onchangeMasterKey() {saveDB = kpLib.changeMasterKey();}
 
 
 void LeePassDlg::onExit() {onSave();   CDialogEx::OnOK();}

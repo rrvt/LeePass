@@ -17,6 +17,10 @@
 
 #include "pch.h"
 #include "KpSearch.h"
+#include "Utility.h"
+
+
+static TCchar* NotWordChs = _T("[^a-zA-Z0-9_-]");
 
 
 /*
@@ -28,33 +32,6 @@ enum KpSrcTgts {TitleTgt    = PWMF_TITLE,
                 RegExprSrch = PWMS_REGEX
                 };
 */
-#if 0
-void KpSearch::setAttr(SearchDlg& dlg) {
-  if (dlg.titleFld)    fldFlags |= PWMF_TITLE;
-  if (dlg.userNameFld) fldFlags |= PWMF_USER;
-  if (dlg.urlFld)      fldFlags |= PWMF_URL;
-  if (dlg.miscFld)     fldFlags |= PWMF_ADDITIONAL;
-  if (dlg.binDescFld)  fldFlags |= PWMF_BinaryDesc;
-  caseSens   = dlg.caseSens;
-
-
-#if 1
-
-  srchMode = (SrchMode) dlg.srchMode;
-
-#else
-  if (dlg.regExpr)     fldFlags |= PWMS_REGEX;
-  wholeWord  = dlg.wholeWord;
-  wholeField = dlg.wholeField;
-  beginning  = dlg.beginningOf;
-  anywhere   = dlg.anyWhere;
-#endif
-  }
-#endif
-
-
-static TCchar* NotWordChs =
-                         _T("[^abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_-]");
 
 
 KpEntry* KpSearch::find(SearchDlg& dlg) {
@@ -69,10 +46,10 @@ KpEntry* KpSearch::find(SearchDlg& dlg) {
   srchMode = (SrchMode) dlg.srchMode;
 
   switch (srchMode) {
-    case RegExpr    : tgt = dlg.target;                      fldFlags |= PWMS_REGEX;   break;
-    case WholeWord  : tgt = NotWordChs + dlg.target + NotWordChs;   fldFlags |= PWMS_REGEX;            break;
-    case WholeField : tgt = _T('^') + dlg.target + _T('$');         fldFlags |= PWMS_REGEX;            break;
-    case Prefix     : tgt = _T('^') + dlg.target + _T('$');         fldFlags |= PWMS_REGEX;            break;
+    case RegExpr    : tgt = dlg.target;                             fldFlags |= PWMS_REGEX;  break;
+    case WholeWord  : tgt = NotWordChs + dlg.target + NotWordChs;   fldFlags |= PWMS_REGEX;  break;
+    case WholeField : tgt = _T('^') + dlg.target + _T('$');         fldFlags |= PWMS_REGEX;  break;
+    case Prefix     : tgt = _T('^') + dlg.target + _T('$');         fldFlags |= PWMS_REGEX;  break;
     case AnyWhere   :
     default         : tgt = dlg.target;   break;
     }
@@ -83,15 +60,30 @@ KpEntry* KpSearch::find(SearchDlg& dlg) {
 
 KpEntry* KpSearch::next() {
 KpEntry* kpEntry;                         // index = Find(pwMgr, tgt, caseSens, fldFlags, ++index)
+String   s;
 
   while ((index = Find(pwMgr, tgt, caseSens, fldFlags, ++index)) >= 0) {
 
-    kpEntry = GetEntry(pwMgr, index);   if (!kpEntry || !grpId) return kpEntry;
+    kpEntry = GetEntry(pwMgr, index);   if (!kpEntry) return 0;
 
-    if (kpEntry->uGroupId == grpId) return kpEntry;
+    s = kpEntry->pszTitle;   if (s == MasterKey) continue;
+
+    if (!grpId || kpEntry->uGroupId == grpId) return kpEntry;
     }
 
   return 0;
+  }
+
+
+
+KpEntry* KpSearch::findMasterKey() {
+int      i;
+
+  if (!pwMgr) return 0;
+
+  i = Find(pwMgr, MasterKey, true, PWMF_TITLE, 0);   if (i < 0) return 0;
+
+  return GetEntry(pwMgr, i);
   }
 
 
@@ -151,3 +143,27 @@ String s = _T('^') + tgt + _T('$');
 bool KpSearch::anyWhrSrch()
                      {index = Find(pwMgr, tgt, caseSens, fldFlags, ++index);   return index >= 0;}
 #endif
+#if 0
+void KpSearch::setAttr(SearchDlg& dlg) {
+  if (dlg.titleFld)    fldFlags |= PWMF_TITLE;
+  if (dlg.userNameFld) fldFlags |= PWMF_USER;
+  if (dlg.urlFld)      fldFlags |= PWMF_URL;
+  if (dlg.miscFld)     fldFlags |= PWMF_ADDITIONAL;
+  if (dlg.binDescFld)  fldFlags |= PWMF_BinaryDesc;
+  caseSens   = dlg.caseSens;
+
+
+#if 1
+
+  srchMode = (SrchMode) dlg.srchMode;
+
+#else
+  if (dlg.regExpr)     fldFlags |= PWMS_REGEX;
+  wholeWord  = dlg.wholeWord;
+  wholeField = dlg.wholeField;
+  beginning  = dlg.beginningOf;
+  anywhere   = dlg.anyWhere;
+#endif
+  }
+#endif
+

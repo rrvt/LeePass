@@ -33,6 +33,8 @@ public:
   KpEntry* find(SearchDlg& dlg);
   KpEntry* next();
 
+  KpEntry* findMasterKey();
+
 private:
 
   bool search();

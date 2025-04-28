@@ -9,11 +9,11 @@
 </OBJECT>
 <UL>
 	<LI> <OBJECT type="text/sitemap">
-		<param name="Name" value="Dialog App">
+		<param name="Name" value="LeePass">
 		<param name="Local" value="Introduction.htm">
 		</OBJECT>
 	<LI> <OBJECT type="text/sitemap">
-		<param name="Name" value="DialogApp Operations">
+		<param name="Name" value="LeePass Operations">
 		<param name="Local" value="Operations.htm">
 		</OBJECT>
 </UL>

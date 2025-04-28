@@ -30,7 +30,6 @@ Record      rcd;
   String      getVersion();
 
   void        saveDatabase(TCchar* path);
-  bool        setPassword(Cstring& password);
 
   bool        importFile(String& path);
   bool        store(LastPassRcd& lpRcd);
@@ -40,11 +39,17 @@ Record      rcd;
   void        clrSrch() {                  kpSrch.clear();}
   bool        isSrchInit() {        return kpSrch.isInitialized();}
   void        setSrchGrp(uint x) {         kpSrch.setGroup(x);}
-  KpEntry*    find(SearchDlg& dlg) {    return kpSrch.find(dlg);}
+
+  KpEntry*    find(SearchDlg& dlg) {return kpSrch.find(dlg);}
   KpEntry*    findNext()       {    return kpSrch.next();}
 
+  bool        changeMasterKey();
+  void        saveMasterKey(Cstring& masterKey);
+  bool        verifyMasterKey();
+  bool        isMasterKey(Cstring& tgt);
 private:
 
+  bool        setPassword(Cstring& password);
   void        writeRecord(KpEntry* kpEntry, CSVOutF& csv);
   bool        chk(int err);
   };

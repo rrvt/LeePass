@@ -7,6 +7,8 @@
 #include <random>
 
 
+TCchar* MasterKey  = _T("~!~!~Master~Key~!~!~");
+
 
 // set field only if not equal
 
@@ -71,6 +73,17 @@ static PwTime pwTime;
 
   return pwTime;
   }
+
+
+static TCchar BulletCh = 0x25CF;
+
+
+void setVisible(CEdit* ctl, bool visible)
+   {Tchar ch = visible ? 0 : BulletCh;   if (ctl) {ctl->SetPasswordChar(ch);   ctl->Invalidate();}}
+
+
+void setVisible(CEdit& ctl, bool visible)
+                {Tchar ch = visible ? 0 : BulletCh;   ctl.SetPasswordChar(ch);   ctl.Invalidate();}
 
 
 

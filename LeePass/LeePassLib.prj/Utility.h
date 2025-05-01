@@ -9,11 +9,11 @@
 extern TCchar* MasterKey;
 
 
-inline bool isEmpty(TCchar* tc)        {return !tc || !*tc;}
-inline bool isProhibited(TCchar* tgt)  {return String(tgt) == MasterKey;}
+inline bool    isEmpty(TCchar* tc)        {return !tc || !*tc;}
+inline bool    isProhibited(TCchar* tgt)  {return String(tgt) == MasterKey;}
 
-       bool setField(String& fld, TCchar* tc);
-       bool setField(int&    fld, int      v);
+       bool    setField(String& fld, TCchar* tc);
+       bool    setField(int&    fld, int      v);
 
 
        TCchar* setLbl(CEdit&     ctl, TCchar* txt);

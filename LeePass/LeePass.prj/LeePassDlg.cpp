@@ -4,9 +4,9 @@
 #include "pch.h"
 #include "LeePassDlg.h"
 #include "AboutDlgKp.h"
+#include "ClipBoard.h"
 #include "CopyFile.h"
 #include "FileName.h"
-#include "Generator.h"
 #include "GeneratorDlg.h"
 #include "GetPathDlg.h"
 #include "Groups.h"
@@ -68,6 +68,10 @@ BEGIN_MESSAGE_MAP(LeePassDlg, CDialogEx)
   ON_COMMAND(      ID_ExpungeFile,   &onExpungeFile)
 
   ON_COMMAND(      ID_GeneratePswd,  &onGeneratePswd)
+  ON_COMMAND(      ID_StartURL,      &onOpenBrowser)
+  ON_COMMAND(      ID_CopyUserName,  &onCopyUserName)
+  ON_COMMAND(      ID_CopyPassword,  &onCopyPassword)
+
   ON_COMMAND(      ID_RmvDuplicates, &onRemoveDups)
   ON_COMMAND(      ID_RmvLPImports,  &onRmvLPImports)
   ON_COMMAND(      ID_RmvRdndtGrps,  &onRmvRdndtGrps)
@@ -448,6 +452,36 @@ Record&  rcd = kpLib.rcd;
 
 
 
+void LeePassDlg::onOpenBrowser() {
+Cstring url;
+
+  urlCtl.GetWindowText(url);   if (url.isEmpty()) return;
+
+  ShellExecute(0, _T("open"), url, 0, 0, SW_SHOWNORMAL);
+  }
+
+
+void LeePassDlg::onCopyUserName() {
+Cstring   userName;
+ClipBoard clipBoard;
+
+  userNameCtl.GetWindowText(userName);   if (userName.isEmpty()) return;
+
+  clipBoard.load(userName);
+  }
+
+
+void LeePassDlg::onCopyPassword() {
+Cstring   password;
+ClipBoard clipBoard;
+
+  pswdCtl.GetWindowText(password);   if (password.isEmpty()) return;
+
+  clipBoard.load(password);   password.expunge();
+  }
+
+
+
 void LeePassDlg::saveCurrentRcd() {
 Record& rcd = kpLib.rcd;
 
@@ -598,10 +632,9 @@ KpEntry* kpEntry;
 
 
 void LeePassDlg::onGeneratePswd() {
-Generator generator;
-String    password;
+GeneratorDlg dlg;
 
-  generator.get(password);
+  dlg.DoModal();   dlg.password.expunge();
   }
 
 

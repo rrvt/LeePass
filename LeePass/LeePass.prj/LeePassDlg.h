@@ -128,6 +128,10 @@ public:
 
   afx_msg void    onToggleSave();
 
+  afx_msg void    onOpenBrowser();
+  afx_msg void    onCopyUserName();
+  afx_msg void    onCopyPassword();
+
   afx_msg void    onDeleteMenu() {toolBar.dispatch(ID_DeleteMenu);}
   afx_msg void    onDeleteEntry();
   afx_msg void    onDeleteGroup();

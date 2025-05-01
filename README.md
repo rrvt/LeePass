@@ -46,7 +46,8 @@ Execute the msi file to install the app.
 
 ### 4/30/25
 
-Added a password generator.
+Added a password generator.  Added commands to start a URL in the default browser, copy the
+username into the clip board and copy the password into the clip board.
 
 ### 4/28/25
 

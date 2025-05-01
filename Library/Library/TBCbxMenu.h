@@ -29,6 +29,8 @@ String caption;
   uint       getId() {return id;}
   uint       getCmdId();
 
+  void       setWidth();
+
 private:
 
   bool        getActual();

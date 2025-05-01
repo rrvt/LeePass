@@ -86,6 +86,11 @@ void setVisible(CEdit& ctl, bool visible)
                 {Tchar ch = visible ? 0 : BulletCh;   ctl.SetPasswordChar(ch);   ctl.Invalidate();}
 
 
+void setEdit(  CEdit&   ctl, TCchar* txt) {ctl.SetWindowText(txt);   ctl.Invalidate();}
+void setStatic(CStatic& ctl, TCchar* txt) {ctl.SetWindowText(txt);   ctl.Invalidate();}
+
+
+
 
 ///////--------------------
 

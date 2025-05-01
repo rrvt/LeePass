@@ -40,6 +40,16 @@ void TBCbxMenu::addItem(TCchar* txt, int data) {
   }
 
 
+
+
+void TBCbxMenu::setWidth() {
+
+  if (!getActual()) return;
+
+  ((TBCbxMenu*)actual)->m_iWidth  = toolBarDim.getHoriz(maxChars) * percent / 100 + 20;
+  }
+
+
 TBCbxMenu& TBCbxMenu::finInstall(TCchar* caption) {
 
   this->caption = caption;   setMaxChars(caption);

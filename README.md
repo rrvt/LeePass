@@ -44,6 +44,10 @@ Execute the msi file to install the app.
 
 ## Updates
 
+### 4/30/25
+
+Added a password generator.
+
 ### 4/28/25
 
 Added Change Master Key command.  Added verification of master key before exporting data.

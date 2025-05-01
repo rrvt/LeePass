@@ -24,6 +24,8 @@ DECLARE_DYNAMIC(LeePassDlg)
 
 MyToolBar   toolBar;                            // Part of the infrastructure of the main dialog
 StatusBar   statusBar;
+CButton     generateCtl;
+
 bool        isInitialized;                      // OnInitDialog completed successfully
 int         noCbxEntries;
 
@@ -135,6 +137,7 @@ public:
   afx_msg void    onExportFile();
   afx_msg void    onExpungeFile();
 
+  afx_msg void    onGeneratePswd();
   afx_msg void    onRemoveDups();
   afx_msg void    onRmvLPImports();
   afx_msg void    onRmvRdndtGrps();
@@ -147,6 +150,7 @@ public:
   afx_msg void    onFocusBinarydesc();
   afx_msg void    onFocusTitle();
   afx_msg void    onFocusGroupUpdt();
+  afx_msg void    onGenerate();
   };
 
 

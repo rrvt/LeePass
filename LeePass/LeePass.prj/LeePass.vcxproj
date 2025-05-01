@@ -154,6 +154,8 @@
     <ClInclude Include="..\..\Library\Extras\ResourceExtra.h" />
     <ClInclude Include="AboutDlgKp.h" />
     <ClInclude Include="ChngMstrKeyDlg.h" />
+    <ClInclude Include="Generator.h" />
+    <ClInclude Include="GeneratorDlg.h" />
     <ClInclude Include="KpBinaryFld.h" />
     <ClInclude Include="KpCBxFld.h" />
     <ClInclude Include="KpFldLngs.h" />
@@ -180,6 +182,8 @@
     <ClCompile Include="..\..\Library\Extras\OptionsDlg.cpp" />
     <ClCompile Include="AboutDlgKp.cpp" />
     <ClCompile Include="ChngMstrKeyDlg.cpp" />
+    <ClCompile Include="Generator.cpp" />
+    <ClCompile Include="GeneratorDlg.cpp" />
     <ClCompile Include="KpBinaryFld.cpp" />
     <ClCompile Include="KpCBxFld.cpp" />
     <ClCompile Include="KpFldLngs.cpp" />

@@ -6,6 +6,8 @@
 #include "AboutDlgKp.h"
 #include "CopyFile.h"
 #include "FileName.h"
+#include "Generator.h"
+#include "GeneratorDlg.h"
 #include "GetPathDlg.h"
 #include "Groups.h"
 #include "History.h"
@@ -13,6 +15,7 @@
 #include "KpID.h"
 #include "KpIter.h"
 #include "LastPass.h"
+#include "LeePass.h"
 #include "MessageBox.h"
 #include "PasswordDlg.h"
 #include "PasswordNewDlg.h"
@@ -42,6 +45,7 @@ BEGIN_MESSAGE_MAP(LeePassDlg, CDialogEx)
   ON_CBN_SELCHANGE(ID_GroupCbx,      &onGroupCbx)          // Process selection from list
 
   ON_COMMAND(      ID_NewPswd,       &onNewPswd)
+  ON_BN_CLICKED(   IDC_Generate,     &onGenerate)
   ON_CBN_SELCHANGE(ID_EntryCbx,      &onEntryCbx)          // Process selection from list
 
   ON_COMMAND(      ID_ToggleSave,    &onToggleSave)
@@ -63,6 +67,7 @@ BEGIN_MESSAGE_MAP(LeePassDlg, CDialogEx)
   ON_COMMAND(      ID_ExportFile,    &onExportFile)
   ON_COMMAND(      ID_ExpungeFile,   &onExpungeFile)
 
+  ON_COMMAND(      ID_GeneratePswd,  &onGeneratePswd)
   ON_COMMAND(      ID_RmvDuplicates, &onRemoveDups)
   ON_COMMAND(      ID_RmvLPImports,  &onRmvLPImports)
   ON_COMMAND(      ID_RmvRdndtGrps,  &onRmvRdndtGrps)
@@ -120,6 +125,8 @@ HICON hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
 
   SetIcon(hIcon, TRUE);                               // Set the icon in the upper left hand corner
 
+  generateCtl.SetIcon(theApp.LoadIcon(IDR_Generate));
+
   if (!statusBar.create(this, IDC_StatusBar)) return false;
 
   statusBar.setReady();
@@ -135,18 +142,19 @@ HICON hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
 
 
 void LeePassDlg::DoDataExchange(CDataExchange* pDX) {
-  CDialogEx::DoDataExchange(pDX);
-  DDX_Control(pDX, IDC_Title,      titleCtl);
-  DDX_Control(pDX, IDC_URL,        urlCtl);
-  DDX_Control(pDX, IDC_UserName,   userNameCtl);
-  DDX_Control(pDX, IDC_Pswd,       pswdCtl);
-  DDX_Control(pDX, IDC_Notes,      extraCtl);
-  DDX_Control(pDX, IDC_BinaryDesc, binaryDescCtl);
-  DDX_Control(pDX, IDC_GroupUpdt,  groupCtl);
-  DDX_Control(pDX, IDC_Creation,   creationCtl);
-  DDX_Control(pDX, IDC_LastMod,    lastModCtl);
-  DDX_Control(pDX, IDC_LastAccess, lastAccessCtl);
-  }
+    CDialogEx::DoDataExchange(pDX);
+    DDX_Control(pDX, IDC_Title,      titleCtl);
+    DDX_Control(pDX, IDC_URL,        urlCtl);
+    DDX_Control(pDX, IDC_UserName,   userNameCtl);
+    DDX_Control(pDX, IDC_Pswd,       pswdCtl);
+    DDX_Control(pDX, IDC_Notes,      extraCtl);
+    DDX_Control(pDX, IDC_BinaryDesc, binaryDescCtl);
+    DDX_Control(pDX, IDC_GroupUpdt,  groupCtl);
+    DDX_Control(pDX, IDC_Creation,   creationCtl);
+    DDX_Control(pDX, IDC_LastMod,    lastModCtl);
+    DDX_Control(pDX, IDC_LastAccess, lastAccessCtl);
+    DDX_Control(pDX, IDC_Generate,   generateCtl);
+}
 
 
 void LeePassDlg::onNewKpDb() {
@@ -157,6 +165,8 @@ PasswordNewDlg dlg;
   pwMgr = kpLib.newDatabase(path, dlg.password);
 
   kpLib.saveMasterKey(dlg.password);   finOpen();   kpLib.dspEncryption();
+
+  generateCtl.ShowWindow(SW_SHOW);
   }
 
 
@@ -410,12 +420,7 @@ int i = toolBar.getCurSel(ID_EntryCbx) + 1;   if (i >= n) return;
   }
 
 
-void LeePassDlg::onEntryCbx() {
-
-  saveCurrentRcd();
-
-  loadEntry();
-  }
+void LeePassDlg::onEntryCbx() {saveCurrentRcd();   loadEntry();}
 
 
 void LeePassDlg::loadEntry() {
@@ -438,7 +443,7 @@ Record&  rcd = kpLib.rcd;
   rcd.binDesc.set(binaryDescCtl);
   rcd.group.set(groupCtl);
 
-  setEntrySts(rcd);
+  generateCtl.ShowWindow(SW_HIDE);  setEntrySts(rcd);
   }
 
 
@@ -530,6 +535,8 @@ Record& rcd = kpLib.rcd;
       rcd.lastMod.setLabel(lastModCtl);
    rcd.lastAccess.setLabel(lastAccessCtl);
         rcd.group.setLabel(groupCtl);
+
+  generateCtl.ShowWindow(SW_SHOW);
   }
 
 
@@ -542,7 +549,23 @@ void LeePassDlg::onFocusBinarydesc() {kpLib.rcd.binDesc.clrLabel(binaryDescCtl);
 void LeePassDlg::onFocusGroupUpdt()  {kpLib.rcd.group.clrLabel(groupCtl);}
 
 
-void LeePassDlg::onToggleSave() {saveRcd ^= true;   setStatus(0);}
+void LeePassDlg::onToggleSave() {
+int show;
+
+  saveRcd ^= true;   show = saveRcd ? SW_SHOW : SW_HIDE;   generateCtl.ShowWindow(show);
+
+  setStatus(0);
+  }
+
+
+
+void LeePassDlg::onGenerate() {
+GeneratorDlg dlg;
+
+  if (dlg.DoModal() == IDOK) {setEdit(pswdCtl, dlg.password);}
+
+  dlg.password.expunge();
+  }
 
 
 
@@ -571,6 +594,14 @@ KpEntry* kpEntry;
   installEntries();
 
   q = dsc + _T(" has been deleted");   setStatus(q);   setDbSts();   setLabels();
+  }
+
+
+void LeePassDlg::onGeneratePswd() {
+Generator generator;
+String    password;
+
+  generator.get(password);
   }
 
 
@@ -782,10 +813,13 @@ CRect winRect;   GetWindowRect(&winRect);   toolBar.set(winRect);
   toolBar.addCBx(   ID_GroupCbx,  _T(" Groups "));
   toolBar.addCBx(   ID_EntryCbx, EntryCaption);
 
-  toolBar.setWthPercent(ID_DeleteMenu,   70);
+  toolBar.setWthPercent(ID_DeleteMenu,   85);
   toolBar.addMenu(ID_DeleteMenu,   IDR_DeleteMenu,   _T("Delete"));
-  toolBar.setWthPercent(ID_LastPassMenu, 70);
+  toolBar.setWidth(ID_DeleteMenu);
+  toolBar.setWthPercent(ID_LastPassMenu, 75);
   toolBar.addMenu(ID_LastPassMenu, IDR_LastPassMenu, _T("LastPass"));
+  toolBar.setWidth(ID_LastPassMenu);
+
   }
 
 
@@ -891,4 +925,3 @@ Record&  rcd = kpLib.rcd;
 /*groups.install(toolBar, ID_GroupCbx);*/
 /*groups.install(toolBar, ID_GroupCbx);*/
 /*groups.install(toolBar, ID_GroupCbx);*/
-

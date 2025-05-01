@@ -36,3 +36,8 @@ inline void    reset(CComboBox& ctl) {ctl.ResetContent();}
        void    setVisible(CEdit* ctl, bool visible);
        void    setVisible(CEdit& ctl, bool visible);
 
+       void    setEdit(  CEdit& ctl, TCchar* txt);
+       void    setStatic(CStatic& ctl, TCchar* txt);
+
+inline double  lg2(double v) {return v != 0.0 ? log(v) / log(2) : 0.0;}
+

@@ -162,8 +162,10 @@ void MyToolBar::setWthPercent(uint id, int prcnt) {
 
 
 void MyToolBar::setWidth(uint id) {
-  if (id == cboBx.getId())  ToolBarBase::setWidth(cboBx);
-  if (id == cboBx1.getId()) ToolBarBase::setWidth(cboBx1);
+  if (id == cboBx.getId())    {ToolBarBase::setWidth(cboBx);      return;}
+  if (id == cboBx1.getId())   {ToolBarBase::setWidth(cboBx1);     return;}
+  if (id == cbxMenu.getId())  {ToolBarBase::setWidth(cbxMenu);    return;}
+  if (id == cbxMenu1.getId()) {ToolBarBase::setWidth(cbxMenu1);   return;}
   }
 
 
@@ -177,8 +179,7 @@ void MyToolBar::setHeight( uint id) {
 
 //////--------------
 
-#ifdef Examples
-
+#if 0
 
 bool MyToolBar::addEditBox(uint id, int noChars)              {
   if (id == editBox.getId()) return add(editBox, id, noChars);
@@ -194,10 +195,12 @@ CString MyToolBar::getText(uint id) {
   }
 
 
+#if 0
 void MyToolBar::setWthPercent(uint id, int prcnt) {
   if (id == cbxMenu.getId())   {setWthPercent(cbxMenu,  prcnt);   return;}
   if (id == cbxMenu1.getId())  {setWthPercent(cbxMenu1, prcnt);   return;}
   }
+#endif
 
 
 bool MyToolBar::addMenu(uint id, CbxItem cbxItem[], int n, TCchar* caption) {

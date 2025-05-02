@@ -1,0 +1,86 @@
+#if 0
+
+// MyDialog.h
+#pragma once
+#include <thread>
+
+class CMyDialog : public CDialogEx
+{
+public:
+    CMyDialog(CWnd* pParent = nullptr);   // standard constructor
+    ~CMyDialog();
+
+    enum { IDD = IDD_MYDIALOG };
+
+protected:
+    virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
+
+    DECLARE_MESSAGE_MAP()
+public:
+    afx_msg void OnBnClickedButtonStartThread();
+    std::thread m_thread;
+    int m_result;
+    bool m_threadRunning;
+};
+
+// MyDialog.cpp
+#include "MyDialog.h"
+
+// CMyDialog dialog
+CMyDialog::CMyDialog(CWnd* pParent /*=nullptr*/)
+    : CDialogEx(IDD_MYDIALOG, pParent)
+    , m_result(0)
+    , m_threadRunning(false)
+{
+}
+
+CMyDialog::~CMyDialog()
+{
+    if (m_threadRunning && m_thread.joinable())
+    {
+        m_thread.join();
+    }
+}
+
+void CMyDialog::DoDataExchange(CDataExchange* pDX)
+{
+    CDialogEx::DoDataExchange(pDX);
+}
+
+BEGIN_MESSAGE_MAP(CMyDialog, CDialogEx)
+    ON_BN_CLICKED(IDC_BUTTON_START_THREAD, &CMyDialog::OnBnClickedButtonStartThread)
+END_MESSAGE_MAP()
+
+// Function to be executed by the thread
+DWORD WINAPI MyThreadFunction(LPVOID lpParam)
+{
+    int* data = (int*)lpParam;
+    int result = 0;
+    for (int i = 1; i <= *data; ++i)
+    {
+        result += i;
+    }
+    return result;
+}
+
+void CMyDialog::OnBnClickedButtonStartThread()
+{
+    if (m_threadRunning)
+    {
+        AfxMessageBox(_T("Thread is already running."));
+        return;
+    }
+
+    int inputData = 100;
+
+    m_thread = std::thread([this, inputData]() {
+        m_threadRunning = true;
+        m_result = MyThreadFunction(&inputData);
+        m_threadRunning = false;
+        AfxMessageBox(_T("Thread finished execution. Result: ") + CString(std::to_string(m_result).c_str()));
+        });
+
+    m_thread.detach();
+}
+
+#endif

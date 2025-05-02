@@ -97,6 +97,8 @@
 #define ID_Exit                         448
 #define ID_Help                         449
 
+#define ClearClipBoardMsg              (WM_USER + 100)
+
 
 #define DlgWidth                        400
 #define DlgDepth                        138

@@ -2,10 +2,11 @@
 
 
 #pragma once
+#include "ClipBoard.h"
 #include "KpLib.h"
 #include "MyToolBar.h"
 #include "Resource.h"
-#include "StatusBar.h"
+#include "Status.h"
 #include "WinPos.h"
 
 class Record;
@@ -14,6 +15,7 @@ extern TCchar* GlobalSect;
 extern TCchar* KpDbPathKey;
 
 class StatusBar;
+
 
 
 // LeePassDlg dialog
@@ -27,7 +29,7 @@ StatusBar   statusBar;
 CButton     generateCtl;
 
 bool        isInitialized;                      // OnInitDialog completed successfully
-int         noCbxEntries;
+int         nRecords;
 
 String      path;
 CPwManager* pwMgr;                              // Path to Kp Database
@@ -35,12 +37,16 @@ bool        dbOpen;
 bool        newRcd;
 bool        saveRcd;
 
+ClipBoard   clipBoard;
+
 KpLib       kpLib;
 bool        dirty;
 bool        saveDB;
 
+Status      status;
 String      helpPath;
 
+private:
 
 // Dialog Box
 CEdit       titleCtl;
@@ -88,9 +94,10 @@ private:
   void            loadEntry();
 
   void            setupToolBar();
-  void            setEntrySts(Record& rcd);
-  void            setStatus(TCchar* sts);
-  void            setDbSts();
+
+//  void            setDbSts();
+//  void            setEntrySts(Record& rcd);
+//  void            setStatus(TCchar* sts);
 
   void            setTitle(TCchar* title);
   void            setLabels();
@@ -131,6 +138,7 @@ public:
   afx_msg void    onOpenBrowser();
   afx_msg void    onCopyUserName();
   afx_msg void    onCopyPassword();
+  afx_msg LRESULT onClearClipBoard(WPARAM wParam, LPARAM lParam);
 
   afx_msg void    onDeleteMenu() {toolBar.dispatch(ID_DeleteMenu);}
   afx_msg void    onDeleteEntry();

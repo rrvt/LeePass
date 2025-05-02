@@ -22,7 +22,7 @@
 #include "Record.h"
 #include "Remove.h"
 #include "SearchDlg.h"
-#include "StatusBar.h"
+#include "Status.h"
 #include "Utility.h"
 
 
@@ -31,6 +31,9 @@
 
 static TCchar* EntryCaption = _T(" Entries ");
 static TCchar* NewRecordSts = _T("New Record");
+
+
+//Thread timerThrd;
 
 
 IMPLEMENT_DYNAMIC(LeePassDlg, CDialogEx)
@@ -71,6 +74,7 @@ BEGIN_MESSAGE_MAP(LeePassDlg, CDialogEx)
   ON_COMMAND(      ID_StartURL,      &onOpenBrowser)
   ON_COMMAND(      ID_CopyUserName,  &onCopyUserName)
   ON_COMMAND(      ID_CopyPassword,  &onCopyPassword)
+  ON_MESSAGE(      ClearClipBoardMsg,&onClearClipBoard)
 
   ON_COMMAND(      ID_RmvDuplicates, &onRemoveDups)
   ON_COMMAND(      ID_RmvLPImports,  &onRmvLPImports)
@@ -99,12 +103,13 @@ END_MESSAGE_MAP()
 
 LeePassDlg::LeePassDlg(TCchar* helpPth, CWnd* pParent) :
                        CDialogEx(IDD_LeePass, pParent), toolBar(), statusBar(),
-                       isInitialized(false), noCbxEntries(0), pwMgr(0), dbOpen(false),
-                       newRcd(true), saveRcd(false), dirty(false), saveDB(false),
+                       isInitialized(false), nRecords(0), pwMgr(0), dbOpen(false),
+                       newRcd(true), saveRcd(false),
+                       dirty(false), saveDB(false), status(statusBar, saveRcd),
                        helpPath(helpPth) { }
 
 
-LeePassDlg::~LeePassDlg() {winPos.~WinPos();}
+LeePassDlg::~LeePassDlg() {clipBoard.stop();   clipBoard.clear();   winPos.~WinPos();}
 
 
 int LeePassDlg::OnCreate(LPCREATESTRUCT lpCreateStruct) {
@@ -129,6 +134,8 @@ HICON hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
 
   SetIcon(hIcon, TRUE);                               // Set the icon in the upper left hand corner
 
+  clipBoard.set(m_hWnd, ClearClipBoardMsg);
+
   generateCtl.SetIcon(theApp.LoadIcon(IDR_Generate));
 
   if (!statusBar.create(this, IDC_StatusBar)) return false;
@@ -139,9 +146,9 @@ HICON hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
 
   iniFile.read(GlobalSect, KpDbPathKey, path, _T(""));
 
-  if (!path.isEmpty()) {setTitle(getMainName(path));   setDbSts();}
+  if (!path.isEmpty()) {setTitle(getMainName(path));   status.setDb(path, nRecords);}
 
-  setStatus(_T("Login"));   isInitialized = true;   return true;
+  status.set(_T("Login"));   isInitialized = true;   return true;
   }
 
 
@@ -203,7 +210,9 @@ void LeePassDlg::finOpen() {
 
   setLabels();   dbOpen = true;   newRcd = true;   iniFile.write(GlobalSect, KpDbPathKey, path);
 
-  setDbSts();   setTitle(getMainName(path));   if (newRcd) setStatus(NewRecordSts);
+  setTitle(getMainName(path));
+
+  if (newRcd) status.set(NewRecordSts);    status.setDb(path, nRecords);
   }
 
 
@@ -251,7 +260,7 @@ String   group;
 void*    x;
 uint     grpId = 0;
 
-  toolBar.clearCBx(ID_EntryCbx);   noCbxEntries = 0;
+  toolBar.clearCBx(ID_EntryCbx);   nRecords = 0;
 
   if (toolBar.getCurSel(ID_GroupCbx, group, x)) grpId = (uint) x;
 
@@ -264,14 +273,14 @@ uint     grpId = 0;
 
   toolBar.setWidth(ID_EntryCbx);   toolBar.setHeight(ID_EntryCbx);
 
-  setDbSts();
+  status.setDb(path, nRecords);
   }
 
 
 void LeePassDlg::installEntry(TCchar* title, void* data) {
 String s = title;   if (s == MasterKey) return;
 
-  toolBar.addCbxItemSorted(ID_EntryCbx, s, (int) data);   noCbxEntries++;
+  toolBar.addCbxItemSorted(ID_EntryCbx, s, (int) data);   nRecords++;
   }
 
 
@@ -280,7 +289,7 @@ Record& rcd = kpLib.rcd;
 
   saveCurrentRcd();   rcd.clear();
 
-  newRcd = saveRcd = true;   setLabels();   setStatus(NewRecordSts);
+  newRcd = saveRcd = true;   setLabels();   status.set(NewRecordSts);
   }
 
 
@@ -447,7 +456,7 @@ Record&  rcd = kpLib.rcd;
   rcd.binDesc.set(binaryDescCtl);
   rcd.group.set(groupCtl);
 
-  generateCtl.ShowWindow(SW_HIDE);  setEntrySts(rcd);
+  generateCtl.ShowWindow(SW_HIDE);  status.set(rcd);
   }
 
 
@@ -463,7 +472,8 @@ Cstring url;
 
 void LeePassDlg::onCopyUserName() {
 Cstring   userName;
-ClipBoard clipBoard;
+
+  clipBoard.stop();
 
   userNameCtl.GetWindowText(userName);   if (userName.isEmpty()) return;
 
@@ -473,13 +483,19 @@ ClipBoard clipBoard;
 
 void LeePassDlg::onCopyPassword() {
 Cstring   password;
-ClipBoard clipBoard;
+
+  clipBoard.stop();
 
   pswdCtl.GetWindowText(password);   if (password.isEmpty()) return;
 
   clipBoard.load(password);   password.expunge();
+
+  clipBoard.start(30);   status.tmp(_T("Password is in ClipBoard for 30 seconds"));
   }
 
+
+LRESULT LeePassDlg::onClearClipBoard(WPARAM wParam, LPARAM lParam)
+  {clipBoard.clear();   status.set(0);   return 0;}
 
 
 void LeePassDlg::saveCurrentRcd() {
@@ -523,7 +539,7 @@ void LeePassDlg::saveNewRcd(Record& rcd) {
   if (dirty && rcd.add()) {
     rcd.creation.set(creationCtl);   rcd.lastMod.set(lastModCtl);
     rcd.lastAccess.set(lastAccessCtl);
-    newRcd = false;   setEntrySts(rcd);    installGroups();
+    newRcd = false;   status.set(rcd);    installGroups();
     groups.install(groupCtl, rcd.group);   installEntries();   shiftDirty();
     }
   }
@@ -588,7 +604,7 @@ int show;
 
   saveRcd ^= true;   show = saveRcd ? SW_SHOW : SW_HIDE;   generateCtl.ShowWindow(show);
 
-  setStatus(0);
+  status.set(0);
   }
 
 
@@ -627,7 +643,7 @@ KpEntry* kpEntry;
                                            if (rcd.kpId == kpEntry->uuid) {iter.remove();   break;}
   installEntries();
 
-  q = dsc + _T(" has been deleted");   setStatus(q);   setDbSts();   setLabels();
+  q = dsc + _T(" has been deleted");   status.set(q);   status.setDb(path, nRecords);   setLabels();
   }
 
 
@@ -655,7 +671,7 @@ String s;
     default : s.format(_T("%i duplicate entries have been deleted."), noDeleted); break;
     }
 
-  setStatus(s);   setDbSts();
+  status.set(s);   status.setDb(path, nRecords);
   }
 
 
@@ -676,7 +692,7 @@ String s;
     default : s.format(_T("%i Old LP Import entries have been deleted."), noDeleted); break;
     }
 
-  setStatus(s);   setDbSts();
+  status.set(s);   status.setDb(path, nRecords);
   }
 
 
@@ -697,7 +713,7 @@ String s;
     default : s.format(_T("%i groups have been deleted."), noDeleted); break;
     }
 
-  setStatus(s);   setDbSts();
+  status.set(s);   status.setDb(path, nRecords);
   }
 
 
@@ -718,7 +734,7 @@ String s;
     default : s.format(_T("%i backups have been deleted."), noDeleted); break;
     }
 
-  setStatus(s);   setDbSts();
+  status.set(s);   status.setDb(path, nRecords);
   }
 
 
@@ -746,7 +762,7 @@ String q;
 
   setLabels();   q = _T("Deleted ") + group + _T(" Group and Entries in the Group");
 
-  setStatus(q);
+  status.set(q);
   }
 
 
@@ -784,35 +800,6 @@ LastPass   lastPass;
   if (getOpenDlg(dsc, path)) lastPass.expungeFile(path);
   }
 
-
-void LeePassDlg::setEntrySts(Record& rcd) {setStatus(rcd.getEntryDsc());}
-
-
-void LeePassDlg::setStatus(TCchar* sts) {
-static String msg;
-bool          isPresent = sts && *sts;
-String        t         = isPresent ? sts : msg.str();
-
-  if (isPresent) msg = t;
-
-  if (!t.isEmpty()) t += _T(" -- ");
-
-  t +=  saveRcd ? _T("Save Record Changes") : _T("Read Only");
-
-  statusBar.setText(0, t);
-  }
-
-
-void LeePassDlg::setDbSts() {
-String s = path;
-String t;
-int    nGrps = groups.nData();
-
-  if (nGrps)        {s += t.format(_T("   No. of Groups: %i"), nGrps);}
-  if (noCbxEntries) {s += t.format(_T("   No. of Entries: %i"), noCbxEntries);}
-
-  statusBar.setText(1, s);
-  }
 
 
 void LeePassDlg::setTitle(TCchar* title)
@@ -852,7 +839,6 @@ CRect winRect;   GetWindowRect(&winRect);   toolBar.set(winRect);
   toolBar.setWthPercent(ID_LastPassMenu, 75);
   toolBar.addMenu(ID_LastPassMenu, IDR_LastPassMenu, _T("LastPass"));
   toolBar.setWidth(ID_LastPassMenu);
-
   }
 
 
@@ -958,3 +944,33 @@ Record&  rcd = kpLib.rcd;
 /*groups.install(toolBar, ID_GroupCbx);*/
 /*groups.install(toolBar, ID_GroupCbx);*/
 /*groups.install(toolBar, ID_GroupCbx);*/
+#if 0
+void LeePassDlg::setEntrySts(Record& rcd) {setStatus(rcd.getEntryDsc());}
+
+void LeePassDlg::setStatus(TCchar* sts) {
+static String msg;
+bool          isPresent = sts && *sts;
+String        t         = isPresent ? sts : msg.str();
+
+  if (isPresent) msg = t;
+
+  if (!t.isEmpty()) t += _T(" -- ");
+
+  t +=  saveRcd ? _T("Save Record Changes") : _T("Read Only");
+
+  statusBar.setText(0, t);
+  }
+
+void LeePassDlg::setDbSts() {
+String s = path;
+String t;
+int    nGrps = groups.nData();
+
+  if (nGrps)        {s += t.format(_T("   No. of Groups: %i"), nGrps);}
+  if (nRecords) {s += t.format(_T("   No. of Entries: %i"), nRecords);}
+
+  statusBar.setText(1, s);
+  }
+#endif
+
+

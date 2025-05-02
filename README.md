@@ -44,6 +44,12 @@ Execute the msi file to install the app.
 
 ## Updates
 
+Added the following menu items on the menu bar itself:
+  - Open default browser with the url in the current record
+  - Copy the user name to the clipboard
+  - Copy the password for ~30 seconds to the clipboard.  The clipboard is erased if the app closes
+or ~30 seconds has passed.
+
 ### 4/30/25
 
 Added a password generator.  Added commands to start a URL in the default browser, copy the

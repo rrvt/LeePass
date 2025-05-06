@@ -153,19 +153,19 @@ HICON hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
 
 
 void LeePassDlg::DoDataExchange(CDataExchange* pDX) {
-    CDialogEx::DoDataExchange(pDX);
-    DDX_Control(pDX, IDC_Title,      titleCtl);
-    DDX_Control(pDX, IDC_URL,        urlCtl);
-    DDX_Control(pDX, IDC_UserName,   userNameCtl);
-    DDX_Control(pDX, IDC_Pswd,       pswdCtl);
-    DDX_Control(pDX, IDC_Notes,      extraCtl);
-    DDX_Control(pDX, IDC_BinaryDesc, binaryDescCtl);
-    DDX_Control(pDX, IDC_GroupUpdt,  groupCtl);
-    DDX_Control(pDX, IDC_Creation,   creationCtl);
-    DDX_Control(pDX, IDC_LastMod,    lastModCtl);
-    DDX_Control(pDX, IDC_LastAccess, lastAccessCtl);
-    DDX_Control(pDX, IDC_Generate,   generateCtl);
-}
+  CDialogEx::DoDataExchange(pDX);
+  DDX_Control(pDX, IDC_Title,      titleCtl);
+  DDX_Control(pDX, IDC_URL,        urlCtl);
+  DDX_Control(pDX, IDC_UserName,   userNameCtl);
+  DDX_Control(pDX, IDC_Pswd,       pswdCtl);
+  DDX_Control(pDX, IDC_Notes,      extraCtl);
+  DDX_Control(pDX, IDC_BinaryDesc, binaryDescCtl);
+  DDX_Control(pDX, IDC_GroupUpdt,  groupCtl);
+  DDX_Control(pDX, IDC_Creation,   creationCtl);
+  DDX_Control(pDX, IDC_LastMod,    lastModCtl);
+  DDX_Control(pDX, IDC_LastAccess, lastAccessCtl);
+  DDX_Control(pDX, IDC_Generate,   generateCtl);
+  }
 
 
 void LeePassDlg::onNewKpDb() {
@@ -177,7 +177,11 @@ PasswordNewDlg dlg;
 
   kpLib.saveMasterKey(dlg.password);   finOpen();   kpLib.dspEncryption();
 
+#if 1
+  setLabels();
+#else
   generateCtl.ShowWindow(SW_SHOW);
+#endif
   }
 
 
@@ -220,8 +224,11 @@ void LeePassDlg::onGroupCbx() {
 String s;
 void*  x;
 
-  if (toolBar.getCurSel(ID_GroupCbx, s, x))
-                        {saveCurrentRcd();   kpLib.rcd.clear();   setLabels();   installEntries();}
+  if (toolBar.getCurSel(ID_GroupCbx, s, x)) {
+    saveCurrentRcd();   kpLib.rcd.clear();   setLabels();   installEntries();
+
+    toolBar.setCurSel(ID_EntryCbx, -1);   toolBar.setCaption(ID_EntryCbx, EntryCaption);
+    }
   }
 
 
@@ -271,9 +278,7 @@ uint     grpId = 0;
 
   toolBar.setWthPercent(ID_EntryCbx, 70);
 
-  toolBar.setWidth(ID_EntryCbx);   toolBar.setHeight(ID_EntryCbx);
-
-  status.setDb(path, nRecords);
+  toolBar.setWidth(ID_EntryCbx);   toolBar.setHeight(ID_EntryCbx);   status.setDb(path, nRecords);
   }
 
 
@@ -294,9 +299,9 @@ Record& rcd = kpLib.rcd;
 
 
 void LeePassDlg::onMoveLeft() {
-int i = toolBar.getCurSel(ID_EntryCbx) - 1;   if (i < 0) return;
+int i = toolBar.getCurSel(ID_EntryCbx) - 1;   if (i < 0) i = 0;
 
-  saveCurrentRcd();   toolBar.setCurSel(ID_EntryCbx, i);   loadEntry();
+  saveCurrentRcd();   loadEntry(i);
   }
 
 
@@ -390,7 +395,7 @@ int       cboBxX;
 
   cboBxX = findEntry(kpEntry);   if (cboBxX < 0) return;
 
-  saveCurrentRcd();   toolBar.setCurSel(ID_EntryCbx, cboBxX);   loadEntry();
+  saveCurrentRcd();   loadEntry(cboBxX);
   }
 
 
@@ -404,7 +409,7 @@ int      cboBxX;
 
   cboBxX = findEntry(kpEntry);   if (cboBxX < 0) return;
 
-  saveCurrentRcd();   toolBar.setCurSel(ID_EntryCbx, cboBxX);   loadEntry();
+  saveCurrentRcd();   loadEntry(cboBxX);
   }
 
 
@@ -427,9 +432,18 @@ void*  x;
 
 void LeePassDlg::onMoveRight() {
 int n = toolBar.getCbxCount(ID_EntryCbx);
-int i = toolBar.getCurSel(ID_EntryCbx) + 1;   if (i >= n) return;
+int i = toolBar.getCurSel(ID_EntryCbx) + 1;   if (i >= n) i = n - 1;
 
-  saveCurrentRcd();   toolBar.setCurSel(ID_EntryCbx, i);   loadEntry();
+  saveCurrentRcd();   loadEntry(i);
+  }
+
+
+// Selects and loads the ith entry in Entry Combo Box
+
+void LeePassDlg::loadEntry(int i) {
+int n = toolBar.getCbxCount(ID_EntryCbx);   if (i >= n) i = n-1;   if (i < 0) i = 0;
+
+  toolBar.setCurSel(ID_EntryCbx, i);   toolBar.Invalidate();   loadEntry();
   }
 
 
@@ -456,7 +470,7 @@ Record&  rcd = kpLib.rcd;
   rcd.binDesc.set(binaryDescCtl);
   rcd.group.set(groupCtl);
 
-  generateCtl.ShowWindow(SW_HIDE);  status.set(rcd);
+  showGenerateButton();   status.set(rcd);
   }
 
 
@@ -472,12 +486,15 @@ Cstring url;
 
 void LeePassDlg::onCopyUserName() {
 Cstring   userName;
+String    s;
 
   clipBoard.stop();
 
   userNameCtl.GetWindowText(userName);   if (userName.isEmpty()) return;
 
   clipBoard.load(userName);
+
+  status.tmp(s.format(_T("User Name: %s copied to ClipBoard"), userName.str()));
   }
 
 
@@ -495,7 +512,7 @@ Cstring   password;
 
 
 LRESULT LeePassDlg::onClearClipBoard(WPARAM wParam, LPARAM lParam)
-  {clipBoard.clear();   status.set(0);   return 0;}
+                                                  {clipBoard.clear();   status.set(0);   return 0;}
 
 
 void LeePassDlg::saveCurrentRcd() {
@@ -521,9 +538,7 @@ Record& rcd = kpLib.rcd;
     rcd.lastAccess.today();   dirty = rcd.updateLastAccess();   rcd.lastAccess.set(lastAccessCtl);
     }
 
-  shiftDirty();
-
-  installGroups();
+  shiftDirty();   installGroups();
   }
 
 
@@ -599,13 +614,11 @@ void LeePassDlg::onFocusBinarydesc() {kpLib.rcd.binDesc.clrLabel(binaryDescCtl);
 void LeePassDlg::onFocusGroupUpdt()  {kpLib.rcd.group.clrLabel(groupCtl);}
 
 
-void LeePassDlg::onToggleSave() {
-int show;
+void LeePassDlg::onToggleSave() {saveRcd ^= true;   showGenerateButton();   status.set(0);}
 
-  saveRcd ^= true;   show = saveRcd ? SW_SHOW : SW_HIDE;   generateCtl.ShowWindow(show);
 
-  status.set(0);
-  }
+void LeePassDlg::showGenerateButton()
+                          {int show = saveRcd ? SW_SHOW : SW_HIDE;   generateCtl.ShowWindow(show);}
 
 
 
@@ -620,6 +633,7 @@ GeneratorDlg dlg;
 
 
 void LeePassDlg::onDeleteEntry() {
+int      index;
 String   s;
 void*    x;
 Record   rcd;
@@ -632,6 +646,7 @@ KpEntry* kpEntry;
 
   saveCurrentRcd();
 
+  index = toolBar.getCurSel(ID_EntryCbx);
   if (!toolBar.getCurSel(ID_EntryCbx, s, x)) return;
 
   kpEntry = (KpEntry*) x;
@@ -643,15 +658,13 @@ KpEntry* kpEntry;
                                            if (rcd.kpId == kpEntry->uuid) {iter.remove();   break;}
   installEntries();
 
-  q = dsc + _T(" has been deleted");   status.set(q);   status.setDb(path, nRecords);   setLabels();
+  q = dsc + _T(" has been deleted");   status.set(q);   status.setDb(path, nRecords);
+
+  loadEntry(index);
   }
 
 
-void LeePassDlg::onGeneratePswd() {
-GeneratorDlg dlg;
-
-  dlg.DoModal();   dlg.password.expunge();
-  }
+void LeePassDlg::onGeneratePswd() {GeneratorDlg dlg;   dlg.DoModal();   dlg.password.expunge();}
 
 
 void LeePassDlg::onRemoveDups() {
@@ -973,4 +986,25 @@ int    nGrps = groups.nData();
   }
 #endif
 
+#if 1
+#else
+  int show;
+  show = saveRcd ? SW_SHOW : SW_HIDE;   generateCtl.ShowWindow(show);
+#endif
+#if 1
+#else
+  toolBar.setCurSel(ID_EntryCbx, i);   loadEntry();
+#endif
+#if 1
+#else
+  toolBar.setCurSel(ID_EntryCbx, cboBxX);   loadEntry();
+#endif
+#if 1
+#else
+  toolBar.setCurSel(ID_EntryCbx, cboBxX);   loadEntry();
+#endif
+#if 1
+#else
+  toolBar.setCurSel(ID_EntryCbx, i);   toolBar.Invalidate();   loadEntry();
+#endif
 

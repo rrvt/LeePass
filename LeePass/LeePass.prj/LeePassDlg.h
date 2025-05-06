@@ -91,13 +91,10 @@ private:
   void            installEntry(TCchar* name, void* data);
 
   int             findEntry(void* kpe);
+  void            loadEntry(int i);       // Selects and loads the ith entry in Entry Combo Box
   void            loadEntry();
 
   void            setupToolBar();
-
-//  void            setDbSts();
-//  void            setEntrySts(Record& rcd);
-//  void            setStatus(TCchar* sts);
 
   void            setTitle(TCchar* title);
   void            setLabels();
@@ -106,6 +103,8 @@ private:
 
   bool            isLegalRcd(Record& rcd);
   void            shiftDirty() {saveDB |= dirty;   dirty = false;}
+
+  void            showGenerateButton();
 
 public:
 
@@ -166,4 +165,11 @@ public:
   };
 
 
+
+
+////////---------------------
+
+//  void            setDbSts();
+//  void            setEntrySts(Record& rcd);
+//  void            setStatus(TCchar* sts);
 

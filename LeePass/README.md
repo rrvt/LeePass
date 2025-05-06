@@ -44,6 +44,13 @@ Execute the msi file to install the app.
 
 ## Updates
 
+### Update 5/6/25
+
+While reviewing records in LastPass and LeePass (about 1/2 of them at this point) made several little
+changes to "improve" the user interface.
+
+### Update 5/3/25
+
 Added the following menu items on the menu bar itself:
   - Open default browser with the url in the current record
   - Copy the user name to the clipboard

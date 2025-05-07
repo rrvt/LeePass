@@ -177,11 +177,7 @@ PasswordNewDlg dlg;
 
   kpLib.saveMasterKey(dlg.password);   finOpen();   kpLib.dspEncryption();
 
-#if 1
-  setLabels();
-#else
-  generateCtl.ShowWindow(SW_SHOW);
-#endif
+  setLabels();    status.setDb(path, 0);
   }
 
 
@@ -190,7 +186,7 @@ PathDlgDsc pathDlgDsc(_T("LeePass Database"), path, _T("kdb"), _T("*.kdb"));
 
   if (!getOpenDlg(pathDlgDsc, path)) return;
 
-  dbOpen = false;
+  dbOpen = false;    status.setDb(path, 0);
   }
 
 
@@ -519,11 +515,13 @@ void LeePassDlg::saveCurrentRcd() {
 Record& rcd = kpLib.rcd;
 
   if (!dbOpen || !saveRcd || !isLegalRcd(rcd)) {rcd.clear();      return;}
+
   if (rcd.title.isProhibited(titleCtl)       ||
       rcd.userName.isProhibited(userNameCtl) ||
       rcd.group.isProhibited(groupCtl))
                   {messageBox(_T("The text in title, username or group is prohibited"));   return;}
-  if (newRcd)                                  {saveNewRcd(rcd);  return;}
+
+  if (newRcd) {saveNewRcd(rcd);  return;}
 
   dirty |= rcd.updateTitle(titleCtl);
   dirty |= rcd.updateURL(urlCtl);
@@ -871,140 +869,4 @@ void LeePassDlg::onAppAbout()
         {AboutDlgKp aboutDlg;   aboutDlg.keePassLibVer = kpLib.getVersion();   aboutDlg.DoModal();}
 
 
-
-///////-------------------
-
-#if 0
-/*
-    void CYourDialog::OnContextMenu(CWnd* pWnd, CPoint point)
-    {
-        if (pWnd->IsKindOf(RUNTIME_CLASS(CEdit)))
-        {
-            // Get the CEdit control's ID
-            int nID = pWnd->GetDlgCtrlID();
-            if (nID == IDC_EDIT1) // Replace IDC_EDIT1 with your CEdit control's ID
-            {
-                CMenu menu;
-                menu.LoadMenu(IDR_MENU1); // Load the menu resource
-                CMenu* pPopupMenu = menu.GetSubMenu(0);
-
-                // Track and display the popup menu
-                pPopupMenu->TrackPopupMenu(TPM_LEFTALIGN | TPM_RIGHTBUTTON, point.x, point.y, this);
-            }
-        }
-        else
-            CDialog::OnContextMenu(pWnd, point);
-    }
-*/
-
-
-void LeePassDlg::OnContextMenu(CWnd* pWnd, CPoint point) {
-int    nID;
-CMenu  menu;
-CMenu* popup;
-
-  messageBox(_T("OnContextMenu"));
-
-  if (!pWnd->IsKindOf(RUNTIME_CLASS(CEdit))) {CDialog::OnContextMenu(pWnd, point);  return;}
-
-  nID = pWnd->GetDlgCtrlID();
-  if (nID == IDC_Title) box = &titleCtl;
-  menu.LoadMenu(IDR_PopupMenu);   popup = menu.GetSubMenu(0);
-
-  popup->TrackPopupMenu(TPM_LEFTALIGN | TPM_RIGHTBUTTON, point.x, point.y, this);
-  }
-
-
-void LeePassDlg::onOption1() {
-  if (!box) return;
-
-  box->SendMessage(WM_COPY);
-  }
-
-
-void LeePassDlg::onOption2() {
-  if (!box) return;
-
-  box->SendMessage(WM_PASTE);
-  }
-#endif
-#if 1
-#else
-String   s;
-void*    x;
-Record&  rcd = kpLib.rcd;
-
-  if (!toolBar.getCurSel(ID_EntryCbx, s, x)) return;
-
-  newRcd = false;   rcd = (KpEntry*) x;
-
-  rcd.title.set(titleCtl);
-  rcd.url.set(urlCtl);
-  rcd.name.set(nameCtl);
-  rcd.password.set(pswdCtl);
-  rcd.notes.set(notesCtl);
-  rcd.creation.set(creationCtl);
-  rcd.lastMod.set(lastModCtl);
-  rcd.lastAccess.set(lastAccessCtl);
-  rcd.binDesc.set(binaryDescCtl);
-  rcd.group.set(groupCtl);
-
-  setEntrySts(rcd);
-#endif
-/*groups.install(toolBar, ID_GroupCbx);*/
-/*groups.install(toolBar, ID_GroupCbx);*/
-/*groups.install(toolBar, ID_GroupCbx);*/
-/*groups.install(toolBar, ID_GroupCbx);*/
-/*groups.install(toolBar, ID_GroupCbx);*/
-/*groups.install(toolBar, ID_GroupCbx);*/
-#if 0
-void LeePassDlg::setEntrySts(Record& rcd) {setStatus(rcd.getEntryDsc());}
-
-void LeePassDlg::setStatus(TCchar* sts) {
-static String msg;
-bool          isPresent = sts && *sts;
-String        t         = isPresent ? sts : msg.str();
-
-  if (isPresent) msg = t;
-
-  if (!t.isEmpty()) t += _T(" -- ");
-
-  t +=  saveRcd ? _T("Save Record Changes") : _T("Read Only");
-
-  statusBar.setText(0, t);
-  }
-
-void LeePassDlg::setDbSts() {
-String s = path;
-String t;
-int    nGrps = groups.nData();
-
-  if (nGrps)        {s += t.format(_T("   No. of Groups: %i"), nGrps);}
-  if (nRecords) {s += t.format(_T("   No. of Entries: %i"), nRecords);}
-
-  statusBar.setText(1, s);
-  }
-#endif
-
-#if 1
-#else
-  int show;
-  show = saveRcd ? SW_SHOW : SW_HIDE;   generateCtl.ShowWindow(show);
-#endif
-#if 1
-#else
-  toolBar.setCurSel(ID_EntryCbx, i);   loadEntry();
-#endif
-#if 1
-#else
-  toolBar.setCurSel(ID_EntryCbx, cboBxX);   loadEntry();
-#endif
-#if 1
-#else
-  toolBar.setCurSel(ID_EntryCbx, cboBxX);   loadEntry();
-#endif
-#if 1
-#else
-  toolBar.setCurSel(ID_EntryCbx, i);   toolBar.Invalidate();   loadEntry();
-#endif
 

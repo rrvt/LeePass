@@ -167,9 +167,3 @@ public:
 
 
 
-////////---------------------
-
-//  void            setDbSts();
-//  void            setEntrySts(Record& rcd);
-//  void            setStatus(TCchar* sts);
-

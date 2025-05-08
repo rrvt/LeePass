@@ -898,3 +898,38 @@ void LeePassDlg::onAppAbout()
 
 
 
+#if 0
+
+// In the dialog's header file (.h)
+protected:
+  afx_msg void OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags);
+
+  DECLARE_MESSAGE_MAP()
+
+// In the dialog's source file (.cpp)
+BEGIN_MESSAGE_MAP(CYourDialog, CDialogEx)
+  ON_WM_KEYDOWN()
+END_MESSAGE_MAP()
+
+void CYourDialog::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
+{
+  if (nChar == VK_GREATER && (GetKeyState(VK_MENU) & 0x8000))
+  {
+    // "Alt + >" is pressed
+    // Place your code here to handle the event
+  }
+
+  CDialogEx::OnKeyDown(nChar, nRepCnt, nFlags);
+}
+
+
+
+In the OnKeyDown handler, nChar represents the virtual key code of the pressed key. VK_GREATER is
+the virtual key code for the ">" key. GetKeyState(VK_MENU) & 0x8000 checks if the Alt key is
+currently pressed. The 0x8000 bit indicates whether the key is down.
+
+When this condition is met, the code within the if statement will be executed, allowing for
+specific actions to be performed in response to the "Alt + >" key combination. It's important to
+call the base class's OnKeyDown function at the end to ensure default key processing.
+
+#endif

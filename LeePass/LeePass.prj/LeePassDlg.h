@@ -73,6 +73,8 @@ public:
           void saveCurrentRcd();
           void saveNewRcd(Record& rcd);
 
+  virtual void OnOK() {::SendMessage(m_hWnd, WM_NEXTDLGCTL, 0, 0);}
+
 // Dialog Data
 
 #ifdef AFX_DESIGN_TIME

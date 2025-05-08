@@ -110,7 +110,7 @@
 #define ClearClipBoardMsg              (WM_USER + 100)
 
 
-#define DlgWidth                        400
+#define DlgWidth                        442
 #define DlgDepth                        138
 
 // Next default values for new objects

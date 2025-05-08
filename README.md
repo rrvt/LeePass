@@ -44,6 +44,15 @@ Execute the msi file to install the app.
 
 ## Updates
 
+### Update 5/8/25
+
+Some of the passwords did not fit in the edit box for passwords.  Also after loading a database
+the opening width of the window cut off the exit button on the toolbar because the width of the
+drop down lists of groups and entries was adjusted so that an entire entry was visible in the drop
+down list.  I also discovered that the main dialob box reacted to an Enter key by exiting the
+dialog box (this is normal behavior for a dialog).  So I've converted the Enter key in the main
+dialog to a tab to the next field.
+
 ### Update 5/7/25
 
 Added two radio buttons to the search dialog box.  The radio buttons specify either all groups or

@@ -44,6 +44,12 @@ Execute the msi file to install the app.
 
 ## Updates
 
+### Update 5/7/25
+
+Added two radio buttons to the search dialog box.  The radio buttons specify either all groups or
+just the current group are searched.  The search changes the current group in the event that all
+groups are searched and the entry is found in a group that is not current.
+
 ### Update 5/6/25
 
 While reviewing records in LastPass and LeePass (about 1/2 of them at this point) made several little

@@ -4,7 +4,9 @@
 #pragma once
 
 
-enum SrchMode {RegExpr, WholeWord, WholeField, Prefix, AnyWhere};
+
+enum SrchMode    {RegExpr, WholeWord, WholeField, Prefix, AnyWhere};
+enum SrchGrpMode {AllGrpsMode, CurGrpMode};
 
 extern TCchar* SearchSect;
 
@@ -14,7 +16,11 @@ class SearchDlg : public CDialogEx {
 
   DECLARE_DYNAMIC(SearchDlg)
 
+CEdit   tagetCtl;
+
 public:
+int     groupMode;              // Current Group or All Groups
+
 Cstring target;
 BOOL    caseSens;           // Search attributes
 

@@ -25,8 +25,8 @@ public:
 
   void setDb(TCchar* path, int nRecords);
   void set(Record& rcd);
-  void set(TCchar* txt);
-  void tmp(TCchar* txt) {try {stsBar.setText(0, txt);} catch (...) { }}
+  void set(TCchar*   txt);
+  void tmp(TCchar*   txt) {try {stsBar.setText(0, txt);} catch (...) { }}
 private:
 
   Status() : stsBar(*(StatusBar*)0), saveRcd(*(bool*)0) { }

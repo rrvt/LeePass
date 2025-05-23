@@ -31,9 +31,9 @@ String  addQuotes(TCchar* p);     // Conditionally add quotes to protect interio
 String& removeQuotes(String& s);
 
 bool    isEmpty(String*   s, ...);
-void    expunge(String&   s);
-void    expunge(Cstring& cs);
-void    expunge(ToAnsi& ansi);
+//void    expunge(String&   s);
+//void    expunge(Cstring& cs);
+//void    expunge(ToAnsi& ansi);
 
 String formatPhone(TCchar* ph, Tchar sep);
 

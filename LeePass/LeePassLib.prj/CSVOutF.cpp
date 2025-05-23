@@ -11,7 +11,6 @@ static TCchar Quote = _T('"');
 
 
 bool CSVOutF::open(PathDlgDsc& dsc) {
-String path;
   return getSaveAsPathDlg(dsc, path) && fo.open(path, FileIO::Write);
   }
 

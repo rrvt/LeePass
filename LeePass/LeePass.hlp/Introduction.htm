@@ -38,9 +38,55 @@ or attributes specified in the search dialog box.  There may be more than one re
 "Search Next" command (<img src="Images/FindNext.jpg" width="16" height="15" alt="Find Next">) will find the next match.
 </li>
 <li>
-Browse through the entries in the Entries drop down list by using the "<" (e.g. "Previous") and ">" ("Next") toolbard
+Browse through the entries in the Entries drop down list by using the "&lt;" (e.g. "Previous") and "&gt;" ("Next") toolbard
  commands.  The initial value is the first item on the Entry drop down list.
- </li>
+</li>
+</ul>
+
+<p>
+When an entry is visible in the app three commands on the menu bar will help view the web site and login.  The 
+commands are:
+</p>
+<ul>
+<li>Start URL -- Send url to the default browser</li>
+<li>Copy UserName -- Copies the User Name to the clipboard</li>
+<li>Copy Password -- Copies the password to the clipboard for 30 seconds</li>
+</ul>
+
+<p>
+When the app starts it is in Read Only mode.  One can browse or find entries make changes in the entries and when the
+app exits nothing will be saved.  To edit an entry or create a new one one must execute the toggle Save/Read Only State
+command (<img src="Images/Edit.jpg" width="16" height="15" alt="Toggle">).  One feature of the Toggle command is that
+when the app is in the Save State
+a button (<img src="Images/Key.jpg" width="18" height="18" alt="Key">) will appear next to the password. The key button,
+when pressed will generate a new password and insert it into the entry's password box.  A new password may be generated 
+using the menu command Tools/Generate Password.
+</p>
+
+<h3>House Keeping</h3>
+<p>
+As with all databases there are a slew of housekeeping commands.  One can create a new database, open an existing 
+database, login in to the currently selected database, create a new entry, create a new password for an existing entry,
+explicitly save an entry, delete an entry, delete a group of entries (i.e. delete a group).
+</p>
+
+<p>
+The status line on the bottom border of the app shows the current state of the app as best as can be executed.  The path
+to the database, the number of groups and entries in the database is displayed in the right half.  The current record 
+and Save/Read Only state is shown in the left half.  Copying entities to the clipboard is shown in the left half.
+</p>
+
+<h3>LastPass</h3>
+<p>
+LastPass is a commercial password vault and integrates with Firefox nicely.  This vault is a backup.  Export the entities
+from LastPass and import them into LeePass.  One can also export from LeePass and import into LastPass.  The resulting 
+entries in LastPass don't appear to be exactly the same as the entries that were exported from LastPass but they are 
+similar.  The commands are on the toolbar in a drop down menu captioned LastPass:
+</p>
+<ul>
+<li>Import Lastpass File  -- reads the Comma Separated Value (csv) file</li>
+<li>Export a Lastpass File  -- writes a Comma Separated Value (csv) file</li>
+<li>Expunge File -- writes random characters over the content of the file, then deletes it</li>
 </ul>
 <p>
   The operations available are discussed on the 

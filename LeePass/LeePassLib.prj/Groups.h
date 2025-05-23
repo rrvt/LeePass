@@ -7,9 +7,9 @@
 #include "IterT.h"
 #include "KpDate.h"
 
-class                    CPwManager;
-typedef struct _PW_GROUP PW_GROUP;
-class                    MyToolBar;
+class MyToolBar;
+
+extern TCchar* GeneralGrp;
 
 
 /*
@@ -61,17 +61,16 @@ typedef IterT<Groups, Group> GrpIter;
 
 
 class Groups {
-CPwManager*           pwMgr;
+
 DWORD                 backupID;
 Expandable<Group, 16> data;
 bool                  dirty;
 
 public:
 
-          Groups() : pwMgr(0), backupID(0), dirty(true) {}
+          Groups() : backupID(0), dirty(true) {}
          ~Groups() { }
 
-  void    setPwMgr(CPwManager* pMgr) {pwMgr = pMgr;}
   void    initialize();
 
   bool    isDirty() {return dirty;}
@@ -79,21 +78,18 @@ public:
   TCchar* getName(uint grpID);
   uint    getID(TCchar* grpName);
 
-
   uint    add(TCchar* grpName);
   bool    del(uint grpId, MyToolBar& toolBar, uint id);     // Del group and all entries in group,
                                                             // initialize data and toolbar ComboBox
   bool    del(uint grpId);                                  // Del group from keePass group list
-//  bool    isModified()    {return dirty;}
 
   DWORD   bkupID() {initialize(); return backupID;}
 
-//  void    install(MyToolBar& toolBar, uint id);
   void    install(CComboBox& cbx, TCchar* name);
 
   void    display();
 
-  int     nData() {return data.end();}                // Returns number of data items in array
+  int     nData() {return data.end();}                    // Returns number of data items in array
 
 private:
 
@@ -115,4 +111,6 @@ extern Groups groups;
 
 
 //Groups() : kpdb(*(IKpDatabase*)0) { }
+  //  bool    isModified()    {return dirty;}
+//  void    install(MyToolBar& toolBar, uint id);
 

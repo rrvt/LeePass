@@ -9,13 +9,10 @@
 #define IDR_LastPassMenu                103
 #define IDR_Generate                    104
 
-#define IDD_ChangePswd                  200
-#define IDD_Verify                      201
-#define IDD_Generator                   202
-#define IDD_LeePass                     203
-#define IDD_Password                    204
-#define IDD_NewPassword                 205
-#define IDD_Search                      206
+#define IDD_Generator                   200
+#define IDD_LeePass                     201
+#define IDD_Password                    202
+#define IDD_NewPassword                 203
 
 #define IDC_KeePassVer                  300
 #define IDC_StatusBar                   301
@@ -34,46 +31,24 @@
 #define IDC_LastAccess                  314
 #define IDC_Expire                      315
 
-// Find
-#define IDC_Target                      320
-#define IDC_AllGroups                   321
-#define IDC_CurGroup                    322
-#define IDC_CaseSens                    323
-#define IDC_WholeWord                   324
-#define IDC_RegExpr                     325
-#define IDC_WholeField                  326
-#define IDC_Beginning                   327
-#define IDC_AnyWhere                    328
-#define IDC_TitleFld                    329
-#define IDC_UserNameFld                 330
-#define IDC_URLFld                      331
-#define IDC_MiscFld                     332
-#define IDC_BinDescFld                  333
-
-// Change Password & Get Password
-#define IDC_CurrentPswd                 340
-#define IDC_NewPswd                     341
-#define IDC_ConfirmPswd                 342
-#define IDC_ToggleVisible               343
-
 // Generate Password
-#define IDC_Entropy                     350
-#define IDC_UpperCase                   351
-#define IDC_LowerCase                   352
-#define IDC_Digits                      353
-#define IDC_Quotes                      354
-#define IDC_Punctuation                 355
-#define IDC_OtherSpecial                356
-#define IDC_Length                      357
-#define IDC_OtherChars                  358
-#define IDC_Generate                    359
+#define IDC_Entropy                     320
+#define IDC_UpperCase                   321
+#define IDC_LowerCase                   322
+#define IDC_Digits                      323
+#define IDC_Quotes                      324
+#define IDC_Punctuation                 325
+#define IDC_OtherSpecial                326
+#define IDC_Length                      327
+#define IDC_OtherChars                  328
+#define IDC_Generate                    329
 
 // Commands
 #define ID_NewKpDb                      400
 #define ID_OpenKpDb                     401
 #define ID_Login                        402
 #define ID_GroupCbx                     403
-#define ID_NewPswd                      404
+#define ID_NewEntry                     404
 #define ID_EntryCbx                     405
 #define ID_ToggleSave                   406
 
@@ -103,8 +78,14 @@
 #define ID_MoveRight                    445
 #define ID_Options                      446
 #define ID_About                        447
-#define ID_Exit                         448
-#define ID_Help                         449
+
+#define ID_SaveEntry                    450
+#define ID_SaveGroup                    451
+#define ID_RecoverEntries               452
+#define ID_RecoverFmrDB                 453
+
+#define ID_Help                         460
+#define ID_Exit                         461
 
 
 #define ClearClipBoardMsg              (WM_USER + 100)
@@ -123,3 +104,34 @@
 #define _APS_NEXT_SYMED_VALUE           204
 #endif
 #endif
+
+
+
+///////////------------
+
+#if 0
+// Change Password & Get Password
+#define IDC_NewPswd                     341
+#define IDC_ConfirmPswd                 342
+#define IDC_ToggleVisible               343
+#endif
+
+#if 0
+// Find
+#define IDC_Target                      320
+#define IDC_AllGroups                   321
+#define IDC_CurGroup                    322
+#define IDC_CaseSens                    323
+#define IDC_WholeWord                   324
+#define IDC_RegExpr                     325
+#define IDC_WholeField                  326
+#define IDC_Beginning                   327
+#define IDC_AnyWhere                    328
+#define IDC_TitleFld                    329
+#define IDC_UserNameFld                 330
+#define IDC_URLFld                      331
+#define IDC_MiscFld                     332
+#define IDC_BinDescFld                  333
+#endif
+//#define IDD_Search                      206
+

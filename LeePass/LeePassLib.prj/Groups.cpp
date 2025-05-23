@@ -36,11 +36,11 @@ extern TCchar* MasterKey;
 Groups groups;
 
 
-static TCchar* GeneralGrp = _T("General");
+TCchar* GeneralGrp = _T("General");
 
 
 void Groups::initialize() {
-uint   cnt = GetNumberOfGroups(pwMgr);   if (cnt == nData()) return;
+uint   cnt = GetNumberOfGroups(kpMgr);   if (cnt == nData()) return;
 uint   i;
 String name;
 
@@ -48,7 +48,7 @@ String name;
 
   for (i = 0; i < cnt; i++) {
 
-    data.nextData() = GetGroup(pwMgr, i);
+    data.nextData() = GetGroup(kpMgr, i);
 
     if (data[i].name == _T("Backup")) backupID = data[i].id;
     }
@@ -77,7 +77,7 @@ KpDate   kpDate;
   grp.tLastAccess  = kpDate.today();      //toPWTime(today);
   grp.tLastMod     = kpDate.today();      //toPWTime(today);
 
-  if (!AddGroup(pwMgr, &grp)) return false;
+  if (!AddGroup(kpMgr, &grp)) return false;
 
   initialize();   dirty = true;   return getID(grpName);
   }
@@ -92,7 +92,7 @@ bool Groups::del(uint grpId, MyToolBar& toolBar, uint id) {
 
 
 bool Groups::del(uint grpId)
-                        {bool rslt = DeleteGroupById(pwMgr, grpId);  dirty |= rslt;   return rslt;}
+                        {bool rslt = DeleteGroupById(kpMgr, grpId);  dirty |= rslt;   return rslt;}
 
 
 

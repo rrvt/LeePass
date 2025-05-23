@@ -3,6 +3,7 @@
 
 #include "pch.h"
 #include "Groups.h"
+#include "KpSDK.h"
 #include "Remove.h"
 #include "utility.h"
 
@@ -16,7 +17,7 @@ KP_SHARE PW_ENTRY* GetEntry(          void* pMgr, DWORD dwIndex);
 
 int Remove::duplicates() {
 
-  noDeleted = 0;   nEntries = GetNumberOfEntries(pwMgr);
+  noDeleted = 0;   nEntries = GetNumberOfEntries(kpMgr);
 
   for (index = 0; index < nEntries; index++) findAllDups(index);
 
@@ -25,7 +26,7 @@ int Remove::duplicates() {
 
 
 void Remove::findAllDups(int tgtIndex) {
-KpEntry* kpEntry = GetEntry(pwMgr, tgtIndex);    if (!kpEntry) return;
+KpEntry* kpEntry = GetEntry(kpMgr, tgtIndex);    if (!kpEntry) return;
 String   tgt     = kpEntry->pszTitle;
 int      dupX;
 int      delIndex;
@@ -34,7 +35,7 @@ int      delIndex;
 
     delIndex = compare(tgtIndex, dupX);
 
-    if (delIndex >= 0 && DeleteEntry(pwMgr, delIndex)) {
+    if (delIndex >= 0 && DeleteEntry(kpMgr, delIndex)) {
 
       noDeleted++;   nEntries--;    dupX--;
 
@@ -47,39 +48,41 @@ int      delIndex;
 // returns index of entry to delete or -1
 
 int Remove::compare(int index, int dupIndex) {
-KpEntry* kpEntry  = GetEntry(pwMgr, index);     if (!kpEntry)  return -1;
-KpEntry* dupEntry = GetEntry(pwMgr, dupIndex);  if (!dupEntry) return -1;
+KpEntry* kpEntry  = GetEntry(kpMgr, index);     if (!kpEntry)  return -1;
+KpEntry* dupEntry = GetEntry(kpMgr, dupIndex);  if (!dupEntry) return -1;
 String   s;
 Date     dt;
 Date     dupDt;
-bool     oldI;
-bool     dupOldI;
 
   s = kpEntry->pszURL;         if (s != dupEntry->pszURL)      return -1;
   s = kpEntry->pszUserName;    if (s != dupEntry->pszUserName) return -1;
 
   dt   = getDate(kpEntry->tCreation);           dupDt   = getDate(dupEntry->tCreation);
-  oldI = isOldImport(kpEntry->pszAdditional);   dupOldI = isOldImport(dupEntry->pszAdditional);
-
-  if (oldI ^ dupOldI) return oldI ? index : dupIndex;
 
   return dt > dupDt ? dupIndex : index;
   }
 
 
+int Remove::findTitle(TCchar* title, int index)
+                                              {return Find(kpMgr, title, true, PWMF_TITLE, index);}
+
+
+//////////-------------
+
+#if 0
 int Remove::oldLPImports() {
 KpEntry* kpEntry;
 String   s;
 String   title;
 
-  noDeleted = 0;   nEntries = GetNumberOfEntries(pwMgr);
+  noDeleted = 0;   nEntries = GetNumberOfEntries(kpMgr);
 
   for (index = 0; index < nEntries; index++) {
 
-    kpEntry  = GetEntry(pwMgr, index);     if (!kpEntry) continue;
+    kpEntry  = GetEntry(kpMgr, index);     if (!kpEntry) continue;
 
     if (isOldImport(kpEntry->pszAdditional))
-                              {DeleteEntry(pwMgr, index);   noDeleted++;   nEntries--;    index--;}
+                              {DeleteEntry(kpMgr, index);   noDeleted++;   nEntries--;    index--;}
     }
 
   return noDeleted;
@@ -123,12 +126,12 @@ String  backup = _T("Backup");
 
 
 bool Remove::isGrpPresent(DWORD id) {
-int      n = GetNumberOfEntries(pwMgr);
+int      n = GetNumberOfEntries(kpMgr);
 int      i;
 KpEntry* kpEntry;
 
   for (i = 0; i < n; i++) {
-    kpEntry  = GetEntry(pwMgr, i);     if (!kpEntry) continue;
+    kpEntry  = GetEntry(kpMgr, i);     if (!kpEntry) continue;
 
     if (kpEntry->uGroupId == id) return true;
     }
@@ -141,17 +144,17 @@ int Remove::backups() {
 KpEntry* kpEntry;
 DWORD    backupId = groups.bkupID();
 
-  noDeleted = 0;   nEntries = GetNumberOfEntries(pwMgr);
+  noDeleted = 0;   nEntries = GetNumberOfEntries(kpMgr);
 
   for (index = 0; index < nEntries; index++) {
-    kpEntry  = GetEntry(pwMgr, index);     if (!kpEntry) continue;
+    kpEntry  = GetEntry(kpMgr, index);     if (!kpEntry) continue;
 
-    if (kpEntry->uGroupId == backupId) {DeleteEntry(pwMgr, index);   noDeleted++;    index--;}
+    if (kpEntry->uGroupId == backupId) {DeleteEntry(kpMgr, index);   noDeleted++;    index--;}
     }
 
   groups.del(backupId);    noDeleted++;   return noDeleted;
   }
-
+#endif
 
 
 /////--------------------

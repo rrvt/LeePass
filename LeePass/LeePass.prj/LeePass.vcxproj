@@ -90,9 +90,7 @@
     <ResourceCompile>
       <Culture>0x0409</Culture>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>
-        $(IntDir);$(SolutionDir)..\..\Library\Extras\
-      </AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(IntDir);$(SolutionDir)..\LeePassLib.prj\;$(SolutionDir)..\..\Library\Extras\</AdditionalIncludeDirectories>
     </ResourceCompile>
     <PostBuildEvent>
       <Command>copy $(SolutionDir)..\..\KeePass\$(Configuration)\KeePassLibC.dll $(OutDir)</Command>
@@ -138,9 +136,7 @@
     <ResourceCompile>
       <Culture>0x0409</Culture>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>
-        $(IntDir);$(SolutionDir)..\..\Library\Extras\
-      </AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(IntDir);$(SolutionDir)..\LeePassLib.prj\;$(SolutionDir)..\..\Library\Extras\</AdditionalIncludeDirectories>
     </ResourceCompile>
     <PostBuildEvent>
       <Command>copy $(SolutionDir)..\..\KeePass\$(Configuration)\KeePassLibC.dll $(OutDir)</Command>
@@ -153,45 +149,30 @@
     <ClInclude Include="..\..\Library\Extras\OptionsDlg.h" />
     <ClInclude Include="..\..\Library\Extras\ResourceExtra.h" />
     <ClInclude Include="AboutDlgKp.h" />
-    <ClInclude Include="ChngMstrKeyDlg.h" />
     <ClInclude Include="ClipBoard.h" />
     <ClInclude Include="GeneratorDlg.h" />
-    <ClInclude Include="KpBinaryFld.h" />
     <ClInclude Include="KpCBxFld.h" />
     <ClInclude Include="KpFldLngs.h" />
-    <ClInclude Include="KpID.h" />
-    <ClInclude Include="KpIter.h" />
-    <ClInclude Include="KpLib.h" />
-    <ClInclude Include="KpSearch.h" />
-    <ClInclude Include="KpStringFld.h" />
     <ClInclude Include="LeePass.h" />
     <ClInclude Include="LeePassDlg.h" />
     <ClInclude Include="MyToolBar.h" />
     <ClInclude Include="PasswordDlg.h" />
     <ClInclude Include="PasswordNewDlg.h" />
     <ClInclude Include="Record.h" />
-    <ClInclude Include="Remove.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="pch.h" />
-    <ClInclude Include="SearchDlg.h" />
     <ClInclude Include="Status.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="ThreadBase.h" />
-    <ClInclude Include="VerifyDlg.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Library\Extras\OptionsDlg.cpp" />
     <ClCompile Include="AboutDlgKp.cpp" />
-    <ClCompile Include="ChngMstrKeyDlg.cpp" />
     <ClCompile Include="ClipBoard.cpp" />
     <ClCompile Include="GeneratorDlg.cpp" />
-    <ClCompile Include="KpBinaryFld.cpp" />
     <ClCompile Include="KpCBxFld.cpp" />
     <ClCompile Include="KpFldLngs.cpp" />
-    <ClCompile Include="KpIter.cpp" />
-    <ClCompile Include="KpLib.cpp" />
-    <ClCompile Include="KpSearch.cpp" />
     <ClCompile Include="KpStringFld.cpp" />
     <ClCompile Include="LeePass.cpp" />
     <ClCompile Include="LeePassDlg.cpp" />
@@ -201,11 +182,8 @@
     <ClCompile Include="PasswordNewDlg.cpp" />
     <ClCompile Include="pch.cpp" />
     <ClCompile Include="Record.cpp" />
-    <ClCompile Include="Remove.cpp" />
-    <ClCompile Include="SearchDlg.cpp" />
     <ClCompile Include="Status.cpp" />
     <ClCompile Include="ThreadBase.cpp" />
-    <ClCompile Include="VerifyDlg.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="LeePass.rc" />

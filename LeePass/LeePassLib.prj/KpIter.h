@@ -2,24 +2,20 @@
 
 
 #pragma once
-#include "KpSDK.h"
-
-class CPwManager;
+#include "KpDataDef.h"
 
 
 class KpIter {
-CPwManager* pwMgr;
-int         nEntry;
-int         i;
-DWORD       bkupID;
+int          nEntry;
+int          i;
+DWORD        bkupID;
 
 public:
 
 enum Dir {Fwd, Rev};
 
-           KpIter(CPwManager* pMgr) : pwMgr(pMgr), nEntry(0), i(0), bkupID(0) { }
-           KpIter(KpIter& iter)     : pwMgr(iter.pwMgr), nEntry(iter.nEntry),
-                                                                 i(iter.i), bkupID(iter.bkupID) { }
+           KpIter() : nEntry(0), i(0), bkupID(0) { }
+           KpIter(KpIter& iter)     : nEntry(iter.nEntry), i(iter.i), bkupID(iter.bkupID) { }
           ~KpIter() { }
 
   KpEntry* operator() (Dir rev = Fwd);
@@ -37,7 +33,9 @@ enum Dir {Fwd, Rev};
 private:
 
   KpEntry* next(Dir rev = Fwd);
-
-  KpIter() : pwMgr(0) { }
   };
+
+
+//////----------------
+//class CPwManager;
 

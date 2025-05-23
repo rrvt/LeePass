@@ -32,9 +32,106 @@ DWORD   uBinaryDataLen;       ///< Length of the attachment data in bytes.
 #pragma once
 #include "Date.h"
 #include "KpID.h"
-#include "KpSDK.h"
-#include "KpCBxFld.h"
+#include "KpDataDef.h"
+#include "KpRecord.h"
 #include "KpStringFld.h"
+
+
+extern TCchar* TitleLbl;
+extern TCchar* URLLbl;
+extern TCchar* UserNameLbl;
+
+
+class Record {
+
+KpRecord&    kpRcd;
+
+public:
+
+  Record(KpRecord& kpRecord);
+ ~Record();
+
+  void    clear() {kpRcd.clear();}
+
+  Record& operator= (KpEntry* kpEntry) {kpRcd = kpEntry;   return *this;}
+
+  TCchar* group() {return kpRcd.group;}
+  KpID&   kpId()  {return kpRcd.kpId;}
+
+  void    setTitleLbl(CEdit& ctl);                    // Set controls with labels iff empty
+  void    setURLLbl(CEdit& ctl);
+  void    setUserNameLbl(CEdit& ctl);
+  void    setPasswordLbl(CEdit& ctl);
+  void    setExtraLbl(CEdit& ctl);
+  void    setCreationLbl(CStatic& ctl);
+  void    setLastModLbl(CStatic& ctl);
+  void    setLastAccessLbl(CStatic& ctl);
+  void    setBinDescLbl(CEdit& ctl);
+  void    setGroupLbl(CComboBox& ctl);
+
+  void    clrTitleLbl(CEdit& ctl);                    // Clear control iff control contains label
+  void    clrURLLbl(CEdit& ctl);
+  void    clrUserNameLbl(CEdit& ctl);
+  void    clrPasswordLbl(CEdit& ctl);
+  void    clrExtraLbl(CEdit& ctl);
+  void    clrCreationLbl(CStatic& ctl);
+  void    clrLastModLbl(CStatic& ctl);
+  void    clrLastAccessLbl(CStatic& ctl);
+  void    clrBinDescLbl(CEdit& ctl);
+  void    clrGroupLbl(CComboBox& ctl);
+
+  void    setTitle(CEdit& ctl);                       // Set control with record field iff not
+  void    setURL(CEdit& ctl);                         // empty else set with label
+  void    setUserName(CEdit& ctl);
+  void    setPassword(CEdit& ctl);
+  void    setExtra(CEdit& ctl);
+  void    setCreation(CStatic& ctl);
+  void    setLastMod(CStatic& ctl);
+  void    setLastAccess(CStatic& ctl);
+  void    setBinDesc(CEdit& ctl);
+  void    setGroup(CComboBox& ctl);
+
+  bool    isProhibited(CEdit& ctl)                    // Master key prohibited
+                                {Cstring cs;   ctl.GetWindowText(cs);   return ::isProhibited(cs);}
+  bool    isProhibited(CComboBox& ctl)
+                                {Cstring cs;   ctl.GetWindowText(cs);   return ::isProhibited(cs);}
+
+// New Record
+
+  bool    getTitle(CEdit& ctl);                       // Get field from control and store in
+  bool    getURL(CEdit& ctl);                         // KpRcd field iff control content not a
+  bool    getUserName(CEdit& ctl);                    // label
+  bool    getPassword(CEdit& ctl);
+  bool    getExtra(CEdit& ctl);
+  bool    getBinaryDesc(CEdit& ctl);
+  bool    getGroup(CComboBox& ctl);
+
+  // kpRcd
+  bool    update() {clearLabels();   return kpRcd.update();}               // Update Current Record
+  bool    update(KpEntry* kpEntry)                                         // Update Found Record
+                   {clearLabels();   return kpRcd.update(kpEntry);}
+  bool    add()    {clearLabels();   return kpRcd.add();}                  // Add New Record
+
+  void    updateCreation(CStatic& ctl);              // Update the date/time to today
+  void    updateLastMod(CStatic& ctl);
+  void    updateLastAccess(CStatic& ctl);
+
+  String& getEntryDsc()     {return kpRcd.getEntryDsc();}
+  String& getLongEntryDsc() {return kpRcd.getLongEntryDsc();}
+
+private:
+
+  void    set(TCchar* lbl, String& fld, CEdit& ctl);
+  bool    get(CEdit& ctl, TCchar* lbl, String& fld);
+  bool    isEmpty(CEdit& ctl, TCchar* lbl);
+  void    clearLabels();
+
+  uint    getGroupId(TCchar* name);
+  };
+
+
+
+////////----------------
 
 #if 0
 extern TCchar* FFLineOpen;
@@ -49,76 +146,40 @@ extern TCchar* TimeOpen;
 extern TCchar* TimeClose;
 #endif
 
-class Record {
-
-CPwManager* pwMgr;
-KpEntry*    kpEntry;              // KeePass record pointer
+//  void    setAnote() {aNote = url == NotesURL;}
+//  bool    isNote()   {return aNote;}
+#if 0
+KpEntry*     kpEntry;               // KeePass record pointer
 
 public:
 
-KpID        kpId;                 // Unique ID of KeePass record
-KpCBxFld    group;                // Group Name that corresponds to groupId
-uint        imageId;              // Icon id -- Ignored in this implementation
-KpStringFld title;                // Entry title
-KpStringFld url;
-KpStringFld userName;             // User Name
-KpStringFld password;             // Password
-KpStringFld extra;                // used to hold notes (KP field: pszAdditional)
-KpDate      creation;             // date created
-KpDate      lastMod;              // Last Modification
-KpDate      lastAccess;           // Last Access
-KpStringFld binDesc;              // Description of binary data
-Byte*       binData;              // ptr to binary data or zero
-uint        binDataLng;           // Number of bytes in binaryData
-
-  Record();
- ~Record();
-
-  void    setPwMgr(CPwManager* pMgr) {pwMgr = pMgr;}
-
-  void    clear();
-
-  Record& operator= (KpEntry* kpRcd);
-
-  bool    find(KpEntry*& kpEntry);   // Find if title, name, url is in the current KeePass database
-
-// New Record
-
-  bool    setTitle(CEdit& ctl);
-  bool    setURL(CEdit& ctl);
-  bool    setUserName(CEdit& ctl);
-  bool    setPassword(CEdit& ctl);
-  bool    setExtra(CEdit& ctl);
-  bool    setBinaryDesc(CEdit& ctl);
-  bool    setGroup(CComboBox& ctl);
-
-  bool    update(KpEntry* kpEntry);
-  bool    add();
-
+KpID         kpId;                  // Unique ID of KeePass record
+KpCBxFld     group;                 // Group Name that corresponds to groupId
+uint         imageId;               // Icon id -- Ignored in this implementation
+KpStringFld  title;                 // Entry title
+KpStringFld  url;
+KpStringFld  userName;              // User Name
+KpStringFld  password;              // Password
+KpStringFld  extra;                 // used to hold notes (KP field: pszAdditional)
+KpDate       creation;              // date created
+KpDate       lastMod;               // Last Modification
+KpDate       lastAccess;            // Last Access
+KpStringFld  binDesc;               // Description of binary data
+Byte*        binData;               // ptr to binary data or zero
+uint         binDataLng;            // Number of bytes in binaryData
+#endif
+//#include "KpCBxFld.h"
+//KpCBxFld     groupCbx;              // Group Name that corresponds to groupId
+//bool    find(KpEntry*& kpEntry);   // Find if title, name, url is in the current KeePass database
+#if 0
 // Update an Existing Record
   bool    updateTitle(CEdit& ctl);
   bool    updateURL(CEdit& ctl);
   bool    updateUserName(CEdit& ctl);
   bool    updatePassword(CEdit& ctl);
   bool    updateExtra(CEdit& ctl);
-  bool    updateLastMod();
-  bool    updateLastAccess();
   bool    updateBinaryDesc(CEdit& ctl);
   bool    updateGroup(CComboBox& ctl);
-
-  bool    isTitleEmpty(    CEdit& ctl) {return     title.isEmpty();}
-  bool    isURLEmpty(      CEdit& ctl) {return       url.isEmpty();}
-  bool    isUserNameEmpty( CEdit& ctl) {return  userName.isEmpty();}
-
-  String& getEntryDsc();
-  String& getLongEntryDsc();
-
-//  void    setAnote() {aNote = url == NotesURL;}
-//  bool    isNote()   {return aNote;}
-
-private:
-
-  uint    getGroupId(TCchar* name);
-  int     findTitle(TCchar* title, int index) {return Find(pwMgr, title, true, PWMF_TITLE, index);}
-  };
+#endif
+//  int     findTitle(TCchar* title, int index) {return Find(kpMgr, title, true, PWMF_TITLE, index);}
 

@@ -169,16 +169,51 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="ChngMstrKeyDlg.h" />
+    <ClInclude Include="CSVLexF.h" />
+    <ClInclude Include="CSVOutF.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="Groups.h" />
+    <ClInclude Include="KpBinData.h" />
+    <ClInclude Include="KpDataDef.h" />
     <ClInclude Include="KpDate.h" />
+    <ClInclude Include="KpID.h" />
+    <ClInclude Include="KpIndicator.h" />
+    <ClInclude Include="KpIter.h" />
+    <ClInclude Include="KpLib.h" />
+    <ClInclude Include="KpMasterKey.h" />
+    <ClInclude Include="KpRecord.h" />
+    <ClInclude Include="KpSaveRestore.h" />
     <ClInclude Include="KpSDK.h" />
+    <ClInclude Include="KpSearch.h" />
+    <ClInclude Include="Remove.h" />
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="SearchDlg.h" />
     <ClInclude Include="Utility.h" />
+    <ClInclude Include="VerifyDlg.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ChngMstrKeyDlg.cpp" />
+    <ClCompile Include="CSVLexF.cpp" />
+    <ClCompile Include="CSVOutF.cpp" />
     <ClCompile Include="Groups.cpp" />
+    <ClCompile Include="KpBinData.cpp" />
     <ClCompile Include="KpDate.cpp" />
+    <ClCompile Include="KpIndicator.cpp" />
+    <ClCompile Include="KpIter.cpp" />
+    <ClCompile Include="KpLib.cpp" />
+    <ClCompile Include="KpMasterKey.cpp" />
+    <ClCompile Include="KpRecord.cpp" />
+    <ClCompile Include="KpSaveRestore.cpp" />
+    <ClCompile Include="KpSDK.cpp" />
+    <ClCompile Include="KpSearch.cpp" />
+    <ClCompile Include="Remove.cpp" />
+    <ClCompile Include="SearchDlg.cpp" />
     <ClCompile Include="Utility.cpp" />
+    <ClCompile Include="VerifyDlg.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="LeePassLib.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

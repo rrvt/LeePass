@@ -6,9 +6,14 @@
 #include "MessageBox.h"
 
 
+static uint second = 1000;        // miliseconds
+
+
 bool ClipBoard::clear() {
 
-  if (!OpenClipboard(0)) {messageBox(_T("Cannot open the Clipboard")); return false;}
+  while (isRunning()) {aThreadFlag = true;  Sleep(second);}
+
+  if (!OpenClipboard(0)) return false;
 
   if (!EmptyClipboard())
                  {messageBox(_T("Cannot empty the Clipboard"));    CloseClipboard(); return false;}
@@ -45,9 +50,6 @@ HGLOBAL hData;
   }
 
 
-
-
-static uint second = 1000;        // miliseconds
 
 
 int WINAPI clipBoardTimer(void* param) {

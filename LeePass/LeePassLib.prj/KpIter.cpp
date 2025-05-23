@@ -3,11 +3,12 @@
 
 #include "pch.h"
 #include "KpIter.h"
+#include "KpSDK.h"
 #include "groups.h"
 
 
 KpEntry* KpIter::operator() (Dir rev) {
-  nEntry = GetNumberOfEntries(pwMgr);   bkupID = groups.bkupID();   i = rev ? nEntry-1 : 0;
+  nEntry = GetNumberOfEntries(kpMgr);   bkupID = groups.bkupID();   i = rev ? nEntry-1 : 0;
 
   return next(rev);
   }
@@ -23,7 +24,7 @@ KpEntry* rcd;
 
   for (; -1 < i && i < nEntry; i += delta) {
 
-    rcd = GetEntry(pwMgr, i);   if (!rcd) continue;       //(KpEntry*)
+    rcd = GetEntry(kpMgr, i);   if (!rcd) continue;       //(KpEntry*)
 
     if (rcd->uGroupId == bkupID) continue;
 
@@ -34,7 +35,7 @@ KpEntry* rcd;
   }
 
 
-bool KpIter::remove(Dir dir) {return DeleteEntry(pwMgr, i);}
+bool KpIter::remove(Dir dir) {return DeleteEntry(kpMgr, i);}
 
 
 

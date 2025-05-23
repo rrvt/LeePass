@@ -2,35 +2,29 @@
 
 
 #pragma once
-#include "KpSDK.h"
+#include "KpDataDef.h"
 #include "SearchDlg.h"
 
 
 class KpSearch {
 
-CPwManager* pwMgr;
-uint        grpId;
-uint        fldFlags;
-bool        caseSens;
-SrchMode    srchMode;
-int         index;
-String      tgt;
+uint         grpId;
+uint         fldFlags;
+bool         caseSens;
+SrchMode     srchMode;
+int          index;
+String       tgt;
 
 public:
 
-  KpSearch() : pwMgr(0), grpId(-1), fldFlags(PWMF_TITLE),
-                                  caseSens(false), srchMode(AnyWhere), index(-1) { }
+  KpSearch();
  ~KpSearch() { }
-
-  void     setPwMgr(CPwManager* pMgr) {pwMgr     = pMgr;}
 
   void     clear() {grpId = fldFlags = 0;   index = -1;   caseSens = false;}
 
-  void     setGroup(uint x)           {grpId      = x;}
-
   bool     isInitialized() {return fldFlags && index >= 0;}
 
-  KpEntry* find(SearchDlg& dlg);
+  KpEntry* find(uint curGrpId);
   KpEntry* next();
 
   KpEntry* findMasterKey();
@@ -57,4 +51,7 @@ bool        beginning;
 bool        anywhere;
 bool        regExpr;
 #endif
+
+//  void     setGroup(uint x)           {grpId      = x;}
+//#include "KpSDK.h"
 

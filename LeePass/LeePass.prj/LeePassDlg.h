@@ -4,7 +4,9 @@
 #pragma once
 #include "ClipBoard.h"
 #include "KpLib.h"
+#include "KpSearch.h"
 #include "MyToolBar.h"
+#include "Record.h"
 #include "Resource.h"
 #include "Status.h"
 #include "WinPos.h"
@@ -13,6 +15,7 @@ class Record;
 
 extern TCchar* GlobalSect;
 extern TCchar* KpDbPathKey;
+extern TCchar* KpDBDbPathKey;
 
 class StatusBar;
 
@@ -32,16 +35,17 @@ bool        isInitialized;                      // OnInitDialog completed succes
 int         nRecords;
 
 String      path;
-CPwManager* pwMgr;                              // Path to Kp Database
 bool        dbOpen;
+Record      rcd;
 bool        newRcd;
 bool        saveRcd;
 
 ClipBoard   clipBoard;
 
-KpLib       kpLib;
 bool        dirty;
 bool        saveDB;
+
+KpSearch    kpSrch;
 
 Status      status;
 String      helpPath;
@@ -90,10 +94,12 @@ protected:
 
 private:
 
+  bool            isLegalRcd();           // Make sure there is some identification info
+
   void            installEntry(TCchar* name, void* data);
 
-  int             findGroup(uint grpId);
-  int             findEntry(void* kpe);
+  int             findCbxGroup(uint grpId);
+  int             findCbxEntry(void* kpe);
   void            loadEntry(int i);       // Selects and loads the ith entry in Entry Combo Box
   void            loadEntry();
 
@@ -104,10 +110,17 @@ private:
   void            finOpen();
   void            saveMasterKey(Cstring& masterKey);
 
-  bool            isLegalRcd(Record& rcd);
   void            shiftDirty() {saveDB |= dirty;   dirty = false;}
 
   void            showGenerateButton();
+
+  void            finFind(KpEntry* kpEntry);
+
+#ifdef _DEBUG
+  TCchar*         getDbPathKey() {return KpDBDbPathKey;}
+#else
+  TCchar*         getDbPathKey() {return KpDbPathKey;}
+#endif
 
 public:
 
@@ -120,14 +133,16 @@ public:
   afx_msg void    OnMove(int x, int y);
   afx_msg void    OnSize(UINT nType, int cx, int cy);
   afx_msg BOOL    OnTtnNeedText(UINT id, NMHDR* pNMHDR, LRESULT* pResult);
+
   afx_msg void    onchangeMasterKey();
+
   afx_msg void    onSave();
 
   afx_msg void    onNewKpDb();
   afx_msg void    onOpenKpDb();
   afx_msg void    onLogin();
   afx_msg void    onGroupCbx();
-  afx_msg void    onNewPswd();
+  afx_msg void    onNewEntry();
   afx_msg void    onEntryCbx();
 
   afx_msg void    onMoveLeft();
@@ -151,11 +166,13 @@ public:
   afx_msg void    onExportFile();
   afx_msg void    onExpungeFile();
 
+  afx_msg void    onSaveEntry();
+  afx_msg void    onSaveGroup();
+  afx_msg void    onRecoverEntries();
+  afx_msg void    onRecoverFmrDB();
+
   afx_msg void    onGeneratePswd();
   afx_msg void    onRemoveDups();
-  afx_msg void    onRmvLPImports();
-  afx_msg void    onRmvRdndtGrps();
-  afx_msg void    onRmvBackups();
 
   afx_msg void    onFocusUrl();
   afx_msg void    onFocusUserName();
@@ -169,4 +186,11 @@ public:
 
 
 
+////----------
+
+#if 0
+  afx_msg void    onRmvLPImports();
+  afx_msg void    onRmvRdndtGrps();
+  afx_msg void    onRmvBackups();
+#endif
 

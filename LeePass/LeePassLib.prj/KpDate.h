@@ -3,7 +3,6 @@
 
 #pragma once
 #include "Date.h"
-#include "KpSDK.h"
 #include "Utility.h"
 
 
@@ -39,4 +38,5 @@ public:
 
 //  Date&    toDate(PW_TIME& pwTime);
 //  PW_TIME& toPTime(Date& dt);
+//#include "KpSDK.h"
 

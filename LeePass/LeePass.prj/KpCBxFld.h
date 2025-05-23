@@ -21,7 +21,7 @@ String fld;
   void         setLabel(CComboBox& ctl) {groups.install(ctl, _T("")); ctl.SetWindowText(lbl);}
   void         clrLabel(CComboBox& ctl) {clrLbl(ctl, lbl);}
 
-  void         set(CComboBox& ctl)      {groups.install(ctl, fld);}
+  void         set(CComboBox& ctl, TCchar* name) {groups.install(ctl, name);}
   bool         get(CComboBox& ctl);
 
   bool         isEmpty() {return fld.isEmpty();}

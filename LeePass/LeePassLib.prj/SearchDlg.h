@@ -4,11 +4,11 @@
 #pragma once
 
 
-
 enum SrchMode    {RegExpr, WholeWord, WholeField, Prefix, AnyWhere};
 enum SrchGrpMode {AllGrpsMode, CurGrpMode};
 
 extern TCchar* SearchSect;
+
 
 // SearchDlg dialog
 
@@ -32,8 +32,8 @@ BOOL    urlFld;
 BOOL    miscFld;
 BOOL    binDescFld;
 
-           SearchDlg(CWnd* pParent = nullptr);   // standard constructor
-  virtual ~SearchDlg();
+               SearchDlg(CWnd* pParent = nullptr);   // standard constructor
+  virtual     ~SearchDlg();
   virtual BOOL OnInitDialog();
   virtual void OnOK();
 

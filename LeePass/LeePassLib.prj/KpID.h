@@ -4,11 +4,15 @@
 
 
 class KpID {
+
 Byte data[16];
 
 public:
 
-  KpID() {ZeroMemory(data, 16);}
+  KpID() {clear();}
+ ~KpID() {clear();}
+
+  void  clear() {ZeroMemory(data, 16);}
 
   KpID& operator= (BYTE* uuid) {memcpy_s(data, 16, uuid, 16);   return *this;}
 

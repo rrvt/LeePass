@@ -3,7 +3,9 @@
 
 #include "pch.h"
 #include "Utility.h"
+#include "FileIO.h"
 #include "KpSDK.h"
+#include "MessageBox.h"
 #include <random>
 
 
@@ -24,6 +26,10 @@ TCchar* setLbl(CComboBox& ctl, TCchar* txt)
      {Cstring cs;  ctl.GetWindowText(cs);  if (cs.isEmpty()) ctl.SetWindowText(txt);   return txt;}
 
 
+TCchar* setLbl(CStatic& ctl, TCchar* txt)
+     {Cstring cs;  ctl.GetWindowText(cs);  if (cs.isEmpty()) ctl.SetWindowText(txt);   return txt;}
+
+
 void    clrLbl(CEdit& ctl, TCchar* txt)
                              {Cstring lbl;   ctl.GetWindowText(lbl);   if (lbl == txt) clear(ctl);}
 
@@ -31,6 +37,12 @@ void    clrLbl(CComboBox& ctl, TCchar* txt)
                              {Cstring lbl;   ctl.GetWindowText(lbl);   if (lbl == txt) clear(ctl);}
 void    clrLbl(CStatic&   ctl, TCchar* txt)
                              {Cstring lbl;   ctl.GetWindowText(lbl);   if (lbl == txt) clear(ctl);}
+
+void    clrLbl(String& fld, TCchar* lbl) {if (fld == lbl) fld.clear();}
+
+
+bool isEmpty(CEdit& ctl, TCchar* lbl)
+                         {Cstring cs;   ctl.GetWindowText(cs);   return cs.isEmpty() || cs == lbl;}
 
 
 
@@ -44,6 +56,28 @@ Byte*                      q;
   if (!p || !nBytes) return;
 
   for (i = 0, q = (Byte*) p; i < nBytes; i++) *q++ = (Byte) distribute(gen);
+  }
+
+
+void expunge(TCchar* path) {
+String                     pth = path;
+FileIO                     fi;
+int                        n;
+int                        i;
+static random_device       rd;
+mt19937                    gen(rd());
+uniform_int_distribution<> distribute(0, 255);
+
+  if (!fi.open(pth, FileIO::Read | FileIO::Write))
+                {String s;   s = _T("Unable to Expunge ");   s += path;   messageBox(s);   return;}
+
+  n = fi.getLength();
+
+  for (i = 0; i < n; i++) fi.write((Byte) distribute(gen));
+
+  fi.close();
+
+  if (_tremove(pth)) {String err;   getError(GetLastError(), err);   messageBox(err);}
   }
 
 
@@ -90,6 +124,37 @@ void setEdit(  CEdit&   ctl, TCchar* txt) {ctl.SetWindowText(txt);   ctl.Invalid
 void setStatic(CStatic& ctl, TCchar* txt) {ctl.SetWindowText(txt);   ctl.Invalidate();}
 
 
+
+
+
+static TCchar* ErrorCodes[] = {_T("UNKNOWN"),                _T("SUCCESS"),
+                               _T("INVALID_PARAM"),          _T("NO_MEM"),
+                               _T("INVALID_KEY"),            _T("NOFILEACCESS_READ"),
+                               _T("NOFILEACCESS_WRITE"),     _T("FILEERROR_READ"),
+                               _T("FILEERROR_WRITE"),        _T("INVALID_RANDOMSOURCE"),
+                               _T("INVALID_FILESTRUCTURE"),  _T("CRYPT_ERROR"),
+                               _T("INVALID_FILESIZE"),       _T("INVALID_FILESIGNATURE"),
+                               _T("INVALID_FILEHEADER"),     _T("NOFILEACCESS_READ_KEY"),
+                               _T("KEYPROV_INVALID_KEY"),    _T("FILEERROR_VERIFY"),
+                               _T("UNSUPPORTED_KDBX"),       _T("GETLASTERROR"),
+                               _T("DB_EMPTY"),               _T("ATTACH_TOOLARGE")
+                               };
+
+
+bool chk(int err) {
+String s;
+
+  if (err == PWE_SUCCESS) return true;
+
+#ifdef _DEBUG
+
+  s = 0 <= err && err < noElements(ErrorCodes) ? ErrorCodes[err] :
+                                                  s.format(_T("Err: %i"), err).str();
+  messageBox(s);
+#endif
+
+  return false;
+  }
 
 
 ///////--------------------

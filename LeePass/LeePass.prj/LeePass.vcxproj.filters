@@ -48,46 +48,13 @@
     <ClInclude Include="KpFldLngs.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="KpIter.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="KpLib.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Record.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="KpStringFld.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="KpBinaryFld.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="KpCBxFld.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="KpID.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="PasswordNewDlg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="AboutDlgKp.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Remove.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="KpSearch.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SearchDlg.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ChngMstrKeyDlg.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="VerifyDlg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="GeneratorDlg.h">
@@ -100,6 +67,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Status.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Record.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -125,19 +95,7 @@
     <ClCompile Include="KpFldLngs.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="KpIter.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="KpLib.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Record.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="KpStringFld.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="KpBinaryFld.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="KpCBxFld.cpp">
@@ -149,22 +107,7 @@
     <ClCompile Include="AboutDlgKp.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Remove.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="KpSearch.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="SearchDlg.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="LPtoKP.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ChngMstrKeyDlg.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="VerifyDlg.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="GeneratorDlg.cpp">
@@ -177,6 +120,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Status.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Record.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

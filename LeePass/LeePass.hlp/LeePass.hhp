@@ -15,10 +15,10 @@ Title=Test App Help
 [WINDOWS]
 Introduction="Introduction","LeePass.hhc",,"Introduction.htm",,,,,,0x42120,,0x3006,,,,,,,,0
 
-
 [FILES]
 Introduction.htm
 Operations.htm
+BasicRegExpr.htm
 
 [INFOTYPES]
 

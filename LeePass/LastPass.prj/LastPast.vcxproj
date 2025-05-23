@@ -178,8 +178,6 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="CSVLexF.h" />
-    <ClInclude Include="CSVOutF.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="LastPass.h" />
     <ClInclude Include="LastPassRcd.h" />
@@ -187,8 +185,6 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="CSVLexF.cpp" />
-    <ClCompile Include="CSVOutF.cpp" />
     <ClCompile Include="LastPass.cpp" />
     <ClCompile Include="LastPassRcd.cpp" />
     <ClCompile Include="pch.cpp" />

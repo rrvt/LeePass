@@ -31,6 +31,7 @@ class CSVOutF;
 typedef ManipT<CSVOutF> CSVManip;
 
 class CSVOutF {
+String path;
 FileIO fo;
 
 public:
@@ -38,11 +39,13 @@ public:
   CSVOutF() {initialize();}
 
   bool     open(PathDlgDsc& dsc);
+  TCchar*  getPath() {return path;}
 
   CSVOutF& operator<< (String&    s)     {fo.write(quotes(s));              return *this;}
   CSVOutF& operator<< (TCchar*    p)     {fo.write(quotes(p));              return *this;}
   CSVOutF& operator<< (Tchar     ch)     {fo.write(ch);                     return *this;}
   CSVOutF& operator<< (int        x)     {String s = x;        fo.write(s); return *this;}
+  CSVOutF& operator<< (uint       x)     {String s = x;        fo.write(s); return *this;}
   CSVOutF& operator<< (Date&     dt)     {String s; dt >> s;   fo.write(s); return *this;}
 
   CSVOutF& operator<< (CSVManip& m)      {return m.func(*this);}

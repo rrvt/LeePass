@@ -2,7 +2,7 @@
 
 
 #pragma once
-#include "Resource.h"
+#include "resource.h"
 #include "Utility.h"
 
 
@@ -19,8 +19,10 @@ Cstring curPswd;
 Cstring newPswd;
 Cstring confirmPswd;
 
-           ChngMstrKeyDlg(CWnd* pParent = nullptr);        // standard constructor
-  virtual ~ChngMstrKeyDlg();
+               ChngMstrKeyDlg(CWnd* pParent = nullptr);        // standard constructor
+  virtual     ~ChngMstrKeyDlg();
+
+  virtual BOOL OnInitDialog();
 
 // Dialog Data
 #ifdef AFX_DESIGN_TIME
@@ -40,5 +42,4 @@ private:
 public:
 
   afx_msg void onToggleVisible();
-  virtual BOOL OnInitDialog();
-};
+  };

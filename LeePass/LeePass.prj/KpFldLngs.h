@@ -3,7 +3,7 @@
 
 #pragma once
 
-class Record;
+class KpRecord;
 
 
 class KpFldLngs {
@@ -20,7 +20,7 @@ int binaryDescMax;
   KpFldLngs() : groupNameMax(0), titleMax(0), urlMax(0), userNameMax(0), passwordMax(0),
                                                                   extraMax(0), binaryDescMax(0) { }
 
-  void get(Record& rcd);
+  void get(KpRecord& rcd);
 
 private:
 

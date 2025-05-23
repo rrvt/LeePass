@@ -44,6 +44,16 @@ Execute the msi file to install the app.
 
 ## Updates
 
+### Update 5/23/25
+
+Embarked on a massive restructuring of the interface between LeePass and KeePass to protect
+critical global variables.  Several files and functions were moved from LeePass to LeePassLib.
+This is a work in progress as I am now examining all of the commands one by one.  Have looked at
+New Database and Login pretty thouroughly.  Working my through New Entry.  The code is better now
+but the command does not clear the dialog edit boxes.
+
+Added some logic to be sure the labels do not get saved and if they do they get cleared eventually.
+
 ### Update 5/8/25
 
 Some of the passwords did not fit in the edit box for passwords.  Also after loading a database

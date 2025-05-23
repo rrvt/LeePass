@@ -3,10 +3,10 @@
 
 #include "pch.h"
 #include "KpFldLngs.h"
-#include "Record.h"
+#include "KpRecord.h"
 
 
-void KpFldLngs::get(Record& rcd) {
+void KpFldLngs::get(KpRecord& rcd) {
   getMax(groupNameMax,  rcd.group.length());
   getMax(titleMax,      rcd.title.length());
   getMax(urlMax,        rcd.url.length());

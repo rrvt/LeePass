@@ -199,38 +199,47 @@ KP_SHARE void   ProtectProcessWithDacl();
 #include "pch.h"
 #include "KpLib.h"
 #include "ChngMstrKeyDlg.h"
+#include "CopyFile.h"
 #include "FileName.h"
 #include "GetPathDlg.h"
 #include "Groups.h"
-#include "KpFldLngs.h"
+#include "KpBinData.h"
+#include "KpIndicator.h"
 #include "KpIter.h"
+#include "KpSDK.h"
 #include "LastPassRcd.h"
 #include "LibraryAPI.h"
 #include "MessageBox.h"
-#include "Record.h"
-#include "SearchDlg.h"
+#include "KpRecord.h"
+#include "KpSaveRestore.h"
 #include "Utility.h"
 #include "VerifyDlg.h"
 
 
+KpLib kpLib;                        // The single interface to KeePass dll
 
 
-CPwManager* KpLib::newDatabase(String& path, Cstring& password) {
+KpLib::KpLib() : backupDone(false) {InitManager((void**) &kpMgr, true);}
+KpLib::~KpLib() {DeleteManager(kpMgr);   kpMgr = 0;}
+
+
+
+bool KpLib::newDatabase(String& path, Cstring& password) {
 PathDlgDsc pathDlgDsc(_T("LeePass Database"), path, _T("kdb"), _T("*.kdb"));
 
-  NewDatabase(pwMgr);
+  NewDatabase(kpMgr);
 
-  if (!setPassword(password)) return 0;
+  if (!kpMgr || !setPassword(password)) {kpMgr = 0;   return false;}
 
   if (!path.isEmpty()) path = getPath(path);
 
-  if (getSaveAsPathDlg(pathDlgDsc, path)) SaveDatabase(pwMgr, path);
+  if (getSaveAsPathDlg(pathDlgDsc, path)) SaveDatabase(kpMgr, path);
 
-  groups.setPwMgr(pwMgr);   rcd.setPwMgr(pwMgr);   return pwMgr;
+  return true;
   }
 
 
-CPwManager* KpLib::openDatabase(TCchar* path, Cstring& password) {
+bool KpLib::openDatabase(TCchar* path, Cstring& password) {
 PWDB_REPAIR_INFO info;   ZeroMemory(&info, sizeof(PWDB_REPAIR_INFO));
 bool             rslt = true;
 
@@ -238,88 +247,19 @@ bool             rslt = true;
 
     if (!setPassword(password)) return 0;
 
-    rslt = chk(OpenDatabase(pwMgr, path, &info));
+    rslt = chk(OpenDatabase(kpMgr, path, &info));
     } catch (...) {rslt = false;}
 
-    if (!rslt) {password.expunge();   return 0;}
+  if (!rslt) {password.expunge();   return false;}
 
-  groups.setPwMgr(pwMgr);   groups.initialize();   rcd.setPwMgr(pwMgr);   kpSrch.setPwMgr(pwMgr);
-
-  return pwMgr;
+  groups.initialize();   return true;
   }
 
 
 bool KpLib::setPassword(Cstring& password) {
-bool rslt = chk(SetMasterKey(pwMgr, password, false, 0, 0, false));
+bool rslt = chk(SetMasterKey(kpMgr, password, false, 0, 0, false));
 
   if (!rslt) password.expunge();   return rslt;
-  }
-
-
-bool KpLib::changeMasterKey() {
-ChngMstrKeyDlg dlg;
-bool           rslt = true;
-
-  rslt &= dlg.DoModal() == IDOK;
-
-  rslt &= isMasterKey(dlg.curPswd);
-
-  rslt &= dlg.newPswd == dlg.confirmPswd;
-
-  if (rslt) {
-
-    rslt = chk(SetMasterKey(pwMgr, dlg.newPswd, false, 0, 0, true));
-
-    if (rslt) saveMasterKey(dlg.newPswd);
-    else      dlg.newPswd.expunge();
-    }
-
-  dlg.confirmPswd.expunge();   return rslt;
-  }
-
-
-
-void KpLib::saveMasterKey(Cstring& masterKey) {
-KpEntry* kpEntry = kpSrch.findMasterKey();
-uint     grpId   = groups.getID(MasterKey);   if (!grpId) grpId = groups.add(MasterKey);
-bool     rslt;
-
-  if (kpEntry) {
-    UnlockEntryPassword(pwMgr, kpEntry);
-      rslt = masterKey != kpEntry->pszPassword;
-    LockEntryPassword(pwMgr, kpEntry);
-
-    if (rslt) {PE_SetPasswordAndLock(pwMgr, kpEntry, masterKey);}
-    }
-
-  else CreateEntry(pwMgr, grpId, MasterKey, MasterKey, 0, masterKey, 0);
-
-  masterKey.expunge();
-  }
-
-
-bool KpLib::verifyMasterKey() {
-VerifyDlg dlg;
-bool      rslt;
-
-  rslt = dlg.DoModal() == IDOK;
-
-  if (rslt) rslt &= isMasterKey(dlg.curPswd);
-  else      dlg.curPswd.expunge();
-
-  return rslt;
-  }
-
-
-bool KpLib::isMasterKey(Cstring& tgt) {
-KpEntry* kpEntry = kpSrch.findMasterKey();   if (!kpEntry) return false;
-bool     rslt;
-
-  UnlockEntryPassword(pwMgr, kpEntry);
-    rslt = tgt == kpEntry->pszPassword;
-  LockEntryPassword(pwMgr, kpEntry);
-
-  tgt.expunge();   return rslt;
   }
 
 
@@ -330,9 +270,9 @@ int    algo;
 uint    n;
 String s;
 
-  if (!pwMgr) return;
+  if (!kpMgr) return;
 
-  algo = GetAlgorithm(pwMgr);     n = GetKeyEncRounds(pwMgr);
+  algo = GetAlgorithm(kpMgr);     n = GetKeyEncRounds(kpMgr);
 
   s.format(_T("Algorithm: %s, Rounds: %u"), algoTxt[algo], n);
 
@@ -349,8 +289,12 @@ String s;
   }
 
 
-void KpLib::saveDatabase(TCchar* path) {if (pwMgr) SaveDatabase(pwMgr, path);}
+void KpLib::saveDatabase(TCchar* path) {
 
+  if (!backupDone) {backupCopy(path, 5);  backupDone = true;}
+
+  if (kpMgr) SaveDatabase(kpMgr, path);
+  }
 
 
 
@@ -372,51 +316,42 @@ int         n;
 
 bool KpLib::store(LastPassRcd& lpRcd) {
 bool     rslt;
-KpEntry* kpEntry;
 
   if (isProhibited(lpRcd.title) || isProhibited(lpRcd.userName) || isProhibited(lpRcd.group)) {
     String s = lpRcd.url + Comma + lpRcd.userName + Comma + lpRcd.title + Comma + lpRcd.group;
     s += _T(" prohibited");   messageBox(s);   return false;
     }
 
-  rcd.clear();
+  kpRcd.clear();
 
-  rcd.group      = lpRcd.group;
-  rcd.title      = lpRcd.title;
-  rcd.url        = lpRcd.url;
-  rcd.userName   = lpRcd.userName;
-  rcd.password   = lpRcd.password;
-  rcd.extra      = lpRcd.extra;
-  rcd.binDesc    = lpRcd.totp + _T(',') + lpRcd.fav;
+  kpRcd.group      = lpRcd.group;
+  kpRcd.title      = lpRcd.title;
+  kpRcd.url        = lpRcd.url;
+  kpRcd.userName   = lpRcd.userName;
+  kpRcd.password   = lpRcd.password;
+  kpRcd.extra      = lpRcd.extra;
+  kpRcd.binDesc    = lpRcd.totp + _T(',') + lpRcd.fav;
 
-  if (rcd.find(kpEntry)) {rslt = rcd.update(kpEntry);   rcd.clear();   return rslt;}
+KpEntry* kpEntry;
+  if (kpRcd.find(kpEntry)) {rslt = kpRcd.update(kpEntry);   kpRcd.clear();   return rslt;}
 
-  rslt = rcd.add();   rcd.clear();   return rslt;
+  rslt = kpRcd.add();   kpRcd.clear();   return rslt;
   }
 
 
 // url,username,password,totp,extra,name,grouping,fav
 
 void KpLib::exportFile() {
-PathDlgDsc  dsc;
-CSVOutF     csv;
-KpIter      iter(pwMgr);
-KpEntry*    kpEntry;
-LastPassRcd lpRcd;
-#if 0
-int         n;
-bool        passwordSent = false;
-bool        addrNoteSent = false;
-bool        bankNoteSent = false;
-bool        ccNoteSent   = false;
-bool        wifiNoteSent = false;
-#endif
+PathDlgDsc    dsc;
+CSVOutF       csv;
+KpSaveRestore svRst;
+KpIter        iter;
+KpEntry*      kpEntry;
+LastPassRcd   lpRcd;
 
-  if (!verifyMasterKey()) return;
+  dsc(_T("Export LandPass File"), _T("LandPass"), _T("csv"), _T("*.csv"));
 
-  dsc(_T("Export LandPass File"), _T("foo"), _T("csv"), _T("*.csv"));
-
-  if (!csv.open(dsc)) return;
+  if (!svRst.open(dsc, csv)) return;
 
   lpRcd.header(csv);
 
@@ -426,40 +361,11 @@ bool        wifiNoteSent = false;
 
 void KpLib::writeRecord(KpEntry* kpEntry, CSVOutF& csv) {
 LastPassRcd lpRcd;
-  UnlockEntryPassword(pwMgr, kpEntry);
+  UnlockEntryPassword(kpMgr, kpEntry);
     lpRcd.writeRecord(kpEntry, csv);
-  LockEntryPassword(pwMgr, kpEntry);
+  LockEntryPassword(kpMgr, kpEntry);
   }
 
-
-static TCchar* ErrorCodes[] = {_T("UNKNOWN"),                _T("SUCCESS"),
-                               _T("INVALID_PARAM"),          _T("NO_MEM"),
-                               _T("INVALID_KEY"),            _T("NOFILEACCESS_READ"),
-                               _T("NOFILEACCESS_WRITE"),     _T("FILEERROR_READ"),
-                               _T("FILEERROR_WRITE"),        _T("INVALID_RANDOMSOURCE"),
-                               _T("INVALID_FILESTRUCTURE"),  _T("CRYPT_ERROR"),
-                               _T("INVALID_FILESIZE"),       _T("INVALID_FILESIGNATURE"),
-                               _T("INVALID_FILEHEADER"),     _T("NOFILEACCESS_READ_KEY"),
-                               _T("KEYPROV_INVALID_KEY"),    _T("FILEERROR_VERIFY"),
-                               _T("UNSUPPORTED_KDBX"),       _T("GETLASTERROR"),
-                               _T("DB_EMPTY"),               _T("ATTACH_TOOLARGE")
-                               };
-
-
-bool KpLib::chk(int err) {
-String s;
-
-  if (err == PWE_SUCCESS) return true;
-
-#ifdef _DEBUG
-
-  s = 0 <= err && err < noElements(ErrorCodes) ? ErrorCodes[err] :
-                                                  s.format(_T("Err: %i"), err).str();
-  messageBox(s);
-#endif
-
-  return false;
-  }
 
 
 
@@ -473,7 +379,7 @@ String  sampleBlock;
 Date    today;      today.getToday();
 
 
-  rcd.add();
+  kpRcd.add();
   }
 #endif
 #if 0
@@ -483,7 +389,7 @@ KP_SHARE PW_ENTRY* GetEntry(          void* pMgr, DWORD dwIndex);
 */
 
 void KpLib::removeDups() {
-int nEntries = GetNumberOfEntries(pwMgr);
+int nEntries = GetNumberOfEntries(kpMgr);
 int index;
 
   for (index = 0; index < nEntries; index++) findAllDups(index);
@@ -491,7 +397,7 @@ int index;
 
 
 void KpLib::findAllDups(int tgtIndex) {
-KpEntry* kpEntry = GetEntry(pwMgr, tgtIndex);    if (!kpEntry) return;
+KpEntry* kpEntry = GetEntry(kpMgr, tgtIndex);    if (!kpEntry) return;
 String   tgt     = kpEntry->pszTitle;
 int      dupIndex;
 int      delIndex;
@@ -501,7 +407,7 @@ int      delIndex;
     delIndex = compare(tgtIndex, dupIndex);
 
     if (delIndex >= 0)
-                 {DeleteEntry(pwMgr, delIndex);   if (delIndex == tgtIndex) tgtIndex = dupIndex-1;}
+                 {DeleteEntry(kpMgr, delIndex);   if (delIndex == tgtIndex) tgtIndex = dupIndex-1;}
     }
   }
 
@@ -509,8 +415,8 @@ int      delIndex;
 // returns index of entry to delete or -1
 
 int KpLib::compare(int index, int dupIndex) {
-KpEntry* kpEntry  = GetEntry(pwMgr, index);     if (!kpEntry)  return -1;
-KpEntry* dupEntry = GetEntry(pwMgr, dupIndex);  if (!dupEntry) return -1;
+KpEntry* kpEntry  = GetEntry(kpMgr, index);     if (!kpEntry)  return -1;
+KpEntry* dupEntry = GetEntry(kpMgr, dupIndex);  if (!dupEntry) return -1;
 String   s;
 Date     dt;
 Date     dupDt;
@@ -548,5 +454,22 @@ Date     dupDt;
 
     if (!wifiNoteSent && extra.find(WiFiType) >= 0)
                                     {writeRecord(kpEntry, csv);   wifiNoteSent = true;   continue;}
+#endif
+#if 0
+int         n;
+bool        passwordSent = false;
+bool        addrNoteSent = false;
+bool        bankNoteSent = false;
+bool        ccNoteSent   = false;
+bool        wifiNoteSent = false;
+#endif
+#if 1
+#else
+  if (!verifyMasterKey()) return;
+
+
+  if (!csv.open(dsc)) return;
+
+  lpRcd.header(csv);
 #endif
 

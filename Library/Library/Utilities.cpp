@@ -154,6 +154,7 @@ String* p;
   }
 
 
+#if 0
 void expunge(String& s) {
 int    i;
 int    n = s.length();
@@ -187,7 +188,7 @@ Random rnd;
     *p++ = (Byte) (256 * rnd.next());
     }
   }
-
+#endif
 
 
 String formatPhone(TCchar* ph, Tchar sep) {

@@ -19,21 +19,247 @@
 <!-- InstanceEndEditable -->
 
 <!-- InstanceBeginEditable name="Body" -->
+<h2>App Border Controls</h2>
+<h3>Safe Icon (Upper left hand corner of App)</h3>
+<p>
+The shows a drop down menu of which only Close is significant.  Close shuts down the app <strong>without</strong> 
+saving the internal database to the file. 
+</p>
+<h3>The X icon (Upper right hand corner of App)</h3>
+<p>
+This is also a Close command and shuts down the app <strong>without</strong> saving the internal database to the file.
+</p>
+<h2>ToolBar -- Left to Right</h2>
+<p>
+Most of the important operations may be started using the ToolBar command icons.  Pause on an icon to see a 
+little description of the command.
+</p>
+<p>
+An important feature of LeePass is that any operation that it is asked to perform will result in the current 
+entry visible in window will be saved if the "Save" mode is in effect and the entry has been modified.  This is 
+also true for operations in any way effect the database.  That is before each operation list below is executed the
+current entry visible is saved if necessary.
+</p>
+<h3> Create New LeePass Database</h3>
+<p>
+Asks for a master key (must confirm it with a second copy), then asks the path to the file in the database is to reside, 
+finally reports the parameters of the encryption.  The database is then open for new entries.  Be sure to save the database
+at some point.
+</p>
+<h3> Select LeePass Database</h3>
+<p>
+Normally when the App opens the last database is selected for opening.  But if another database is needed the command will 
+provide an select file dialog for specifying the another database.  The database is not opened until the password is provided.
+</p>
+<h3> Login to LeePass Database</h3>
+<p>
+A dialog is invoked in which a password may be entered at which time (if the password is correct) the database is copied into
+the app.  Labels appear in the edit boxes in the window if the password is correct, "All Groups" appears in the 
+Groups drop down list (see below) and the Groups and Entries list are populated from the database.  The window is initialized
+to accept a new record and the bottom border indicates a "New Record" in "Read Only" mode.  At this point a entry may be selected
+by any of the selection methods (see below).
+</p>
+<h3> Select Group of Password Entries to Display</h3>
+<p>
+The entries present in the Entries drop down list are constrained by the selection in the Groups list.  Initially it shows
+"All Groups" which is also in the list for later selection.
+</p>
+<h3> Create New Password Entry</h3>
+<p>
+A New Entry (Record) may be created by selecting this command.  The Save/Read Only mode is switched to Save and the status line
+in the bottom border indicates that the window is being used to create a new entry and that it will be saved when exiting when 
+data is input to the entry (note, labels are not considered data).
+</p>
+<h3> Select Password Entry</h3>
+<p>
+When the Entries toolbar drop down list is selected a list appears containing all the entries indicated by the groups name in 
+the Groups drop down list.  Then selecting an entry in the list will cause the entry to appear in the window.  The status 
+entry will show the title and/or the url along with the Save/Read Only state of the App.  Be sure to toggle the state to
+Save should you wish to change the entry in any way.
+</p>
+<h3> Toggle Save/Read Only State</h3>
+<p>
+Toggles between Save changes and Read Only mode.  In Save mode changes to an entry will result in the record being marked as
+dirty and changes saved in the internal copy of the database.  When it is time to exit the app (of the Save command is executed)
+the the internal copy of the database is saved to the file.
+</p>
+<h3> Save to LeePass Database File when enabled</h3>
+<p>
+Manipulating the database in the app only affects the data in the app.  If one has not toggled the Save/Read Only mode
+to "Save" (see status in bottom border left hand side) then when "Saving" the data nothing will happen.  However, if
+an any time the Save mode is current and a change is made then selecting the Save icon will cause one or two things to
+happen.
+</p>
+<ul>
+<li>
+	If a backup of the database file has not already been performed then a backup file is created.  A backup file
+  has the same name and extension but the date and time are appended to the name as a string of digits, ".yymmddhhmmssss".  
+</li>
+<li>Then the data in the app is copied to the database file that was loaded</li>
+</ul>
+<p>
+Thus no matter how many times the database file is updated only one backup file is created while the app is running.
+</p>
+<h3> Move to Previous LeePass Password Entry</h3>
+<p>
+The entries in the Entry Drop Down List are used as reference for the Move to Previous Entry.  
+</p>
+<h3> Find a LeePass Password Entry</h3>
+<p>
+Find brings up a dialog box to define the search required.  The dialog box has the following options:
+</p>
+<ul>
+<li>Radio Buttons:  All Groups or Current Group -- limits the entries that are searched</li>
+<li>Edit Box -- Target string is entered here</li>
+<li>Case Sensitive Check Box -- Check if the Target String and the string found have exactly the same characters</li>
+<li>Radio Buttons, only one may be selected:</li>
+<ul>
+<li>Regular Expression -- See regular expression page for a description of basic regular expression</li>
+<li>
+Whole Word -- a regular expression that defines a boundary as not word  letters, numbers, dash and underscore. 
+The target may be anything.
+</li>
+<li>Whole Field -- a regular expression that requires that the target match the string in the entire field</li>
+<li>Beginning of -- a regular expression that requires that the target match the fragment of the string beginning at
+the left edge of the field
+</li>
+<li>Anywhere -- a regular expression that allows the target to match and fragment of the string in a field</li>
+</ul>
+<li>Fields to include in the Search (any number of fields may be selected):</li>
+<ul>
+<li>Title</li>
+<li>user Name</li>
+<li>URL</li>
+<li>Miscellaneous</li>
+<li>Binary Desc</li>
+</ul>
+</ul>
+<p>
+When the search is successful and All Groups has been selected the Groups Drop Down List is changed to the group of the
+entry found.
+</p>
+<h3> Find Next LeePass Password Entry</h3>
+<p>
+Of course searching can find entries that are not the desired entry.  Find Next will use the search configuration
+from Find to find the next entry in the database.
+</p>
+<h3> Move to Next LeePass Password Entry</h3>
+<p>
+The entries in the Entry Drop Down List are used as reference for the Move to next Entry.  
+</p>
+<h3> Unimplemented at this time</h3>
+<h3> Show LastPass Menu</h3>
+<ul>
+<li>
+Import LastPass File -- The open file dialog is started and the user selects the Comma Separated Value (csv) file.
+Then the file is read and the entries are integrated into the database.  The database is marked to be saved.
+</li>
+<li>
+Export a LastPass File -- The save file dialog is started and then the entire database is written to the
+file selected unencrypted.  It is written to a csv file in a format that is compatible with LastPass.
+</li>
 
-<h3><img src="Images/About.jpg" width="16" height="15"> About</h3>
+<li>
+Expunge file -- The open file dialog is started and when a file is selected the entire file is filled with
+sequential characters then deleted.  The hope is that this will not leave passwords floating around on the disk.  
+</li>
+</ul>
+<h3> App Options -- Unimplemented at this time</h3>
+<h3> Show Delete Menu</h3>
+<ul>
+<li>Delete Entry -- If the app is in the Save mode a dialog box appears that describes the current visible entry.
+When the entry is deleted the "next" entry in the Entry drop down list is displayed.
+</li>
+<li>
+Delete Group -- If the app is in the Save mode a dialog box appears that describes the current Group that 
+is selected to be deleted.  When "Yes" is selected in the dialog all entries in the group and the group identifier
+are deleted.  When the group is deleted, All Groups is selected in the Groups drop down list and the Entries drop down
+list updated with all entries.
+</li>
+</ul>
+<h3><img src="Images/About.jpg" width="16" height="15"> Display App Information</h3>
 <p>
-Displays the About Box.  The about box uses text from the resource file (TestApp.rc) for
-the output information.  There is a standard about box dialog in the Library.
+Displays the About Box. The information includes this apps author and version and KeePass's version.
 </p>
-<h3><img src="Images/Exit.jpg" width="16" height="15"> Exit</h3>
+<h3><img src="Images/Exit.jpg" width="16" height="15"> Save to LeePass Database File when enabled &amp; Exit</h3>
+<p>If the Save state was implemented at some point, the data is saved to the file. Then the app is exitted.</p>
+<h2>Menus</h2>
+<h3>File</h3>
+<ul>
+<li>
+Change Master Key -- Shows a dialog box that includes an edit box for the Current Password and two edit boxes
+for the new password.  One can select the Toggle Visible button to see the passwords.  The database is marked to
+be saved when the password has been changed.
+</li>
+<li>Save Database -- See &quot;Save to LeePass Database File&quot; described above</li>
+<li>Save Database &amp; Exit -- Save Database and then exit app</li>
+</ul>
+<h3>Tools</h3>
+<ul>
+<li>
+Generate Password -- Display a dialog box in which a password will be created according to the set of characters
+selected.
+</li>
+
+<ul>
+<li>Upper Case Characters: A - Z</li>
+<li>Lower Case Characters: a - z</li>
+<li>Digits: 0 - 9</li>
+<li>Punctuation: []{}()&lt;&gt;:;?.,</li>
+<li>Quotes: ` &quot; '</li>
+<li>Special: -_~!@#$%^&amp;*+=+\|/</li>
+<li>Password Length -- an edit box containing the length of the generated password</li>
+<li>
+Other Chars: -- an edit box containing any characters to add to the set (only one instance of a character 
+will be in the set)
+</li>
+
+</ul>
 <p>
-Exit the application with no reservations.
+The Entropy value is a measure of the difficulty of brute force decrypting the password and is a function of the 
+number of characters in the set of characters from which the generated password gets characters and the number 
+of characters in the generated password.  And the basis of the random numbers is get current time so don't expect 
+the same password each time use use the generator.
 </p>
-<h2>File Menu</h2>
-<h3>Change Ready</h3>
+
+<li>Remove Duplicates</li>
 <p>
-Executes a command which outputs changes the "Ready" State and displays the result in the Status Bar.
+When duplicate entries appear in the database it is useful to find and delete the older entries.  At this time it 
+depends on matches where only the Title, URL, and UserName are compared.  This implementation is problematic in that 
+there is nothing preventing errors.
 </p>
+<!--
+<li>Remove All LastPass Imports</li>
+<li>Remove Redundant Groups</li>
+<li>Remove Backup Entries</li>
+<p>
+The original implementation of KeePass had a Backup group.  Entries were moved to this group when they were modified.
+This version backups the whole database when there is a modification.  Remove Backup Entries cleans up the database.
+</p>
+-->
+</ul>
+<h3>Start URL</h3>
+<p>
+Selecting this Menu command will result in the URL of the current visible entry to sent to the default browser and the page
+opened.
+</p>
+<h3>Copy UserName</h3>
+<p>
+The app not being able to slide the User Name into the appropriate field in the web site that has just been opened the app
+copies the UserName of the current visible entry to the clipboard.  Control-V will paste the UserName into any field
+that has the focus (click in it with the mouse or tab to the field).  The bottom border status bar indicates that the 
+UserName has been copied.
+</p>
+<h3>Copy Password</h3>
+<p>
+Copies the unencrypted password to the clipboard for 30 seconds. After 30 seconds or when the app closes the clipboard is
+cleared.
+</p>
+<h3>Help (on right edge of App)</h3>
+<ul>
+<li>Introduction -- Open the help app with the App's Introduction.</li>
+<li>About LeePass -- The About dialog for this App and the KeePass's dynamic link library (dll)</li>
+</ul>
 <!-- InstanceEndEditable -->
 </div><!-- end .content -->
 </div><!-- end .container -->

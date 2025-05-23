@@ -66,6 +66,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <None Include="App.css" />
+    <None Include="BasicRegExpr.htm">
+      <DeploymentContent>true</DeploymentContent>
+    </None>
     <None Include="helpComp.bat" />
     <None Include="Introduction.htm">
       <DeploymentContent>true</DeploymentContent>

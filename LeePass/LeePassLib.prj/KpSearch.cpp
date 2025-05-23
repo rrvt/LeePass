@@ -17,11 +17,34 @@
 
 #include "pch.h"
 #include "KpSearch.h"
+#include "KpSDK.h"
 #include "Utility.h"
 
 
 static TCchar* NotWordChs = _T("[^a-zA-Z0-9_-]");
 
+
+KpSearch::KpSearch() : grpId(-1), fldFlags(PWMF_TITLE), caseSens(false),
+                                                                  srchMode(AnyWhere), index(-1) { }
+
+
+#if 0
+KpEntry* KpSearch::KpSearch::find(uint curGrpId) {
+SearchDlg dlg;
+
+  clear();
+
+  if (dlg.DoModal() != IDOK) return 0;
+
+//curGrpId = toolBar.getCurSel(ID_GroupCbx, s, x) ? (uint) x : 0;
+
+  grpId = dlg.groupMode == AllGrpsMode ? 0 : curGrpId;
+
+//  kpLib.setSrchGrp(grpId);
+
+  kpEntry = kpLib.find(dlg);   return kpEntry;
+  }
+#endif
 
 /*
 enum KpSrcTgts {TitleTgt    = PWMF_TITLE,
@@ -34,8 +57,16 @@ enum KpSrcTgts {TitleTgt    = PWMF_TITLE,
 */
 
 
-KpEntry* KpSearch::find(SearchDlg& dlg) {
-  if (!pwMgr) return 0;
+KpEntry* KpSearch::find(uint curGrpId) {
+SearchDlg dlg;
+
+  if (!kpMgr) return 0;
+
+  clear();
+
+  if (dlg.DoModal() != IDOK) return 0;
+
+  grpId = dlg.groupMode == AllGrpsMode ? 0 : curGrpId;
 
   if (dlg.titleFld)    fldFlags |= PWMF_TITLE;
   if (dlg.userNameFld) fldFlags |= PWMF_USER;
@@ -59,12 +90,12 @@ KpEntry* KpSearch::find(SearchDlg& dlg) {
 
 
 KpEntry* KpSearch::next() {
-KpEntry* kpEntry;                         // index = Find(pwMgr, tgt, caseSens, fldFlags, ++index)
+KpEntry* kpEntry;                         // index = Find(kpMgr, tgt, caseSens, fldFlags, ++index)
 String   s;
 
-  while ((index = Find(pwMgr, tgt, caseSens, fldFlags, ++index)) >= 0) {
+  while ((index = Find(kpMgr, tgt, caseSens, fldFlags, ++index)) >= 0) {
 
-    kpEntry = GetEntry(pwMgr, index);   if (!kpEntry) return 0;
+    kpEntry = GetEntry(kpMgr, index);   if (!kpEntry) return 0;
 
     s = kpEntry->pszTitle;   if (s == MasterKey) continue;
 
@@ -79,12 +110,14 @@ String   s;
 KpEntry* KpSearch::findMasterKey() {
 int      i;
 
-  if (!pwMgr) return 0;
+  if (!kpMgr) return 0;
 
-  i = Find(pwMgr, MasterKey, true, PWMF_TITLE, 0);   if (i < 0) return 0;
+  i = Find(kpMgr, MasterKey, true, PWMF_TITLE, 0);   if (i < 0) return 0;
 
-  return GetEntry(pwMgr, i);
+  return GetEntry(kpMgr, i);
   }
+
+
 
 
 #if 0
@@ -103,7 +136,7 @@ uint   flags = fldFlags;
     default         : s = tgt;   break;
     }
 
-  index = Find(pwMgr, s, caseSens, flags, ++index);   return index >= 0;
+  index = Find(kpMgr, s, caseSens, flags, ++index);   return index >= 0;
 
 #else
   if (wholeWord)  return wordSrch();
@@ -118,7 +151,7 @@ bool KpSearch::wordSrch() {
 String s     = NotWordChs + tgt + NotWordChs;
 uint   flags = fldFlags | PWMS_REGEX;
 
-  index = Find(pwMgr, s, caseSens, flags, ++index);   return index >= 0;
+  index = Find(kpMgr, s, caseSens, flags, ++index);   return index >= 0;
   }
 
 
@@ -127,7 +160,7 @@ String s = _T('^') + tgt + _T('$');
 
   fldFlags |= PWMS_REGEX;
 
-  index = Find(pwMgr, s, caseSens, fldFlags, ++index);   return index >= 0;
+  index = Find(kpMgr, s, caseSens, fldFlags, ++index);   return index >= 0;
   }
 
 
@@ -136,12 +169,12 @@ String s = _T('^') + tgt + _T('$');
 
   fldFlags |= PWMS_REGEX;
 
-  index = Find(pwMgr, s, caseSens, fldFlags, ++index);   return index >= 0;
+  index = Find(kpMgr, s, caseSens, fldFlags, ++index);   return index >= 0;
   }
 
 
 bool KpSearch::anyWhrSrch()
-                     {index = Find(pwMgr, tgt, caseSens, fldFlags, ++index);   return index >= 0;}
+                     {index = Find(kpMgr, tgt, caseSens, fldFlags, ++index);   return index >= 0;}
 #endif
 #if 0
 void KpSearch::setAttr(SearchDlg& dlg) {

@@ -1,0 +1,242 @@
+<!doctype html>
+<html><!-- InstanceBegin template="/Templates/OneColumnPage.dwt" codeOutsideHTMLIsLocked="false" -->
+<head>
+<meta charset="utf-8">
+<!-- InstanceBeginEditable name="doctitle" -->
+<title>Basic Regular Expressions</title>
+<!-- InstanceEndEditable -->
+<!-- InstanceBeginEditable name="head" -->
+<!-- InstanceEndEditable -->
+<link href="App.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+
+<div class="container">
+<div class="content">
+<!-- InstanceBeginEditable name="Title" -->
+<h1>Basic Regular Expressions</h1>
+<!-- InstanceEndEditable -->
+
+<!-- InstanceBeginEditable name="Body" -->
+<h2>Boost Regular Expression</h2>
+<p>
+KeePass uses Boost for many of its algorithms.  The regular expression is one of thos algorithms.  The description
+of the Boost default (used in KeePass) regular express is located at:
+<blockquote> .../boost/libs/regex/doc/html/boost_regex/syntax/perl_syntax.html</blockquote>
+This page describes just the basic/minimal regular expression.
+</p>
+<p>
+It appears that KeePass only uses the case sensitive flag when calling boost regex (regular expression) algorightm 
+and only when the corresponding attribute is set in the KeePass dll.
+</p>
+<h2>Characters</h2>
+<p>
+All characters except for the following match themselves:
+<blockquote>.[{}()\*+?|^$</blockquote>
+These meta characters instruct the algorithm to perform some action other than a direct match.  They may be used
+as a character to use in a match by preceding the meta character with a backslash (i.e. '\').  Other characters
+become meta characters depending on context.
+</p>
+<h2>Dot, Wildcard</h2>
+<p>
+The single character '.' when outside of a character set (e.g. "[abc.]" see below) matches any character.
+</p>
+<h2>Anchors</h2>
+<p>A '^' matches the start of a line.</p>
+<p>A '$' matches the end of a line.</p>
+<h2>Sub-Regular Expressions</h2>
+<p>
+A regular expression bounded by parentheses is treated very much like a single character with respect to other meta
+characters.
+</p>
+
+<h2>Character Sets</h2>
+<p>
+A character set will match a single character in the target. A character set is designated by square brackets (i.e "[]'} .
+</p>
+
+<h3>Single Characters</h3>
+<p>
+A list of characters bounded by square brackets (e.g. "[abc]" will match an 'a; or a 'b' or 'c').
+</p>
+
+<h3>Character Ranges</h3>
+<p>
+A representation of a list of characters indicated by a dash between the first character in the list and the 
+last character in the list (e.g. "[0-9]" indicates all the decimal digits are in the set).
+</p>
+
+<h3>Negation of Set</h3>
+<p>
+To indicate that characters other than those in the set are to be the matched place an '^' right after the opening
+bracket (e.g. "[^a-z] indicates any character not a lower case alphabetic character)
+</p>
+
+<h3>Consult the Boost Documentation for more advanced character set options</h3>
+
+<h2>Repeats</h2>
+<p>
+Any atom (character, subexpression, character set) may be repeated in a pattern by appending one of the meta characters, '*', '+', '?' and "{}".
+</p>
+
+<h3>'*' -- Match the preceding atom zero or more times</h3>
+<p>For example the regex "a*b" will match:</p>
+<ul>
+<li>b</li>
+<li>ab</li>
+<li>aaaaab</li>
+</ul>
+It will not match:
+<ul>
+<li>aaa</li>
+</ul>
+
+<h3>'+' -- Match the preceding atom one or more times</h3>
+<p>For example the regex "a+b" will match:</p>
+<ul>
+<li>ab</li>
+<li>aaaaab</li>
+</ul>
+It will not match:
+<ul>
+<li>b</li>
+</ul>
+
+<h3>'?' -- Match the preceding atom zero or one time</h3>
+<p>For example the regex "a?b" will match:</p>
+<ul>
+<li>ab</li>
+<li>b</li>
+</ul>
+It will not match:
+<ul>
+<li>aab</li>
+</ul>
+
+<h3>"{n,m}" -- Match the preceding atom a number of time bounded n and optional m</h3>
+<p>The bounds, n and m, are integers</p>
+<ul>
+<li>a{n} -- match 'a' exactly n times</li>
+<li>a{n,} -- match 'a' at least n times</li>
+<li>a{n,m} -- match 'a' between n and m times inclusive</li>
+</ul>
+<p>
+When not used for bounded repeats the braces will be treated as ordinary characters.  Take care...
+</p>
+<h2>Repeat Options</h2>
+<p>
+Repeats are normally greedy (grab as much of the target as possible).  Boost also describes Non-Greedy 
+repeats and Possessive repeats.  Read the boost documentation for additional options
+</p>
+<h2>The Or ('|') Operator</h2>
+<p>
+Two patterns may be presented for a match separated by a vertical bar ('|') for example: "abc|bcd":
+</p>
+<h2></h2>
+<p>
+</p>
+<h2></h2>
+<p>
+</p>
+<h2></h2>
+<p>
+</p>
+<h2></h2>
+<p>
+</p>
+<h2></h2>
+<p>
+</p>
+<h2></h2>
+<p>
+</p>
+<h2></h2>
+<p>
+</p>
+<h2></h2>
+<p>
+</p>
+<h2></h2>
+<p>
+</p>
+<!--
+
+/*
+Boolean "or"
+
+    A vertical bar separates alternatives. For example,
+
+      gray|grey can match "gray" or "grey".
+
+Grouping
+
+    Parentheses are used to define the scope and precedence of the operators (among other uses).
+    For example,
+      gray|grey and gr(a|e)y are equivalent patterns which both describe the set of
+      "gray" or "grey".
+
+Quantification
+
+    A quantifier after an element (such as a token, character, or group) specifies how many times
+    the preceding element is allowed to repeat. The most common quantifiers are the question mark
+    ?, the asterisk * (derived from the Kleene star), and the plus sign + (Kleene plus).
+
+    ?           The question mark indicates zero or one occurrences of the preceding element. For
+                example, colou?r matches both "color" and "colour".
+
+    *           The asterisk indicates zero or more occurrences of the preceding element. For
+                example, ab*c matches "ac", "abc", "abbc", "abbbc", and so on.
+    +           The plus sign indicates one or more occurrences of the preceding element. For
+                example, ab+c matches "abc", "abbc", "abbbc", and so on, but not "ac".
+    {n}         The preceding item is matched exactly n times.
+    {min,}      The preceding item is matched min or more times.
+    {,max}      The preceding item is matched up to max times.
+    {min,max}   The preceding item is matched at least min times, but not more than max times.
+
+Character Classes
+
+    .                     matches any character. For example,
+
+                            a.b matches any string that contains an "a", and then any character and
+                            then "b".
+                            a.*b matches any string that contains an "a", and then the character
+                            "b" at some later point.
+
+    [ character_group ]   Matches any single character in character_group. By default, the match is
+                          case-sensitive.
+
+                            [ae]  "a" in "gray"
+                                  "a", "e" in "lane"
+
+    [^ character_group ]  Negation: Matches any single character that is not in character_group.
+                          By default, characters in character_group are case-sensitive.
+
+                            [^aei]  "r", "g", "n" in "reign"
+
+    [ first - last ]      Character range: Matches any single character in the range from first to
+                          last.
+
+                            [A-Z]   "A", "B" in "AB123"
+
+
+Anchors
+    ^   By default, the match must start at the beginning of the string; in multiline mode, it must
+        start at the beginning of the line.
+
+        ^\d{3}  "901" in "901-333-"
+
+    $   By default, the match must occur at the end of the string or before \n at the end of the
+        string; in multiline mode, it must occur before the end of the line or before \n at the
+        end of the line.
+
+These constructions can be combined to form arbitrarily complex expressions, much like one can
+construct arithmetical expressions from numbers and the operations +, ?, ×, and ÷.
+*/
+
+-->
+<!-- InstanceEndEditable -->
+</div><!-- end .content -->
+</div><!-- end .container -->
+</body>
+<!-- InstanceEnd --></html>

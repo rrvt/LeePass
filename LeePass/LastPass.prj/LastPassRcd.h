@@ -4,7 +4,7 @@
 #pragma once
 #include "CSVLexF.h"
 #include "CSVOutF.h"
-#include "KpSDK.h"
+#include "KpDataDef.h"
 
 class CSVOutF;
 
@@ -19,8 +19,6 @@ extern TCchar* ToTpOpen;
 extern TCchar* ToTpClose;
 extern TCchar* TimeOpen;
 extern TCchar* TimeClose;
-
-
 
 extern TCchar* NoteType;
 extern TCchar* AddrType;

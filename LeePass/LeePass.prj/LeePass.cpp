@@ -5,7 +5,6 @@
 #include "LeePass.h"
 #include "LeePassDlg.h"
 #include "IniFile.h"
-#include "SearchDlg.h"
 
 
 #ifdef _DEBUG
@@ -14,7 +13,7 @@
 
 
 LeePass theApp;                         // The one and only LeePass object
-IniFile   iniFile;
+IniFile iniFile;
 
 
 // LeePass construction
@@ -36,9 +35,16 @@ LeePassDlg dlg(m_pszHelpFilePath);
 
 
 int LeePass::ExitInstance() {
+ClipBoard clipBoard;
 
-  iniFile.deleteSection(SearchSect);
+  clipBoard.clear();   iniFile.deleteSection(SearchSect);
 
   return CWinApp::ExitInstance();
   }
+
+
+
+///////-----------------
+
+//#include "SearchDlg.h"
 

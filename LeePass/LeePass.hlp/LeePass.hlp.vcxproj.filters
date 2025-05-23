@@ -31,5 +31,8 @@
     <None Include="LeePass.hhp">
       <Filter>Help Files</Filter>
     </None>
+    <None Include="BasicRegExpr.htm">
+      <Filter>Help Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

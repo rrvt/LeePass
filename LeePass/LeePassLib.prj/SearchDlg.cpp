@@ -4,7 +4,7 @@
 #include "pch.h"
 #include "IniFile.h"
 #include "SearchDlg.h"
-#include "Resource.h"
+#include "resource.h"
 
 
        TCchar* SearchSect     = _T("Search");

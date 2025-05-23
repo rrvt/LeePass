@@ -101,6 +101,7 @@ static const int npos = -1;
   String(Tchar      ch)           : tstring(1, ch) {}
   String(int count, Tchar ch)     : tstring(count, ch) {}
   String(int        v)            {String& s = *this; s.format(_T("%i"),  v);}
+  String(uint       v)            {String& s = *this; s.format(_T("%u"),  v);}
   String(long       v)            {String& s = *this; s.format(_T("%li"), v);}
   String(ulong      v)            {String& s = *this; s.format(_T("%lu"), v);}
   String(double     v)            {String& s = *this; s.format(_T("%lg"), v);}

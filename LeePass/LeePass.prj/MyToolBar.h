@@ -15,10 +15,10 @@ struct CbxItem;
 
 class MyToolBar : public ToolBarBase {
 
-TBCboBx   cboBx;
-TBCboBx   cboBx1;
-TBCbxMenu cbxMenu;
-TBCbxMenu cbxMenu1;
+TBCboBx   groupCbx;
+TBCboBx   entryCbx;
+TBCbxMenu deleteMenu;
+TBCbxMenu lastPassMenu;
 
 public:
 
@@ -33,7 +33,7 @@ public:
 
 // Tool Bar ComboBox Functions
 
-  void    clearCBx(  uint id);
+  void    clearCbx(  uint id);
   bool    addCBx(    uint id);
   bool    addCBx(    uint id, TCchar* caption);
   bool    addCBx(    uint id, int     idr, TCchar* caption);
@@ -79,7 +79,7 @@ public:
 #ifdef Examples
 
 TBEditBox editBox;
-TBCbxMenu cbxMenu1;
+TBCbxMenu lastPassMenu;
 
 #endif
 #ifdef Examples

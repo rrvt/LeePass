@@ -28,7 +28,7 @@ KpRecord    kpRcd;
   void        dspEncryption();
   String      getVersion();
 
-  void        saveDatabase(TCchar* path);
+  bool        saveDatabase(TCchar* path);
 
   bool        importFile(String& path);
   bool        store(LastPassRcd& lpRcd);

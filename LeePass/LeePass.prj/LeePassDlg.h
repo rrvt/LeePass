@@ -27,28 +27,29 @@ class LeePassDlg : public CDialogEx {
 
 DECLARE_DYNAMIC(LeePassDlg)
 
-MyToolBar   toolBar;                            // Part of the infrastructure of the main dialog
+MyToolBar   toolBar;                          // Part of the infrastructure of the main dialog
 StatusBar   statusBar;
 CButton     generateCtl;
 
-bool        isInitialized;                      // OnInitDialog completed successfully
-int         nRecords;
+bool        isInitialized;                    // OnInitDialog completed successfully
 
 String      path;
 bool        dbOpen;
-Record      rcd;
-bool        newRcd;
-bool        saveRcd;
+int         nRecords;                         // Count of the number of records (Entries) found
+                                              // in KeePass file
+Record      rcd;                              // An Entry is stored in a record when saved to DB
+bool        newRcd;                           // New Record when true, determines how saved
+bool        saveRcd;                          // Save Entry when true, read only when false
 
-ClipBoard   clipBoard;
+bool        dirty;                            // Entry has been changed when true
+bool        saveDB;                           // App internal database has been changed when true
 
-bool        dirty;
-bool        saveDB;
-
-KpSearch    kpSrch;
+KpSearch    kpSrch;                           // Search internal database filtered by current group
 
 Status      status;
 String      helpPath;
+
+ClipBoard   clipBoard;                        // Username and password copied to clipboard
 
 private:
 
@@ -69,10 +70,12 @@ public:
                LeePassDlg(TCchar* helpPth, CWnd* pParent = nullptr);
   virtual     ~LeePassDlg();
 
+          void clearDlg();
+
   virtual BOOL OnInitDialog();
 
-          void installGroups();
-          void installEntries();
+          void installGroupCbx();
+          void installEntryCbx();
 
           void saveCurrentRcd();
           void saveNewRcd(Record& rcd);
@@ -93,6 +96,12 @@ protected:
   DECLARE_MESSAGE_MAP()
 
 private:
+
+  void            initMgmt();
+
+  void            saveCurrentDB();
+  void            saveDataBase();
+  void            savePath();
 
   bool            isLegalRcd();           // Make sure there is some identification info
 
@@ -128,6 +137,7 @@ public:
   afx_msg LRESULT OnResetToolBar(WPARAM wParam, LPARAM lParam);
   afx_msg void    onAppAbout();
   afx_msg void    onHelp();
+  afx_msg void    OnClose();
 
   afx_msg void    OnContextMenu(CWnd* pWnd, CPoint point);
   afx_msg void    OnMove(int x, int y);

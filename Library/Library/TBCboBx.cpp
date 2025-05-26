@@ -49,7 +49,7 @@ bool TBCboBx::setCaption() {
 
   if (!getActual()) return false;
 
-  actual->SetText(caption);   return true;
+  actual->SetText(caption);   setMaxChars(caption);   return true;
   }
 
 
@@ -82,8 +82,7 @@ int    index;
 
 String TBCboBx::findNext(int index) {
 int     n   = actual->GetCount();
-TCchar* tc  = actual->GetItem(index);
-String  tgt = tc ? tc : _T("");
+String  tgt = actual->GetItem(index);
 int     lng = tgt.length();
 int     i;
 String  s;

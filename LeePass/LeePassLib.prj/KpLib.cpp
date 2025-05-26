@@ -233,9 +233,7 @@ PathDlgDsc pathDlgDsc(_T("LeePass Database"), path, _T("kdb"), _T("*.kdb"));
 
   if (!path.isEmpty()) path = getPath(path);
 
-  if (getSaveAsPathDlg(pathDlgDsc, path)) SaveDatabase(kpMgr, path);
-
-  return true;
+  return getSaveAsPathDlg(pathDlgDsc, path);
   }
 
 
@@ -289,11 +287,11 @@ String s;
   }
 
 
-void KpLib::saveDatabase(TCchar* path) {
+bool KpLib::saveDatabase(TCchar* path) {
 
   if (!backupDone) {backupCopy(path, 5);  backupDone = true;}
 
-  if (kpMgr) SaveDatabase(kpMgr, path);
+  return kpMgr && chk(SaveDatabase(kpMgr, path));
   }
 
 

@@ -44,6 +44,17 @@ Execute the msi file to install the app.
 
 ## Updates
 
+### Update 5/25/25
+
+Checked and fixed
+  - New Database -- Better initialization, defer saving file path until an entry is created
+  - Open Database -- Better initialization, save file path immediately
+  - Login -- Better initialization, Added logic to strings to handle zero TCchar pointers
+  - Choose Group -- Better initialization, group names are kept in both cases but comparisons are
+performed in one case.
+  - New Entry -- Automatically suppy General as Group if not set by user.  Logic to reject entry
+if there are not two fields present of Title, URL, UserName.
+
 ### Update 5/23/25
 
 Embarked on a massive restructuring of the interface between LeePass and KeePass to protect

@@ -37,6 +37,7 @@ USHORT  usDummy;
 class Group {
 public:
 String name;
+String upper;
 DWORD  id;
 DWORD  imageID;
 ushort level;
@@ -68,8 +69,10 @@ bool                  dirty;
 
 public:
 
-          Groups() : backupID(0), dirty(true) {}
+          Groups() : backupID(0), dirty(false) { }
          ~Groups() { }
+
+  void    clear();
 
   void    initialize();
 

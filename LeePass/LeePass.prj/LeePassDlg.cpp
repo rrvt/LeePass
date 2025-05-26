@@ -9,9 +9,7 @@
 #include "GeneratorDlg.h"
 #include "GetPathDlg.h"
 #include "Groups.h"
-#include "History.h"
 #include "IniFile.h"
-#include "KpID.h"
 #include "KpIter.h"
 #include "KpMasterKey.h"
 #include "KpSaveRestore.h"
@@ -21,9 +19,7 @@
 #include "PasswordDlg.h"
 #include "PasswordNewDlg.h"
 #include "Remove.h"
-//#include "SearchDlg.h"
 #include "Status.h"
-#include "Utility.h"
 
 
        TCchar* GlobalSect    = _T("Global");
@@ -102,6 +98,7 @@ BEGIN_MESSAGE_MAP(LeePassDlg, CDialogEx)
   ON_NOTIFY_EX(         TTN_NEEDTEXT, 0,     &OnTtnNeedText)          // Do ToolTips
   ON_WM_MOVE()
   ON_WM_SIZE()
+    ON_WM_CLOSE()
 END_MESSAGE_MAP()
 
 
@@ -114,6 +111,13 @@ LeePassDlg::LeePassDlg(TCchar* helpPth, CWnd* pParent) :
 
 
 LeePassDlg::~LeePassDlg() {clipBoard.stop();   clipBoard.clear();   winPos.~WinPos();}
+
+
+void LeePassDlg::clearDlg() {
+  clear(titleCtl);        clear(urlCtl);        clear(userNameCtl);   clear(pswdCtl);
+  clear(extraCtl);        clear(creationCtl);   clear(lastModCtl);    clear(lastAccessCtl);
+  clear(binaryDescCtl);   clear(groupCtl);
+  }
 
 
 int LeePassDlg::OnCreate(LPCREATESTRUCT lpCreateStruct) {
@@ -176,22 +180,22 @@ void LeePassDlg::onNewKpDb() {
 PasswordNewDlg dlg;
 KpMasterKey    mk;
 
-  if (dlg.DoModal() != IDOK) return;
+  saveCurrentDB();
 
-  kpLib.newDatabase(path, dlg.password);
+  if (dlg.DoModal() != IDOK || !kpLib.newDatabase(path, dlg.password)) return;
 
-  mk.save(dlg.password);   finOpen();   kpLib.dspEncryption();
-
-  saveDB = true;   setLabels();    status.setDb(path, 0);
+  mk.save(dlg.password);   kpLib.dspEncryption();   initMgmt();   finOpen();
   }
 
 
 void LeePassDlg::onOpenKpDb() {
 PathDlgDsc pathDlgDsc(_T("LeePass Database"), path, _T("kdb"), _T("*.kdb"));
 
+  saveCurrentDB();
+
   if (!getOpenDlg(pathDlgDsc, path)) return;
 
-  dbOpen = false;    status.setDb(path, 0);
+  initMgmt();   savePath();   status.setDb(path, nRecords);
   }
 
 
@@ -206,17 +210,27 @@ KpMasterKey mk;
 
   if (dlg.DoModal() != IDOK) return;
 
-  if (!kpLib.openDatabase(path, dlg.password)) return;
+  initMgmt();   if (!kpLib.openDatabase(path, dlg.password)) return;
 
-  mk.save(dlg.password);  installGroups();   installEntries();   finOpen();   dirty = false;
+  mk.save(dlg.password);   finOpen();
+  }
+
+
+void LeePassDlg::initMgmt() {
+
+  toolBar.clearCbx(ID_GroupCbx);   toolBar.clearCbx(ID_EntryCbx);
+
+  groups.clear();   rcd.clear();   clearDlg();
+
+  nRecords = 0;   dbOpen = newRcd = saveRcd = dirty = saveDB = false;
   }
 
 
 void LeePassDlg::finOpen() {
 
-  setLabels();   dbOpen = true;   iniFile.write(GlobalSect, getDbPathKey(), path);
+  dbOpen = true;   groups.initialize();   installGroupCbx();   installEntryCbx();
 
-  setTitle(getMainName(path));
+  setLabels();   setTitle(getMainName(path));
 
   newRcd = true;   status.set(NewRecordSts);   status.setDb(path, nRecords);
 
@@ -229,14 +243,14 @@ String s;
 void*  x;
 
   if (toolBar.getCurSel(ID_GroupCbx, s, x))
-                              {saveCurrentRcd();   rcd.clear();   setLabels();   installEntries();}
+               {saveCurrentRcd();   rcd.clear();   clearDlg();   setLabels();   installEntryCbx();}
   }
 
 
 static TCchar* AllGroups = _T(" All Groups ");
 
 
-void LeePassDlg::installGroups() {
+void LeePassDlg::installGroupCbx() {
 String  s;
 void*   x;
 GrpIter iter(groups);
@@ -246,7 +260,7 @@ Group*  grp;
 
   toolBar.getCurSel(ID_GroupCbx, s, x);
 
-  toolBar.clearCBx(ID_GroupCbx);   toolBar.addCbxItemSorted(ID_GroupCbx, AllGroups, 0);
+  toolBar.clearCbx(ID_GroupCbx);   toolBar.addCbxItemSorted(ID_GroupCbx, AllGroups, 0);
 
   for (grp = iter(); grp; grp = iter++)
              if (grp->name != MasterKey) toolBar.addCbxItemSorted(ID_GroupCbx, grp->name, grp->id);
@@ -260,19 +274,19 @@ Group*  grp;
   }
 
 
-void LeePassDlg::installEntries() {
+void LeePassDlg::installEntryCbx() {
 KpIter   iter;
 KpEntry* kpEntry;
 String   group;
 void*    x;
 uint     grpId = 0;
 
-  toolBar.clearCBx(ID_EntryCbx);   nRecords = 0;
+  toolBar.clearCbx(ID_EntryCbx);   nRecords = 0;
 
   if (toolBar.getCurSel(ID_GroupCbx, group, x)) grpId = (uint) x;
 
   for (kpEntry = iter(); kpEntry; kpEntry = iter++)
-    if (!grpId || kpEntry->uGroupId == grpId) installEntry(kpEntry->pszTitle, kpEntry);
+                if (!grpId || kpEntry->uGroupId == grpId) installEntry(kpEntry->pszTitle, kpEntry);
 
   toolBar.setCurSel(ID_EntryCbx, -1);   toolBar.setCaption(ID_EntryCbx, EntryCaption);
 
@@ -291,7 +305,7 @@ String s = title;   if (s == MasterKey) return;
 
 void LeePassDlg::onNewEntry() {
 
-  saveCurrentRcd();   rcd.clear();
+  onSave();   rcd.clear();   clearDlg();
 
   newRcd = saveRcd = true;   setLabels();   status.set(NewRecordSts);    showGenerateButton();
   }
@@ -385,7 +399,7 @@ uint      grpId    = kpEntry->uGroupId;
 int       i;
 
   if (grpId && grpId != curGrpId) {
-    i = findCbxGroup(grpId);   if (i >= 0) {toolBar.setCurSel(ID_GroupCbx, i);   installEntries();}
+    i = findCbxGroup(grpId);   if (i >= 0) {toolBar.setCurSel(ID_GroupCbx, i);   installEntryCbx();}
     }
 
   finFind(kpEntry);
@@ -508,6 +522,8 @@ LRESULT LeePassDlg::onClearClipBoard(WPARAM wParam, LPARAM lParam)
 
 
 void LeePassDlg::saveCurrentRcd() {
+bool titleChg = false;
+bool groupChg = false;
 
   if (!dbOpen || !saveRcd || !isLegalRcd()) {rcd.clear();   return;}
 
@@ -516,17 +532,22 @@ void LeePassDlg::saveCurrentRcd() {
 
   if (newRcd) {saveNewRcd(rcd);  return;}
 
-  dirty |= rcd.getTitle(titleCtl);
+  dirty |= titleChg = rcd.getTitle(titleCtl);
   dirty |= rcd.getURL(urlCtl);
   dirty |= rcd.getUserName(userNameCtl);
   dirty |= rcd.getPassword(pswdCtl);
   dirty |= rcd.getExtra(extraCtl);
   dirty |= rcd.getBinaryDesc(binaryDescCtl);
-  dirty |= rcd.getGroup(groupCtl);
+  dirty |= groupChg = rcd.getGroup(groupCtl);
 
   if (dirty) rcd.updateLastMod(lastModCtl);   rcd.updateLastAccess(lastAccessCtl);
 
-  dirty |= rcd.update();   shiftDirty();   installGroups();
+  dirty |= rcd.update();
+
+  if (groupChg) installGroupCbx();
+  if (titleChg) installEntryCbx();
+
+  shiftDirty();
   }
 
 
@@ -542,22 +563,11 @@ void LeePassDlg::saveNewRcd(Record& rcd) {
   if (dirty && rcd.add()) {
     rcd.updateCreation(creationCtl);   rcd.updateLastMod(lastModCtl);
     rcd.updateLastAccess(lastAccessCtl);
-    newRcd = false;   status.set(rcd);    installGroups();
-    groups.install(groupCtl, rcd.group());   installEntries();   shiftDirty();
+    newRcd = false;   status.set(rcd);    installGroupCbx();
+    groups.install(groupCtl, rcd.group());   installEntryCbx();   shiftDirty();
     }
   }
 
-#if 0
-bool LeePassDlg::isLegalRcd(KpRecord& rcd) {
-int n = 0;
-
-  if (!isTitleEmpty(titleCtl))         n++;
-  if (!isURLEmpty(urlCtl))             n++;
-  if (!isUserNameEmpty(userNameCtl))   n++;
-
-  return n >= 2;
-  }
-#endif
 
 void LeePassDlg::onchangeMasterKey() {KpMasterKey mk;   saveDB = mk.change();}
 
@@ -565,12 +575,30 @@ void LeePassDlg::onchangeMasterKey() {KpMasterKey mk;   saveDB = mk.change();}
 void LeePassDlg::onExit() {onSave();   CDialogEx::OnOK();}
 
 
-void LeePassDlg::onSave() {
+
+void LeePassDlg::OnClose() {saveCurrentDB();   CDialogEx::OnClose();}
+
+
+void LeePassDlg::saveCurrentDB() {
 
   saveCurrentRcd();
 
-  if (saveDB) kpLib.saveDatabase(path);   saveDB = dirty = false;
+  if ((dirty || saveDB) && msgYesNoBox(_T("Save Current Database")) == IDYES) saveDataBase();
   }
+
+
+void LeePassDlg::onSave() {saveCurrentRcd();   saveDataBase();}
+
+
+void LeePassDlg::saveDataBase() {
+
+  if (saveDB && kpLib.saveDatabase(path)) savePath();
+
+  saveDB = dirty = false;
+  }
+
+
+void LeePassDlg::savePath() {iniFile.write(GlobalSect, getDbPathKey(), path);}
 
 
 void LeePassDlg::setLabels() {
@@ -641,7 +669,7 @@ KpEntry* kpEntry;
 
   for (kpEntry = iter(); kpEntry; kpEntry = iter++)
                                          if (rcd.kpId() == kpEntry->uuid) {iter.remove();   break;}
-  installEntries();
+  installEntryCbx();
 
   q = dsc + _T(" has been deleted");   status.set(q);   status.setDb(path, nRecords);
 
@@ -661,7 +689,7 @@ String s;
 
   noDeleted = remove.duplicates();    saveDB |= noDeleted != 0;    if (!saveDB) return;
 
-  installEntries();
+  installEntryCbx();
 
   switch (noDeleted) {
     case 0  : s.format(_T("No duplicate entries were deleted"));                  break;
@@ -693,7 +721,7 @@ String q;
 
   if (!groups.del(grpId, toolBar, ID_GroupCbx)) return;
 
-  saveDB |= true;   dirty = false;   installGroups();   installEntries();
+  saveDB |= true;   dirty = false;   installGroupCbx();   installEntryCbx();
 
   setLabels();   q = _T("Deleted ") + group + _T(" Group and Entries in the Group");
 
@@ -729,7 +757,7 @@ LastPass   lastPass;
 
   groups.initialize();
 
-  installGroups();   groups.install(groupCtl, 0);    installEntries();
+  installGroupCbx();   groups.install(groupCtl, 0);    installEntryCbx();
 
   lastPass.expungeFile(path);
   }
@@ -864,7 +892,7 @@ String s;
 
   noDeleted = remove.oldLPImports();    saveDB |= noDeleted != 0;    if (!saveDB) return;
 
-  installEntries();
+  installEntryCbx();
 
   switch (noDeleted) {
     case 0  : s.format(_T("No Old LP Import entries were deleted"));                  break;
@@ -885,7 +913,7 @@ String s;
 
   noDeleted = remove.redundantGrps();   saveDB |= noDeleted != 0;   if (!saveDB) return;
 
-  groups.initialize();   installGroups();
+  groups.initialize();   installGroupCbx();
 
   switch (noDeleted) {
     case 0  : s.format(_T("No groups were deleted"));                  break;
@@ -906,7 +934,7 @@ String s;
 
   noDeleted = remove.backups();   saveDB |= noDeleted != 0;   if (!saveDB) return;
 
-  groups.initialize();   installGroups();
+  groups.initialize();   installGroupCbx();
 
   switch (noDeleted) {
     case 0  : s.format(_T("No backups were deleted"));                  break;
@@ -974,5 +1002,30 @@ uint      grpId;
   else {
     rcd.lastAccess.today();   dirty = rcd.updateLastAccess();   rcd.lastAccess.set(lastAccessCtl);
     }
+#endif
+#if 0
+bool LeePassDlg::isLegalRcd(KpRecord& rcd) {
+int n = 0;
+
+  if (!isTitleEmpty(titleCtl))         n++;
+  if (!isURLEmpty(urlCtl))             n++;
+  if (!isUserNameEmpty(userNameCtl))   n++;
+
+  return n >= 2;
+  }
+#endif
+#if 1
+#else
+  saveDB = true;   toolBar.clearCbx(ID_GroupCbx);   toolBar.clearCbx(ID_EntryCbx);
+
+  groups.clear();   rcd.clear();
+#endif
+#if 1
+#else
+  toolBar.clearCbx(ID_GroupCbx);   toolBar.clearCbx(ID_EntryCbx);
+
+  groups.clear();   rcd.clear();   clearDlg();
+
+  dbOpen = newRcd = saveRcd = dirty = saveDB = false;   nRecords = 0;
 #endif
 

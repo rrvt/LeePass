@@ -128,12 +128,12 @@ bool rslt = ReplaceButton(id, *button.install(cbxItem, n, caption)) > 0;
   }
 
 
-void ToolBarBase::dispatch(TBCbxMenu& cbxMenu) {
-uint cmdID = cbxMenu.getCmdId();
+void ToolBarBase::dispatch(TBCbxMenu& deleteMenu) {
+uint cmdID = deleteMenu.getCmdId();
 
   if (cmdID) PostMessage(WM_COMMAND, cmdID, 0);
 
-  cbxMenu.setCaption();
+  deleteMenu.setCaption();
   }
 
 

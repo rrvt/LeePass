@@ -9,96 +9,96 @@ static int NoOfButtonControls =  3;
 static int NoOfButtons        =  10;                                    //button(ID_Login),
 
 
-MyToolBar::MyToolBar() : cboBx(ID_GroupCbx),     cboBx1(ID_EntryCbx),
-                         cbxMenu(ID_DeleteMenu), cbxMenu1(ID_LastPassMenu)
+MyToolBar::MyToolBar() : groupCbx(ID_GroupCbx),     entryCbx(ID_EntryCbx),
+                         deleteMenu(ID_DeleteMenu), lastPassMenu(ID_LastPassMenu)
                         {toolBarDim.initialize(NoOfButtonControls, NoOfButtons);}
 
 
 
 bool MyToolBar::addMenu(uint id, int idr, TCchar* caption) {
-  if (id == cbxMenu.getId())  return add(cbxMenu,  id, idr, caption);
-  if (id == cbxMenu1.getId()) return add(cbxMenu1, id, idr, caption);
+  if (id == deleteMenu.getId())   return add(deleteMenu,  id,  idr, caption);
+  if (id == lastPassMenu.getId()) return add(lastPassMenu, id, idr, caption);
 
   return false;
   }
 
 
 void MyToolBar::dispatch(uint id) {
-  if (id == cbxMenu.getId())  ToolBarBase::dispatch(cbxMenu);
-  if (id == cbxMenu1.getId()) ToolBarBase::dispatch(cbxMenu1);
+  if (id == deleteMenu.getId())   ToolBarBase::dispatch(deleteMenu);
+  if (id == lastPassMenu.getId()) ToolBarBase::dispatch(lastPassMenu);
   }
 
 
-void MyToolBar::clearCBx(  uint id) {
-  if (id == cboBx.getId())  {clear(cboBx);    return;}
-  if (id == cboBx1.getId()) {clear(cboBx1);   return;}
+void MyToolBar::clearCbx(  uint id) {
+  if (id == groupCbx.getId()) {clear(groupCbx);   return;}
+  if (id == entryCbx.getId()) {clear(entryCbx);   return;}
   }
 
 
 bool MyToolBar::addCBx(uint id) {
-  if (id == cboBx.getId())  return add(cboBx,  id, 10);
-  if (id == cboBx1.getId()) return add(cboBx1, id, 10);
+  if (id == groupCbx.getId()) return add(groupCbx, id, 10);
+  if (id == entryCbx.getId()) return add(entryCbx, id, 10);
 
   return false;
   }
 
 
 bool MyToolBar::addCBx(uint id, TCchar* caption) {
-String cp = caption;
+String cp  = caption;
 int    lng = cp.length();
 
-  if (id == cboBx.getId() && add(cboBx,  id, lng))
-                                        {ToolBarBase::setCaption(cboBx,  caption);   return true;}
-  if (id == cboBx1.getId() && add(cboBx1, id, lng))
-                                        {ToolBarBase::setCaption(cboBx1, caption);   return true;}
+  if (id == groupCbx.getId() && add(groupCbx,  id, lng))
+                                      {ToolBarBase::setCaption(groupCbx,  caption);   return true;}
+  if (id == entryCbx.getId() && add(entryCbx, id, lng))
+                                       {ToolBarBase::setCaption(entryCbx, caption);   return true;}
   return false;
   }
 
 
 
 bool MyToolBar::addCBx(uint id, int idr, TCchar* caption) {
-  if (id == cboBx.getId())   return add(cboBx,  id, idr, caption);
-  if (id == cboBx1.getId())  return add(cboBx1, id, idr, caption);
+  if (id == groupCbx.getId()) return add(groupCbx,  id, idr, caption);
+  if (id == entryCbx.getId()) return add(entryCbx,  id, idr, caption);
 
   return false;
   }
 
 
 bool MyToolBar::addCbxItem(uint id, TCchar* txt, int data) {
-  if (id == cboBx.getId())  return addItem(cboBx,  txt, data);
-  if (id == cboBx1.getId()) return addItem(cboBx1, txt, data);
+  if (id == groupCbx.getId()) return addItem(groupCbx, txt, data);
+  if (id == entryCbx.getId()) return addItem(entryCbx, txt, data);
 
   return false;
   }
 
 
 bool MyToolBar::addCBx(uint id, CbxItem cbxItem[], int n, TCchar* caption) {
-  if (id == cboBx.getId())  return add(cboBx,  id, cbxItem, n, caption);
-  if (id == cboBx1.getId()) return add(cboBx1, id, cbxItem, n, caption);
+  if (id == groupCbx.getId()) return add(groupCbx, id, cbxItem, n, caption);
+  if (id == entryCbx.getId()) return add(entryCbx, id, cbxItem, n, caption);
 
   return false;
   }
 
 
 bool MyToolBar::addCbxItemSorted(uint id, TCchar* txt, int data) {
-  if (id == cboBx.getId())  return addItemSorted(cboBx,  txt, data);
-  if (id == cboBx1.getId()) return addItemSorted(cboBx1, txt, data);
+  if (id == groupCbx.getId()) return addItemSorted(groupCbx, txt, data);
+  if (id == entryCbx.getId()) return addItemSorted(entryCbx, txt, data);
 
   return false;
   }
 
 
 bool MyToolBar::find(uint cbxId, TCchar* tc) {
-  if (cbxId == cboBx.getId())  return ToolBarBase::find(cboBx, tc);
-  if (cbxId == cboBx1.getId()) return ToolBarBase::find(cboBx1, tc);
+  if (cbxId == groupCbx.getId()) return ToolBarBase::find(groupCbx, tc);
+  if (cbxId == entryCbx.getId()) return ToolBarBase::find(entryCbx, tc);
 
   return false;
   }
 
 
 void* MyToolBar::getCbxData(uint cbxId, int index) {
-  if (cbxId == cboBx.getId())  return ToolBarBase::getCbxData(cboBx,  index);
-  if (cbxId == cboBx1.getId()) return ToolBarBase::getCbxData(cboBx1, index);
+  if (cbxId == groupCbx.getId()) return ToolBarBase::getCbxData(groupCbx, index);
+  if (cbxId == entryCbx.getId()) return ToolBarBase::getCbxData(entryCbx, index);
 
   return 0;
   }
@@ -107,71 +107,72 @@ void* MyToolBar::getCbxData(uint cbxId, int index) {
 // Returns Index >= 0 or -1
 
 int MyToolBar::getCurSel( uint cbxId) {
-  if (cbxId == cboBx.getId())  return ToolBarBase::getCurSel(cboBx);
-  if (cbxId == cboBx1.getId()) return ToolBarBase::getCurSel(cboBx1);
+  if (cbxId == groupCbx.getId()) return ToolBarBase::getCurSel(groupCbx);
+  if (cbxId == entryCbx.getId()) return ToolBarBase::getCurSel(entryCbx);
 
   return -1;
   }
 
 
 bool MyToolBar::getCurSel( uint id, String& s, void*& data) {
-  if (id == cboBx.getId())  return ToolBarBase::getCurSel(cboBx,  s, data);
-  if (id == cboBx1.getId()) return ToolBarBase::getCurSel(cboBx1, s, data);
+  if (id == groupCbx.getId()) return ToolBarBase::getCurSel(groupCbx, s, data);
+  if (id == entryCbx.getId()) return ToolBarBase::getCurSel(entryCbx, s, data);
 
   return false;
   }
 
 
 bool MyToolBar::setCurSel( uint cbxId, int index) {
-  if (cbxId == cboBx.getId())  return ToolBarBase::setCurSel(cboBx, index);
-  if (cbxId == cboBx1.getId()) return ToolBarBase::setCurSel(cboBx1, index);
+  if (cbxId == groupCbx.getId()) return ToolBarBase::setCurSel(groupCbx, index);
+  if (cbxId == entryCbx.getId()) return ToolBarBase::setCurSel(entryCbx, index);
 
   return false;
   }
 
 
 bool MyToolBar::setCurSel( uint cbxId, TCchar* tc) {
-  if (cbxId == cboBx.getId())  return ToolBarBase::setCurSel(cboBx,  tc);
-  if (cbxId == cboBx1.getId()) return ToolBarBase::setCurSel(cboBx1, tc);
+  if (cbxId == groupCbx.getId()) return ToolBarBase::setCurSel(groupCbx, tc);
+  if (cbxId == entryCbx.getId()) return ToolBarBase::setCurSel(entryCbx, tc);
 
   return false;
   }
 
 
 uint MyToolBar::getCbxCount(uint id) {
-  if (id == cboBx.getId())  return cboBx.getCount();
-  if (id == cboBx1.getId()) return cboBx1.getCount();
+  if (id == groupCbx.getId()) return groupCbx.getCount();
+  if (id == entryCbx.getId()) return entryCbx.getCount();
 
   return 0;
   }
 
 
 void MyToolBar::setCaption(uint id, TCchar* caption) {
-  if (id == cboBx.getId())  ToolBarBase::setCaption(cboBx,  caption);
-  if (id == cboBx1.getId()) ToolBarBase::setCaption(cboBx1, caption);
+  if (id == groupCbx.getId()) ToolBarBase::setCaption(groupCbx, caption);
+  if (id == entryCbx.getId()) ToolBarBase::setCaption(entryCbx, caption);
   }
 
 
 void MyToolBar::setWthPercent(uint id, int prcnt) {
-  if (id == cboBx.getId())    {ToolBarBase::setWthPercent(cboBx,    prcnt);   return;}
-  if (id == cboBx1.getId())   {ToolBarBase::setWthPercent(cboBx1,   prcnt);   return;}
-  if (id == cbxMenu.getId())  {ToolBarBase::setWthPercent(cbxMenu,  prcnt);   return;}
-  if (id == cbxMenu1.getId()) {ToolBarBase::setWthPercent(cbxMenu1, prcnt);   return;}
+  if (id == groupCbx.getId())     {ToolBarBase::setWthPercent(groupCbx,     prcnt);   return;}
+  if (id == entryCbx.getId())     {ToolBarBase::setWthPercent(entryCbx,     prcnt);   return;}
+  if (id == deleteMenu.getId())   {ToolBarBase::setWthPercent(deleteMenu,   prcnt);   return;}
+  if (id == lastPassMenu.getId()) {ToolBarBase::setWthPercent(lastPassMenu, prcnt);   return;}
   }
 
 
 
 void MyToolBar::setWidth(uint id) {
-  if (id == cboBx.getId())    {ToolBarBase::setWidth(cboBx);      return;}
-  if (id == cboBx1.getId())   {ToolBarBase::setWidth(cboBx1);     return;}
-  if (id == cbxMenu.getId())  {ToolBarBase::setWidth(cbxMenu);    return;}
-  if (id == cbxMenu1.getId()) {ToolBarBase::setWidth(cbxMenu1);   return;}
+  if (id == groupCbx.getId())     {ToolBarBase::setWidth(groupCbx);      return;}
+  if (id == entryCbx.getId())     {ToolBarBase::setWidth(entryCbx);      return;}
+  if (id == deleteMenu.getId())   {ToolBarBase::setWidth(deleteMenu);    return;}
+  if (id == lastPassMenu.getId()) {ToolBarBase::setWidth(lastPassMenu);  return;}
+  Invalidate();
   }
 
 
 void MyToolBar::setHeight( uint id) {
-  if (id == cboBx.getId())  ToolBarBase::setHeight(cboBx);
-  if (id == cboBx1.getId()) ToolBarBase::setHeight(cboBx1);
+  if (id == groupCbx.getId()) ToolBarBase::setHeight(groupCbx);
+  if (id == entryCbx.getId()) ToolBarBase::setHeight(entryCbx);
   }
 
 
@@ -197,55 +198,55 @@ CString MyToolBar::getText(uint id) {
 
 #if 0
 void MyToolBar::setWthPercent(uint id, int prcnt) {
-  if (id == cbxMenu.getId())   {setWthPercent(cbxMenu,  prcnt);   return;}
-  if (id == cbxMenu1.getId())  {setWthPercent(cbxMenu1, prcnt);   return;}
+  if (id == deleteMenu.getId())   {setWthPercent(deleteMenu,  prcnt);   return;}
+  if (id == lastPassMenu.getId())  {setWthPercent(lastPassMenu, prcnt);   return;}
   }
 #endif
 
 
 bool MyToolBar::addMenu(uint id, CbxItem cbxItem[], int n, TCchar* caption) {
-  if (id == cbxMenu.getId())   return add(cbxMenu,  id, cbxItem, n, caption);
-  if (id == cbxMenu1.getId())  return add(cbxMenu1, id, cbxItem, n, caption);
+  if (id == deleteMenu.getId())   return add(deleteMenu,  id, cbxItem, n, caption);
+  if (id == lastPassMenu.getId())  return add(lastPassMenu, id, cbxItem, n, caption);
 
   return false;
   }
 
 
 bool MyToolBar::addCBx(uint id, int idr, TCchar* caption) {
-  if (id == cboBx.getId())   return add(cboBx,  id, idr, caption);
-  if (id == cboBx1.getId())  return add(cboBx1, id, idr, caption);
+  if (id == groupCbx.getId())   return add(groupCbx,  id, idr, caption);
+  if (id == entryCbx.getId())  return add(entryCbx, id, idr, caption);
 
   return false;
   }
 
 
 bool MyToolBar::addCbxItem(uint id, TCchar* txt, int data) {
-  if (id == cboBx.getId())  return addItem(cboBx,  txt, data);
-  if (id == cboBx1.getId()) return addItem(cboBx1, txt, data);
+  if (id == groupCbx.getId())  return addItem(groupCbx,  txt, data);
+  if (id == entryCbx.getId()) return addItem(entryCbx, txt, data);
 
   return false;
   }
 
 
 bool MyToolBar::addCBx(uint id, CbxItem cbxItem[], int n, TCchar* caption) {
-  if (id == cboBx.getId())  return add(cboBx,  id, cbxItem, n, caption);
-  if (id == cboBx1.getId()) return add(cboBx1, id, cbxItem, n, caption);
+  if (id == groupCbx.getId())  return add(groupCbx,  id, cbxItem, n, caption);
+  if (id == entryCbx.getId()) return add(entryCbx, id, cbxItem, n, caption);
 
   return false;
   }
 
 
 bool MyToolBar::addCbxItemSorted(uint id, TCchar* txt, int data) {
-  if (id == cboBx.getId())  return addItemSorted(cboBx,  txt, data);
-  if (id == cboBx1.getId()) return addItemSorted(cboBx1, txt, data);
+  if (id == groupCbx.getId())  return addItemSorted(groupCbx,  txt, data);
+  if (id == entryCbx.getId()) return addItemSorted(entryCbx, txt, data);
 
   return false;
   }
 
 #endif
 #ifdef Examples
-                       ,        editBox(ID_EditBox), cbxMenu(ID_PopupMenu),
-                         cbxMenu1(ID_PopupMenu1)
+                       ,editBox(ID_EditBox), deleteMenu(ID_PopupMenu),
+                         lastPassMenu(ID_PopupMenu1)
 #endif
 #ifdef Examples
 static int NoOfButtonControls =  6;

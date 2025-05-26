@@ -75,10 +75,11 @@ Group*  group;
 
 
 uint Groups::add(TCchar* grpName) {
+String   name = grpName;   name.trim();
 PW_GROUP grp;    ZeroMemory(&grp, sizeof(PW_GROUP));
 KpDate   kpDate;
 
-  grp.pszGroupName = (Tchar*) grpName;
+  grp.pszGroupName = (Tchar*) name;
   grp.tCreation    = kpDate.today();
   grp.tLastAccess  = kpDate.today();
   grp.tLastMod     = kpDate.today();

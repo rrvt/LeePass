@@ -307,7 +307,9 @@ void LeePassDlg::onNewEntry() {
 
   onSave();   rcd.clear();   clearDlg();
 
-  newRcd = saveRcd = true;   setLabels();   status.set(NewRecordSts);    showGenerateButton();
+  newRcd = saveRcd = true;   groups.install(groupCtl, 0);   setLabels();
+
+  status.set(NewRecordSts);    showGenerateButton();
   }
 
 
@@ -552,19 +554,25 @@ bool groupChg = false;
 
 
 void LeePassDlg::saveNewRcd(Record& rcd) {
+bool groupChg = false;
+
   dirty |= rcd.getTitle(titleCtl);
   dirty |= rcd.getURL(urlCtl);
   dirty |= rcd.getUserName(userNameCtl);
   dirty |= rcd.getPassword(pswdCtl);
   dirty |= rcd.getExtra(extraCtl);
   dirty |= rcd.getBinaryDesc(binaryDescCtl);
-  dirty |= rcd.getGroup(groupCtl);
+  dirty |= groupChg = rcd.getGroup(groupCtl);
 
   if (dirty && rcd.add()) {
     rcd.updateCreation(creationCtl);   rcd.updateLastMod(lastModCtl);
     rcd.updateLastAccess(lastAccessCtl);
-    newRcd = false;   status.set(rcd);    installGroupCbx();
-    groups.install(groupCtl, rcd.group());   installEntryCbx();   shiftDirty();
+
+    if (groupChg) {installGroupCbx();  groups.install(groupCtl, rcd.group());}
+
+    installEntryCbx();
+
+    newRcd = false;   status.set(rcd);    shiftDirty();
     }
   }
 

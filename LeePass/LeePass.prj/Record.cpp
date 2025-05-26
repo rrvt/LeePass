@@ -100,21 +100,23 @@ bool Record::getBinaryDesc(CEdit& ctl) {return get(ctl, BinDescLbl,  kpRcd.binDe
 
 bool Record::get(CEdit& ctl, TCchar* lbl, String& fld) {
 Cstring cs;
+String  s;
 bool    dirty;
 
-  ctl.GetWindowText(cs);   if (cs == lbl) return false;
+  ctl.GetWindowText(cs);   s = cs;   s.trim();   if (s == lbl) return false;
 
-  dirty |= fld != cs;   fld = cs;    return dirty;
+  dirty |= fld != s;   fld = s;    return dirty;
   }
 
 
 bool Record::getGroup(CComboBox& ctl) {
 Cstring cs;
+String  s;
 bool    dirty;
 
-  ctl.GetWindowText(cs);   if (cs == GroupLbl) return false;
+  ctl.GetWindowText(cs);   s = cs;   s.trim();   if (s == GroupLbl) return false;
 
-  dirty = kpRcd.group != cs;   kpRcd.group = cs;   return dirty;
+  dirty = kpRcd.group != s;   kpRcd.group = s;   return dirty;
   }
 
 

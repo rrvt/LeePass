@@ -44,6 +44,12 @@ Execute the msi file to install the app.
 
 ## Updates
 
+### Update 5/26/25
+
+Trimed inputs of invisible characters (i.e. spaces/crlf).  Filled group combobox in entry form
+for a new entry.  Revert to old group if user denies adding a new one when saving changes to a
+record.
+
 ### Update 5/25/25
 
 Checked and fixed

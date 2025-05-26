@@ -116,7 +116,7 @@ bool   rslt;
 
   if (!kpEntry) return false;
 
-  grpId = getGroupId(group);
+  grpId = getGroupId(group);   if (!grpId) grpId = kpEntry->uGroupId;
 
   if (grpId     != kpEntry->uGroupId)    {PE_SetGroupID(   kpEntry, grpId);      dirty = true;}
   if (title     != kpEntry->pszTitle)    {PE_SetTitle(     kpEntry, title);      dirty = true;}
@@ -140,7 +140,7 @@ bool   rslt;
 
 uint KpRecord::getGroupId(TCchar* name) {
 uint   id = groups.getID(name);   if (id) return id;
-String q  = _T("Add "); q += (TCchar*) name;  q += _T(" to Groups?");
+String q  = _T("Add \""); q += (TCchar*) name;  q += _T("\" to Groups?");
 
   return msgYesNoBox(q) == IDYES ? groups.add(group) : 0;
   }

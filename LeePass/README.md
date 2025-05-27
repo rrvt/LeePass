@@ -44,6 +44,10 @@ Execute the msi file to install the app.
 
 ## Updates
 
+### Update 5/25/25
+
+Found a little bug that set dirty at the wrong time...
+
 ### Update 5/26/25
 
 Trimed inputs of invisible characters (i.e. spaces/crlf).  Filled group combobox in entry form

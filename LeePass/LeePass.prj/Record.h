@@ -55,6 +55,7 @@ public:
 
   Record& operator= (KpEntry* kpEntry) {kpRcd = kpEntry;   return *this;}
 
+  TCchar* title() {return kpRcd.title;}
   TCchar* group() {return kpRcd.group;}
   KpID&   kpId()  {return kpRcd.kpId;}
 

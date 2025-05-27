@@ -105,7 +105,7 @@ bool    dirty;
 
   ctl.GetWindowText(cs);   s = cs;   s.trim();   if (s == lbl) return false;
 
-  dirty |= fld != s;   fld = s;    return dirty;
+  dirty = fld != s;   fld = s;    return dirty;
   }
 
 

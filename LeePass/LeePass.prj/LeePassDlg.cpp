@@ -527,7 +527,7 @@ void LeePassDlg::saveCurrentRcd() {
 bool titleChg = false;
 bool groupChg = false;
 
-  if (!dbOpen || !saveRcd || !isLegalRcd()) {rcd.clear();   return;}
+  if (!dbOpen || !isLegalRcd()) {rcd.clear();   return;}
 
   if (rcd.isProhibited(titleCtl) || rcd.isProhibited(userNameCtl) || rcd.isProhibited(groupCtl))
                   {messageBox(_T("The text in title, username or group is prohibited"));   return;}
@@ -541,6 +541,14 @@ bool groupChg = false;
   dirty |= rcd.getExtra(extraCtl);
   dirty |= rcd.getBinaryDesc(binaryDescCtl);
   dirty |= groupChg = rcd.getGroup(groupCtl);
+
+  if (!saveRcd && dirty) {
+    String q;   q.format(_T("Entry \"%s\" has been modified, save entries?"), rcd.title());
+
+    if (msgYesNoBox(q) != IDYES) {rcd.clear();   dirty = false;   return;}
+
+    saveRcd = true;
+    }
 
   if (dirty) rcd.updateLastMod(lastModCtl);   rcd.updateLastAccess(lastAccessCtl);
 

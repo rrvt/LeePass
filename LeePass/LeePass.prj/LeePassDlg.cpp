@@ -305,7 +305,7 @@ String s = title;   if (s == MasterKey) return;
 
 void LeePassDlg::onNewEntry() {
 
-  onSave();   rcd.clear();   clearDlg();
+  saveCurrentRcd();   rcd.clear();   clearDlg();
 
   newRcd = saveRcd = true;   groups.install(groupCtl, 0);   setLabels();
 
@@ -465,7 +465,7 @@ void*     x;
 
   if (!toolBar.getCurSel(ID_EntryCbx, s, x)) return;
 
-  newRcd = false;   rcd = (KpEntry*) x;
+  newRcd = dirty = false;   rcd = (KpEntry*) x;
 
   rcd.setTitle(titleCtl);
   rcd.setURL(urlCtl);
@@ -527,7 +527,7 @@ void LeePassDlg::saveCurrentRcd() {
 bool titleChg = false;
 bool groupChg = false;
 
-  if (!dbOpen || !isLegalRcd()) {rcd.clear();   return;}
+  if (!dbOpen || !isLegalRcd()) return;
 
   if (rcd.isProhibited(titleCtl) || rcd.isProhibited(userNameCtl) || rcd.isProhibited(groupCtl))
                   {messageBox(_T("The text in title, username or group is prohibited"));   return;}
@@ -545,9 +545,9 @@ bool groupChg = false;
   if (!saveRcd && dirty) {
     String q;   q.format(_T("Entry \"%s\" has been modified, save entries?"), rcd.title());
 
-    if (msgYesNoBox(q) != IDYES) {rcd.clear();   dirty = false;   return;}
+    if (msgYesNoBox(q) != IDYES) return;
 
-    saveRcd = true;
+    saveRcd = true;   showGenerateButton();   status.set(0);   toolBar.Invalidate();
     }
 
   if (dirty) rcd.updateLastMod(lastModCtl);   rcd.updateLastAccess(lastAccessCtl);
@@ -577,6 +577,7 @@ bool groupChg = false;
     rcd.updateLastAccess(lastAccessCtl);
 
     if (groupChg) {installGroupCbx();  groups.install(groupCtl, rcd.group());}
+    else                               groupCtl.SelectString(-1, rcd.group());
 
     installEntryCbx();
 
@@ -599,7 +600,7 @@ void LeePassDlg::saveCurrentDB() {
 
   saveCurrentRcd();
 
-  if ((dirty || saveDB) && msgYesNoBox(_T("Save Current Database")) == IDYES) saveDataBase();
+  if (saveDB && msgYesNoBox(_T("Save Current Database")) == IDYES) saveDataBase();
   }
 
 
@@ -608,9 +609,7 @@ void LeePassDlg::onSave() {saveCurrentRcd();   saveDataBase();}
 
 void LeePassDlg::saveDataBase() {
 
-  if (saveDB && kpLib.saveDatabase(path)) savePath();
-
-  saveDB = dirty = false;
+  if (saveDB && kpLib.saveDatabase(path)) {savePath();   saveDB = false;}
   }
 
 

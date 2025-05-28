@@ -109,6 +109,10 @@ uint grpId;
   }
 
 
+//KP_SHARE BOOL PE_SetLastModTime(                PW_ENTRY* pEntry, const PW_TIME* pTime);
+//KP_SHARE BOOL PE_SetLastAccessTime(             PW_ENTRY* pEntry, const PW_TIME* pTime);
+
+
 bool KpRecord::update(KpEntry* kpEntry) {
 bool   dirty = false;
 uint   grpId;
@@ -131,8 +135,8 @@ bool   rslt;
 
   if (binDesc  != kpEntry->pszBinaryDesc) {PE_SetBinaryDesc(kpEntry, binDesc);    dirty = true;}
 
-  if (dirty) lastMod.today();
-  else      {lastAccess.today();   dirty = true;}
+  if (dirty) {lastMod.today();      PE_SetLastModTime(kpEntry, lastMod);}
+  else       {lastAccess.today();   PE_SetLastModTime(kpEntry, lastAccess);   dirty = true;}
 
   return dirty;
   }

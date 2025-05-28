@@ -77,9 +77,6 @@ public:
           void installGroupCbx();
           void installEntryCbx();
 
-          void saveCurrentRcd();
-          void saveNewRcd(Record& rcd);
-
   virtual void OnOK() {::SendMessage(m_hWnd, WM_NEXTDLGCTL, 0, 0);}
 
 // Dialog Data
@@ -98,6 +95,9 @@ protected:
 private:
 
   void            initMgmt();
+
+  void            saveCurrentRcd();
+  void            saveNewRcd(Record& rcd);
 
   void            saveCurrentDB();
   void            saveDataBase();

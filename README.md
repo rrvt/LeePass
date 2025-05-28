@@ -44,6 +44,15 @@ Execute the msi file to install the app.
 
 ## Updates
 
+### Update 5/27/25
+
+Finding and fixing things related to non-central paths through the code.  New Entry default group
+is "General".  Make sure after saving a empty group field that General appears in entry on window.
+
+Removed clearing the record when opting to not save the current record, but leaving the dirty
+flag set so the next time the record is saved it may be saved.  Moved initialization of dirty
+flag to starting a new record or update an existing record.
+
 ### Update 5/25/25
 
 Found a little bug that set dirty at the wrong time...

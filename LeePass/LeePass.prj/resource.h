@@ -26,9 +26,9 @@
 #define IDC_Notes                       309
 #define IDC_BinaryDesc                  310
 #define IDC_Creation                    311
-#define IDC_GroupUpdt                   312
-#define IDC_LastMod                     313
-#define IDC_LastAccess                  314
+#define IDC_LastMod                     312
+#define IDC_LastAccess                  313
+#define IDC_GroupUpdt                   314
 #define IDC_Expire                      315
 
 // Generate Password

@@ -52,6 +52,7 @@
     <ClCompile Include="TBCboBx.cpp" />
     <ClCompile Include="TBCbxMenu.cpp" />
     <ClCompile Include="TBMenu.cpp" />
+    <ClCompile Include="ThreadBase.cpp" />
     <ClCompile Include="ToolBarBase.cpp" />
     <ClCompile Include="ToolBarDim.cpp" />
     <ClCompile Include="pch.cpp" />
@@ -125,6 +126,7 @@
     <ClInclude Include="TBCboBx.h" />
     <ClInclude Include="TBCbxMenu.h" />
     <ClInclude Include="TBMenu.h" />
+    <ClInclude Include="ThreadBase.h" />
     <ClInclude Include="ToolBarBase.h" />
     <ClInclude Include="ToolBarDim.h" />
     <ClInclude Include="pch.h" />

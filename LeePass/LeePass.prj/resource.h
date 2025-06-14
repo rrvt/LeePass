@@ -104,34 +104,3 @@
 #define _APS_NEXT_SYMED_VALUE           204
 #endif
 #endif
-
-
-
-///////////------------
-
-#if 0
-// Change Password & Get Password
-#define IDC_NewPswd                     341
-#define IDC_ConfirmPswd                 342
-#define IDC_ToggleVisible               343
-#endif
-
-#if 0
-// Find
-#define IDC_Target                      320
-#define IDC_AllGroups                   321
-#define IDC_CurGroup                    322
-#define IDC_CaseSens                    323
-#define IDC_WholeWord                   324
-#define IDC_RegExpr                     325
-#define IDC_WholeField                  326
-#define IDC_Beginning                   327
-#define IDC_AnyWhere                    328
-#define IDC_TitleFld                    329
-#define IDC_UserNameFld                 330
-#define IDC_URLFld                      331
-#define IDC_MiscFld                     332
-#define IDC_BinDescFld                  333
-#endif
-//#define IDD_Search                      206
-

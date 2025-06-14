@@ -29,7 +29,7 @@
 static TCchar* GroupCaption  = _T(" Groups ");
 static TCchar* EntryCaption  = _T(" Entries ");
 static TCchar* NewRecordSts  = _T("New LeePass Entry");
-
+static TCchar* SetSaveQuestion = _T("Should Read Only Status be changed?");
 
 //Thread timerThrd;
 
@@ -98,7 +98,7 @@ BEGIN_MESSAGE_MAP(LeePassDlg, CDialogEx)
   ON_NOTIFY_EX(         TTN_NEEDTEXT, 0,     &OnTtnNeedText)          // Do ToolTips
   ON_WM_MOVE()
   ON_WM_SIZE()
-    ON_WM_CLOSE()
+  ON_WM_CLOSE()
 END_MESSAGE_MAP()
 
 
@@ -228,9 +228,9 @@ void LeePassDlg::initMgmt() {
 
 void LeePassDlg::finOpen() {
 
-  dbOpen = true;   groups.initialize();   installGroupCbx();   installEntryCbx();
+  dbOpen = true;   groups.initialize();   installTbrGroupCbx();   installTbrEntryCbx();
 
-  setLabels();   setTitle(getMainName(path));
+  groups.install(groupCtl, 0);   setLabels();   setTitle(getMainName(path));
 
   newRcd = true;   status.set(NewRecordSts);   status.setDb(path, nRecords);
 
@@ -243,14 +243,16 @@ String s;
 void*  x;
 
   if (toolBar.getCurSel(ID_GroupCbx, s, x))
-               {saveCurrentRcd();   rcd.clear();   clearDlg();   setLabels();   installEntryCbx();}
+           {saveCurrentRcd();   rcd.clear();   clearDlg();   setLabels();   installTbrEntryCbx();}
+
+  groups.install(groupCtl, s);   showGenerateButton();
   }
 
 
 static TCchar* AllGroups = _T(" All Groups ");
 
 
-void LeePassDlg::installGroupCbx() {
+void LeePassDlg::installTbrGroupCbx() {
 String  s;
 void*   x;
 GrpIter iter(groups);
@@ -274,7 +276,7 @@ Group*  grp;
   }
 
 
-void LeePassDlg::installEntryCbx() {
+void LeePassDlg::installTbrEntryCbx() {
 KpIter   iter;
 KpEntry* kpEntry;
 String   group;
@@ -304,10 +306,17 @@ String s = title;   if (s == MasterKey) return;
 
 
 void LeePassDlg::onNewEntry() {
+String  s;
+void*   x;
+TCchar* tc = 0;
 
   saveCurrentRcd();   rcd.clear();   clearDlg();
 
-  newRcd = saveRcd = true;   groups.install(groupCtl, 0);   setLabels();
+  newRcd = saveRcd = true;
+
+  if (toolBar.getCurSel(ID_GroupCbx, s, x)) tc = s.str();
+
+  groups.install(groupCtl, tc);    setLabels();
 
   status.set(NewRecordSts);    showGenerateButton();
   }
@@ -401,7 +410,7 @@ uint      grpId    = kpEntry->uGroupId;
 int       i;
 
   if (grpId && grpId != curGrpId) {
-    i = findCbxGroup(grpId);   if (i >= 0) {toolBar.setCurSel(ID_GroupCbx, i);   installEntryCbx();}
+    i = findCbxGroup(grpId);   if (i >= 0) {toolBar.setCurSel(ID_GroupCbx, i);   installTbrEntryCbx();}
     }
 
   finFind(kpEntry);
@@ -554,8 +563,8 @@ bool groupChg = false;
 
   dirty |= rcd.update();
 
-  if (groupChg) installGroupCbx();
-  if (titleChg) installEntryCbx();
+  if (groupChg) installTbrGroupCbx();
+  if (titleChg) installTbrEntryCbx();
 
   shiftDirty();
   }
@@ -576,10 +585,10 @@ bool groupChg = false;
     rcd.updateCreation(creationCtl);   rcd.updateLastMod(lastModCtl);
     rcd.updateLastAccess(lastAccessCtl);
 
-    if (groupChg) {installGroupCbx();  groups.install(groupCtl, rcd.group());}
+    if (groupChg) {installTbrGroupCbx();  groups.install(groupCtl, rcd.group());}
     else                               groupCtl.SelectString(-1, rcd.group());
 
-    installEntryCbx();
+    installTbrEntryCbx();
 
     newRcd = false;   status.set(rcd);    shiftDirty();
     }
@@ -589,8 +598,7 @@ bool groupChg = false;
 void LeePassDlg::onchangeMasterKey() {KpMasterKey mk;   saveDB = mk.change();}
 
 
-void LeePassDlg::onExit() {onSave();   CDialogEx::OnOK();}
-
+void LeePassDlg::onExit() {saveCurrentRcd();   saveDataBase();   CDialogEx::OnOK();}
 
 
 void LeePassDlg::OnClose() {saveCurrentDB();   CDialogEx::OnClose();}
@@ -604,7 +612,12 @@ void LeePassDlg::saveCurrentDB() {
   }
 
 
-void LeePassDlg::onSave() {saveCurrentRcd();   saveDataBase();}
+void LeePassDlg::onSave() {
+
+  if (isSaveRcdSet()) saveCurrentRcd();
+
+  saveDataBase();
+  }
 
 
 void LeePassDlg::saveDataBase() {
@@ -664,13 +677,12 @@ void LeePassDlg::onDeleteEntry() {
 int      index;
 String   s;
 void*    x;
-//Record   rcd;
 String   dsc;
 String   q;
 KpIter   iter;
 KpEntry* kpEntry;
 
-  if (!saveRcd) return;
+  if (!isSaveRcdSet()) return;
 
   saveCurrentRcd();
 
@@ -684,7 +696,7 @@ KpEntry* kpEntry;
 
   for (kpEntry = iter(); kpEntry; kpEntry = iter++)
                                          if (rcd.kpId() == kpEntry->uuid) {iter.remove();   break;}
-  installEntryCbx();
+  installTbrEntryCbx();
 
   q = dsc + _T(" has been deleted");   status.set(q);   status.setDb(path, nRecords);
 
@@ -704,7 +716,7 @@ String s;
 
   noDeleted = remove.duplicates();    saveDB |= noDeleted != 0;    if (!saveDB) return;
 
-  installEntryCbx();
+  installTbrEntryCbx();
 
   switch (noDeleted) {
     case 0  : s.format(_T("No duplicate entries were deleted"));                  break;
@@ -722,7 +734,7 @@ void*  x;
 uint   grpId;
 String q;
 
-  if (!saveRcd) return;
+  if (!isSaveRcdSet()) return;
 
   saveCurrentRcd();
 
@@ -736,13 +748,23 @@ String q;
 
   if (!groups.del(grpId, toolBar, ID_GroupCbx)) return;
 
-  saveDB |= true;   dirty = false;   installGroupCbx();   installEntryCbx();
+  saveDB |= true;   dirty = false;   installTbrGroupCbx();   installTbrEntryCbx();
 
   setLabels();   q = _T("Deleted ") + group + _T(" Group and Entries in the Group");
 
   status.set(q);
   }
 
+
+
+bool LeePassDlg::isSaveRcdSet() {
+
+  if (saveRcd) return true;
+
+  if (msgYesNoBox(SetSaveQuestion) != IDYES) return false;
+
+  saveRcd = true;    status.set(0);   return true;
+  }
 
 
 
@@ -772,7 +794,7 @@ LastPass   lastPass;
 
   groups.initialize();
 
-  installGroupCbx();   groups.install(groupCtl, 0);    installEntryCbx();
+  installTbrGroupCbx();   groups.install(groupCtl, 0);    installTbrEntryCbx();
 
   lastPass.expungeFile(path);
   }
@@ -907,7 +929,7 @@ String s;
 
   noDeleted = remove.oldLPImports();    saveDB |= noDeleted != 0;    if (!saveDB) return;
 
-  installEntryCbx();
+  installTbrEntryCbx();
 
   switch (noDeleted) {
     case 0  : s.format(_T("No Old LP Import entries were deleted"));                  break;
@@ -928,7 +950,7 @@ String s;
 
   noDeleted = remove.redundantGrps();   saveDB |= noDeleted != 0;   if (!saveDB) return;
 
-  groups.initialize();   installGroupCbx();
+  groups.initialize();   installTbrGroupCbx();
 
   switch (noDeleted) {
     case 0  : s.format(_T("No groups were deleted"));                  break;
@@ -949,7 +971,7 @@ String s;
 
   noDeleted = remove.backups();   saveDB |= noDeleted != 0;   if (!saveDB) return;
 
-  groups.initialize();   installGroupCbx();
+  groups.initialize();   installTbrGroupCbx();
 
   switch (noDeleted) {
     case 0  : s.format(_T("No backups were deleted"));                  break;

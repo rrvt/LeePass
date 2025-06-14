@@ -44,6 +44,11 @@ Execute the msi file to install the app.
 
 ## Updates
 
+### Update 6/14/25
+
+Some operations require the Read Only status to be changed to function.  Asks the user if they
+wish the operation to change the read only status.
+
 ### Update 5/27/25
 
 Finding and fixing things related to non-central paths through the code.  New Entry default group

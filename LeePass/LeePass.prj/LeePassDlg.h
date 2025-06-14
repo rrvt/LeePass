@@ -74,8 +74,8 @@ public:
 
   virtual BOOL OnInitDialog();
 
-          void installGroupCbx();
-          void installEntryCbx();
+          void installTbrGroupCbx();
+          void installTbrEntryCbx();
 
   virtual void OnOK() {::SendMessage(m_hWnd, WM_NEXTDLGCTL, 0, 0);}
 
@@ -95,6 +95,8 @@ protected:
 private:
 
   void            initMgmt();
+
+  bool            isSaveRcdSet();
 
   void            saveCurrentRcd();
   void            saveNewRcd(Record& rcd);

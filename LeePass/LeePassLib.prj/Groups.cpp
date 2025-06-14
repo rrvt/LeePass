@@ -125,7 +125,7 @@ int     i;
   for (grp = iter(); grp; grp = iter++)
          if (grp->name != MasterKey) {i = cbx.AddString(grp->name);   cbx.SetItemData(i, grp->id);}
 
-  if (name) cbx.SetCurSel(cbx.FindString(-1, name));
+  if (name  && *name) cbx.SetCurSel(cbx.FindString(-1, name));
   }
 
 

@@ -17,18 +17,22 @@
 	</global>
 	<project_dates>
 		<p n="..\LeePass.hlp\LeePass.hlp.vcxproj" v="20250513061526673"/>
-		<p n="..\LeePass.prj\LeePass.vcxproj" v="20250521004202937"/>
+		<p n="..\LeePass.prj\LeePass.vcxproj" v="20250531200502409"/>
 		<p n="..\LeePass.wix\LeePass.wix.wixproj" v="20250321222659768"/>
-		<p n="..\..\Library\Library\Library.vcxproj" v="20250305070153950"/>
+		<p n="..\..\Library\Library\Library.vcxproj" v="20250531185355150"/>
 		<p n="..\..\KeePass\KeePassLibC\KeePassLibC.vcxproj" v="20250316051827946"/>
 		<p n="..\..\KeePass\Deprecated\Deprecated.vcxproj" v="20250316164712383"/>
 		<p n="..\LastPass.prj\LastPast.vcxproj" v="20250520203440360"/>
 		<p n="..\LeePassLib.prj\LeePassLib.prj.vcxproj" v="20250521230553645"/>
 	</project_dates>
-	<tree_expansion scroll="21">
+	<tree_expansion scroll="23">
 		<p n="..\..\KeePass\Deprecated\Deprecated.vcxproj" v="+@"/>
 		<p n="..\..\KeePass\KeePassLibC\KeePassLibC.vcxproj" v="+@"/>
-		<p n="..\LastPass.prj\LastPast.vcxproj" v="+@"/>
+		<p n="..\LastPass.prj\LastPast.vcxproj" v="-@">
+			<p n="Header Files" v="-"/>
+			<p n="Resource Files" v="+"/>
+			<p n="Source Files" v="+"/>
+		</p>
 		<p n="..\LeePass.hlp\LeePass.hlp.vcxproj" v="+@"/>
 		<p n="..\LeePass.prj\LeePass.vcxproj" v="-@">
 			<p n="Header Files" v="-"/>
@@ -36,18 +40,14 @@
 			<p n="Source Files" v="-"/>
 		</p>
 		<p n="..\LeePass.wix\LeePass.wix.wixproj" v="+@"/>
-		<p n="..\LeePassLib.prj\LeePassLib.prj.vcxproj" v="-@">
-			<p n="Header Files" v="-"/>
-			<p n="Resource Files" v="+"/>
-			<p n="Source Files" v="-"/>
-		</p>
+		<p n="..\LeePassLib.prj\LeePassLib.prj.vcxproj" v="+@"/>
 		<p n="..\..\Library\Library\Library.vcxproj" v="+@"/>
 	</tree_expansion>
 	<state>
 		<monitor_configs>
 			<monitor_config v="0 0 2560 1440">
-				<screen v="2560 1440 1119 0 1431 1401 0 0 N 0 0 0 0 1168 926 0"/>
-				<mdistate v="AAAAAwAAAAIAAAAC2gAAAAIAMAAAAAAAAABFAAAFlgAABVwAAAAAAAAAAAAACf8AAAWfAAAAAuoAAAJEAAAAAvsAAAAFAAAABQAAAAIAAAAAAAAAAQAAAAQAAAAD+wAAAAUAAAAFAAAAAgAAAAAAAAAEAAAAAwAAAAH8AAAAZwAAAABaADUAOgA6ADoARAA6AFwAUwBvAHUAcgBjAGUAcwBcAEwAZQBlAFAAYQBzAHMAXABMAGUAZQBQAGEAcwBzAC4AcAByAGoAXABMAGUAZQBQAGEAcwBzAC4AcgBjAAD/////AAD8AAAAbwAAAABiADIAOgA6ADoARAA6AFwAUwBvAHUAcgBjAGUAcwBcAEwAZQBlAFAAYQBzAHMAXABMAGUAZQBQAGEAcwBzAC4AcAByAGoAXABMAGUAZQBQAGEAcwBzAEQAbABnAC4AYwBwAHAAAP////8AAPwAAABNAAAAAEAANgA6ADoAOgBEADoAXABTAG8AdQByAGMAZQBzAFwATABlAGUAUABhAHMAcwBcAFIARQBBAEQATQBFAC4AbQBkAQD/////AAH8AAAAZwAAAABaADMAOgA6ADoARAA6AFwAUwBvAHUAcgBjAGUAcwBcAEwAZQBlAFAAYQBzAHMAXABMAGUAZQBQAGEAcwBzAC4AcAByAGoAXABSAGUAYwBvAHIAZAAuAGMAcABwAAD/////AAD8AAAAYwAAAABWADQAOgA6ADoARAA6AFwAUwBvAHUAcgBjAGUAcwBcAEwAZQBlAFAAYQBzAHMAXABMAGUAZQBQAGEAcwBzAC4AcAByAGoAXABSAGUAYwBvAHIAZAAuAGgAAP////8AAAAAAADaAAAAHgAwAC0AMQA3ADQAMgA2ADEANwA5ADQANQA4ADYANABOAAACowAAAQwAAAUKAAAESwAAAAAAAAAAAAAJ/wAABZ8AAAAC6gAAABYAAAAC+wAAAAAAAAAA+wAAAAAAAAAAAAAAAA=="/>
+				<screen v="2560 1440 678 0 1574 1400 0 0 N 0 0 0 0 1254 895 0"/>
+				<mdistate v="AAAAAwAAAAIAAAAC2gAAAAIAMAAAAAAAAABYAAAGJQAABVsAAAAAAAAAAAAACf8AAAWfAAAAAuoAAASsAAAAAvsAAAAKAAAACgAAAAEAAAAEAAAABQAAAAMAAAAHAAAAAgAAAAkAAAAIAAAAAAAAAAb7AAAACgAAAAoAAAAHAAAAAgAAAAEAAAADAAAACQAAAAgAAAAAAAAABQAAAAYAAAAE/AAAAG0AAAAAYAA1ADoAOgA6AEQAOgBcAFMAbwB1AHIAYwBlAHMAXABMAGUAZQBQAGEAcwBzAFwATABlAGUAUABhAHMAcwBMAGkAYgAuAHAAcgBqAFwARwByAG8AdQBwAHMALgBjAHAAcAAA/////wAA/AAAAGsAAAAAXgA5ADoAOgA6AEQAOgBcAFMAbwB1AHIAYwBlAHMAXABMAGUAZQBQAGEAcwBzAFwATABlAGUAUABhAHMAcwBMAGkAYgAuAHAAcgBqAFwASwBwAEwAaQBiAC4AYwBwAHABAP////8AAfwAAABzAAAAAGYAMQAwADoAOgA6AEQAOgBcAFMAbwB1AHIAYwBlAHMAXABMAGUAZQBQAGEAcwBzAFwATABlAGUAUABhAHMAcwBMAGkAYgAuAHAAcgBqAFwASwBwAFIAZQBjAG8AcgBkAC4AYwBwAHAAAP////8AAPwAAABnAAAAAFoAOAA6ADoAOgBEADoAXABTAG8AdQByAGMAZQBzAFwATABlAGUAUABhAHMAcwBcAEwAZQBlAFAAYQBzAHMALgBwAHIAagBcAEwAZQBlAFAAYQBzAHMALgByAGMAAP////8AAPwAAABvAAAAAGIAMgA6ADoAOgBEADoAXABTAG8AdQByAGMAZQBzAFwATABlAGUAUABhAHMAcwBcAEwAZQBlAFAAYQBzAHMALgBwAHIAagBcAEwAZQBlAFAAYQBzAHMARABsAGcALgBjAHAAcAAA/////wAA/AAAAGsAAAAAXgA0ADoAOgA6AEQAOgBcAFMAbwB1AHIAYwBlAHMAXABMAGUAZQBQAGEAcwBzAFwATABlAGUAUABhAHMAcwAuAHAAcgBqAFwATABlAGUAUABhAHMAcwBEAGwAZwAuAGgAAP////8AAPwAAABjAAAAAFYAMwA6ADoAOgBEADoAXABTAG8AdQByAGMAZQBzAFwATABpAGIAcgBhAHIAeQBcAEwAaQBiAHIAYQByAHkAXABNAGUAcwBzAGEAZwBlAEIAbwB4AC4AaAAA/////wAA/AAAAE8AAAAAQgAxADEAOgA6ADoARAA6AFwAUwBvAHUAcgBjAGUAcwBcAEwAZQBlAFAAYQBzAHMAXABSAEUAQQBEAE0ARQAuAG0AZAAA/////wAA/AAAAGcAAAAAWgA2ADoAOgA6AEQAOgBcAFMAbwB1AHIAYwBlAHMAXABMAGUAZQBQAGEAcwBzAFwATABlAGUAUABhAHMAcwAuAHAAcgBqAFwAUgBlAGMAbwByAGQALgBjAHAAcAAA/////wAA/AAAAG8AAAAAYgA3ADoAOgA6AEQAOgBcAFMAbwB1AHIAYwBlAHMAXABMAGUAZQBQAGEAcwBzAFwATABlAGUAUABhAHMAcwBMAGkAYgAuAHAAcgBqAFwAVQB0AGkAbABpAHQAeQAuAGMAcABwAAD/////AAAAAAAA2gAAAB4AMAAtADEANwA0ADIANgAxADcAOQA0ADUAOAA2ADQATgAAAqMAAAEMAAAFCgAABCgAAAAAAAAAAAAACf8AAAWfAAAAAuoAAAAWAAAAAvsAAAAAAAAAAPsAAAAAAAAAAAAAAAA="/>
 				<debug_layout version="1" state="N" fullscreen="0">
 					<toolwindowinfo>
 						<p n="_tbannotations_browser_form" f="0"/>
@@ -223,8 +223,8 @@
 						<p n="_tbtagwin_form" t="0"/>
 						<p n="_tbterminal_form" t="0"/>
 					</toolwindows>
-					<mdistate v="AAAAAwAAAAEAAAAC2gAAAAIAMAAAAAAAAABFAAAFlgAABVwAAAAAAAAAAAAACf8AAAWfAAAAAesAAAS6AAAAAPsAAAACAAAAAgAAAAEAAAAA+wAAAAIAAAACAAAAAAAAAAH9AAABoQAAAAAaADoAOgA6AC8AdgBEAG8AYwBrAEEAcgBlAGEBAAAAAQEAAAAAAAL7AAAABQAAAAUAAAAAAAAABAAAAAMAAAACAAAAAfsAAAAFAAAABQAAAAAAAAABAAAAAgAAAAMAAAAE/AAAAD0AAAAAKAAwADoAOgA6AF8AdABiAHAAcgBvAGoAZQBjAHQAcwBfAGYAbwByAG0BAP////8AAP///////////AAAAD0AAAAAKAAwADoAOgA6AF8AdABiAHAAcgBvAGMAdAByAGUAZQBfAGYAbwByAG0AAP////8AAP///////////AAAADcAAAAAIgAwADoAOgA6AF8AdABiAGMAbABhAHMAcwBfAGYAbwByAG0AAP////8AAP///////////AAAAD0AAAAAKAAwADoAOgA6AF8AdABiAGMAYgByAG8AdwBzAGUAcgBfAGYAbwByAG0AAP////8AAP///////////AAAADUAAAAAIAAwADoAOgA6AF8AdABiAG8AcABlAG4AXwBmAG8AcgBtAAD/////AAD///////////0AAALFAAAAABoAOgA6ADoALwB2AEQAbwBjAGsAQQByAGUAYQEAAAAEzgABAAAAAfsAAAACAAAAAgAAAAAAAAAB+wAAAAIAAAACAAAAAQAAAAD8AAAAKQAAAAAcADoAOgA6AE0ARABJAEEAUgBFAEEAVABJAEwARQEAAAADngAB/QAAAkUAAAAAGgA6ADoAOgAvAHYARABvAGMAawBBAHIAZQBhAQAAAAF0AAAAAAAC+wAAAAcAAAAHAAAAAwAAAAYAAAAFAAAABAAAAAIAAAABAAAAAPsAAAAHAAAABwAAAAAAAAABAAAAAgAAAAMAAAAEAAAABQAAAAb8AAAAOQAAAAAkADAAOgA6ADoAXwB0AGIAcwBlAGEAcgBjAGgAXwBmAG8AcgBtAAD/////AAD///////////wAAAA5AAAAACQAMAA6ADoAOgBfAHQAYgB0AGEAZwB3AGkAbgBfAGYAbwByAG0AAP////8AAP///////////AAAADsAAAAAJgAwADoAOgA6AF8AdABiAHQAYQBnAHIAZQBmAHMAXwBmAG8AcgBtAAD/////AAD///////////wAAAA3AAAAACIAMAA6ADoAOgBfAHQAYgBzAGgAZQBsAGwAXwBmAG8AcgBtAQD/////AAD///////////wAAABNAAAAADgAMAA6ADoAOgBfAHQAYgBtAGUAcwBzAGEAZwBlAHMAXwBiAHIAbwB3AHMAZQByAF8AZgBvAHIAbQAA/////wAA///////////8AAAAPQAAAAAoADAAOgA6ADoAXwB0AGIAdABlAHIAbQBpAG4AYQBsAF8AZgBvAHIAbQAA/////wAA///////////8AAAAPwAAAAAqADAAOgA6ADoAXwB0AGIAbwB1AHQAcAB1AHQAdwBpAG4AXwBmAG8AcgBtAAD/////AAD//////////wAAAADbAAAAAAAAAALbAAAAAAAAAAHbAAAAAAAAAAPbAAAAAAAAAADaAAAAHgAwAC0AMQA3ADQAMgA2ADEANwA5ADQANQA4ADYANABOAAACowAAAQwAAAUKAAAESwAAAAAAAAAAAAAJ/wAABZ8AAAAB6wAAAQgAAAAA+wAAAAIAAAACAAAAAAAAAAH7AAAAAgAAAAIAAAAAAAAAAf0AAACLAAAAABoAOgA6ADoALwB2AEQAbwBjAGsAQQByAGUAYQABAAACgAAAAAAAAvsAAAABAAAAAQAAAAD7AAAAAQAAAAEAAAAA/AAAAEEBAAAAIAAxADoAOgA6AF8AdABiAGYAaQBuAGQAXwBmAG8AcgBtAAH/////AAAAAAJYAAADFwAAAZcPIs+MAAAAAPwAAAApAAAAABwAOgA6ADoATQBEAEkAQQBSAEUAQQBUAEkATABFAAH/////AAAAAAAA2wAAAAAAAAAC2wAAAAAAAAAB2wAAAAAAAAAD2wAAAAAAAAAA"/>
-					<toolbars state="AAAA/wAAAAD9AAAAAAAABZcAAAUYAAAABAAAAAQAAAAIAAAACPwAAAABAAAAAgAAAAIAAAAQAFMAdABhAG4AZABhAHIAZAEAAAAA/////wAAAAAAAAAAAAAAHgBDAHUAcgByAGUAbgB0ACAAQwBvAG4AdABlAHgAdAEAAAQ9/////wAAAAAAAAAA">
+					<mdistate v="AAAAAwAAAAEAAAAC2gAAAAIAMAAAAAAAAABYAAAGJQAABVsAAAAAAAAAAAAACf8AAAWfAAAAAesAAAS6AAAAAPsAAAACAAAAAgAAAAEAAAAA+wAAAAIAAAACAAAAAAAAAAH9AAABoQAAAAAaADoAOgA6AC8AdgBEAG8AYwBrAEEAcgBlAGEBAAAAAToAAAAAAAL7AAAABQAAAAUAAAAAAAAABAAAAAMAAAACAAAAAfsAAAAFAAAABQAAAAAAAAABAAAAAgAAAAMAAAAE/AAAAD0AAAAAKAAwADoAOgA6AF8AdABiAHAAcgBvAGoAZQBjAHQAcwBfAGYAbwByAG0BAP////8AAP///////////AAAAD0AAAAAKAAwADoAOgA6AF8AdABiAHAAcgBvAGMAdAByAGUAZQBfAGYAbwByAG0AAP////8AAP///////////AAAADcAAAAAIgAwADoAOgA6AF8AdABiAGMAbABhAHMAcwBfAGYAbwByAG0AAP////8AAP///////////AAAAD0AAAAAKAAwADoAOgA6AF8AdABiAGMAYgByAG8AdwBzAGUAcgBfAGYAbwByAG0AAP////8AAP///////////AAAADUAAAAAIAAwADoAOgA6AF8AdABiAG8AcABlAG4AXwBmAG8AcgBtAAD/////AAD///////////0AAALFAAAAABoAOgA6ADoALwB2AEQAbwBjAGsAQQByAGUAYQEAAAAFhwABAAAAAfsAAAACAAAAAgAAAAAAAAAB+wAAAAIAAAACAAAAAQAAAAD8AAAAKQAAAAAcADoAOgA6AE0ARABJAEEAUgBFAEEAVABJAEwARQEAAAAFGQAB/QAAAkUAAAAAGgA6ADoAOgAvAHYARABvAGMAawBBAHIAZQBhAQAAAAF/AAAAAAAC+wAAAAcAAAAHAAAAAwAAAAYAAAAFAAAABAAAAAIAAAABAAAAAPsAAAAHAAAABwAAAAAAAAABAAAAAgAAAAMAAAAEAAAABQAAAAb8AAAAOQAAAAAkADAAOgA6ADoAXwB0AGIAcwBlAGEAcgBjAGgAXwBmAG8AcgBtAAD/////AAD///////////wAAAA5AAAAACQAMAA6ADoAOgBfAHQAYgB0AGEAZwB3AGkAbgBfAGYAbwByAG0AAP////8AAP///////////AAAADsAAAAAJgAwADoAOgA6AF8AdABiAHQAYQBnAHIAZQBmAHMAXwBmAG8AcgBtAAD/////AAD///////////wAAAA3AAAAACIAMAA6ADoAOgBfAHQAYgBzAGgAZQBsAGwAXwBmAG8AcgBtAQD/////AAD///////////wAAABNAAAAADgAMAA6ADoAOgBfAHQAYgBtAGUAcwBzAGEAZwBlAHMAXwBiAHIAbwB3AHMAZQByAF8AZgBvAHIAbQAA/////wAA///////////8AAAAPQAAAAAoADAAOgA6ADoAXwB0AGIAdABlAHIAbQBpAG4AYQBsAF8AZgBvAHIAbQAA/////wAA///////////8AAAAPwAAAAAqADAAOgA6ADoAXwB0AGIAbwB1AHQAcAB1AHQAdwBpAG4AXwBmAG8AcgBtAAD/////AAD//////////wAAAADbAAAAAAAAAALbAAAAAAAAAAHbAAAAAAAAAAPbAAAAAAAAAADaAAAAHgAwAC0AMQA3ADQAMgA2ADEANwA5ADQANQA4ADYANABOAAACowAAAQwAAAUKAAAEKAAAAAAAAAAAAAAJ/wAABZ8AAAAB6wAAAQgAAAAA+wAAAAIAAAACAAAAAAAAAAH7AAAAAgAAAAIAAAAAAAAAAf0AAACLAAAAABoAOgA6ADoALwB2AEQAbwBjAGsAQQByAGUAYQABAAACgAAAAAAAAvsAAAABAAAAAQAAAAD7AAAAAQAAAAEAAAAA/AAAAEEBAAAAIAAxADoAOgA6AF8AdABiAGYAaQBuAGQAXwBmAG8AcgBtAAH/////AAAAAAJYAAAC8wAAAZc9X/LiAAAAAPwAAAApAAAAABwAOgA6ADoATQBEAEkAQQBSAEUAQQBUAEkATABFAAH/////AAAAAAAA2wAAAAAAAAAC2wAAAAAAAAAB2wAAAAAAAAAD2wAAAAAAAAAA"/>
+					<toolbars state="AAAA/wAAAAD9AAAAAAAABiYAAAUEAAAABAAAAAQAAAAIAAAACPwAAAABAAAAAgAAAAIAAAAQAFMAdABhAG4AZABhAHIAZAEAAAAA/////wAAAAAAAAAAAAAAHgBDAHUAcgByAGUAbgB0ACAAQwBvAG4AdABlAHgAdAEAAAWd/////wAAAAAAAAAA">
 						<p n="_tbstandard_form" movable="1"/>
 						<p n="_tbcontext_form" movable="1"/>
 					</toolbars>
@@ -291,8 +291,8 @@
 						<p n="_tbtagwin_form" t="0"/>
 						<p n="_tbterminal_form" t="0"/>
 					</toolwindows>
-					<mdistate v="AAAAAwAAAAEAAAAC2gAAAAIAMAAAAAAAAABFAAAFlgAABVwAAAAAAAAAAAAACf8AAAWfAAAAAesAAAS6AAAAAPsAAAACAAAAAgAAAAEAAAAA+wAAAAIAAAACAAAAAAAAAAH9AAABoQAAAAAaADoAOgA6AC8AdgBEAG8AYwBrAEEAcgBlAGEBAAAAAQEAAAAAAAL7AAAABQAAAAUAAAAAAAAABAAAAAMAAAACAAAAAfsAAAAFAAAABQAAAAAAAAABAAAAAgAAAAMAAAAE/AAAAD0AAAAAKAAwADoAOgA6AF8AdABiAHAAcgBvAGoAZQBjAHQAcwBfAGYAbwByAG0BAP////8AAP///////////AAAAD0AAAAAKAAwADoAOgA6AF8AdABiAHAAcgBvAGMAdAByAGUAZQBfAGYAbwByAG0AAP////8AAP///////////AAAADcAAAAAIgAwADoAOgA6AF8AdABiAGMAbABhAHMAcwBfAGYAbwByAG0AAP////8AAP///////////AAAAD0AAAAAKAAwADoAOgA6AF8AdABiAGMAYgByAG8AdwBzAGUAcgBfAGYAbwByAG0AAP////8AAP///////////AAAADUAAAAAIAAwADoAOgA6AF8AdABiAG8AcABlAG4AXwBmAG8AcgBtAAD/////AAD///////////0AAALFAAAAABoAOgA6ADoALwB2AEQAbwBjAGsAQQByAGUAYQEAAAAEzgABAAAAAfsAAAACAAAAAgAAAAAAAAAB+wAAAAIAAAACAAAAAQAAAAD8AAAAKQAAAAAcADoAOgA6AE0ARABJAEEAUgBFAEEAVABJAEwARQEAAAADngAB/QAAAkUAAAAAGgA6ADoAOgAvAHYARABvAGMAawBBAHIAZQBhAQAAAAF0AAAAAAAC+wAAAAcAAAAHAAAAAwAAAAYAAAAFAAAABAAAAAIAAAABAAAAAPsAAAAHAAAABwAAAAAAAAABAAAAAgAAAAMAAAAEAAAABQAAAAb8AAAAOQAAAAAkADAAOgA6ADoAXwB0AGIAcwBlAGEAcgBjAGgAXwBmAG8AcgBtAAD/////AAD///////////wAAAA5AAAAACQAMAA6ADoAOgBfAHQAYgB0AGEAZwB3AGkAbgBfAGYAbwByAG0AAP////8AAP///////////AAAADsAAAAAJgAwADoAOgA6AF8AdABiAHQAYQBnAHIAZQBmAHMAXwBmAG8AcgBtAAD/////AAD///////////wAAAA3AAAAACIAMAA6ADoAOgBfAHQAYgBzAGgAZQBsAGwAXwBmAG8AcgBtAQD/////AAD///////////wAAABNAAAAADgAMAA6ADoAOgBfAHQAYgBtAGUAcwBzAGEAZwBlAHMAXwBiAHIAbwB3AHMAZQByAF8AZgBvAHIAbQAA/////wAA///////////8AAAAPQAAAAAoADAAOgA6ADoAXwB0AGIAdABlAHIAbQBpAG4AYQBsAF8AZgBvAHIAbQAA/////wAA///////////8AAAAPwAAAAAqADAAOgA6ADoAXwB0AGIAbwB1AHQAcAB1AHQAdwBpAG4AXwBmAG8AcgBtAAD/////AAD//////////wAAAADbAAAAAAAAAALbAAAAAAAAAAHbAAAAAAAAAAPbAAAAAAAAAADaAAAAHgAwAC0AMQA3ADQAMgA2ADEANwA5ADQANQA4ADYANABOAAACowAAAQwAAAUKAAAESwAAAAAAAAAAAAAJ/wAABZ8AAAAB6wAAAQgAAAAA+wAAAAIAAAACAAAAAAAAAAH7AAAAAgAAAAIAAAAAAAAAAf0AAACLAAAAABoAOgA6ADoALwB2AEQAbwBjAGsAQQByAGUAYQABAAACgAAAAAAAAvsAAAABAAAAAQAAAAD7AAAAAQAAAAEAAAAA/AAAAEEBAAAAIAAxADoAOgA6AF8AdABiAGYAaQBuAGQAXwBmAG8AcgBtAAH/////AAAAAAJYAAADFwAAAZcPIs+MAAAAAPwAAAApAAAAABwAOgA6ADoATQBEAEkAQQBSAEUAQQBUAEkATABFAAH/////AAAAAAAA2wAAAAAAAAAC2wAAAAAAAAAB2wAAAAAAAAAD2wAAAAAAAAAA"/>
-					<toolbars state="AAAA/wAAAAD9AAAAAAAABZcAAAUYAAAABAAAAAQAAAAIAAAACPwAAAABAAAAAgAAAAIAAAAQAFMAdABhAG4AZABhAHIAZAEAAAAA/////wAAAAAAAAAAAAAAHgBDAHUAcgByAGUAbgB0ACAAQwBvAG4AdABlAHgAdAEAAAQ9/////wAAAAAAAAAA">
+					<mdistate v="AAAAAwAAAAEAAAAC2gAAAAIAMAAAAAAAAABYAAAGJQAABVsAAAAAAAAAAAAACf8AAAWfAAAAAesAAAS6AAAAAPsAAAACAAAAAgAAAAEAAAAA+wAAAAIAAAACAAAAAAAAAAH9AAABoQAAAAAaADoAOgA6AC8AdgBEAG8AYwBrAEEAcgBlAGEBAAAAAToAAAAAAAL7AAAABQAAAAUAAAAAAAAABAAAAAMAAAACAAAAAfsAAAAFAAAABQAAAAAAAAABAAAAAgAAAAMAAAAE/AAAAD0AAAAAKAAwADoAOgA6AF8AdABiAHAAcgBvAGoAZQBjAHQAcwBfAGYAbwByAG0BAP////8AAP///////////AAAAD0AAAAAKAAwADoAOgA6AF8AdABiAHAAcgBvAGMAdAByAGUAZQBfAGYAbwByAG0AAP////8AAP///////////AAAADcAAAAAIgAwADoAOgA6AF8AdABiAGMAbABhAHMAcwBfAGYAbwByAG0AAP////8AAP///////////AAAAD0AAAAAKAAwADoAOgA6AF8AdABiAGMAYgByAG8AdwBzAGUAcgBfAGYAbwByAG0AAP////8AAP///////////AAAADUAAAAAIAAwADoAOgA6AF8AdABiAG8AcABlAG4AXwBmAG8AcgBtAAD/////AAD///////////0AAALFAAAAABoAOgA6ADoALwB2AEQAbwBjAGsAQQByAGUAYQEAAAAFhwABAAAAAfsAAAACAAAAAgAAAAAAAAAB+wAAAAIAAAACAAAAAQAAAAD8AAAAKQAAAAAcADoAOgA6AE0ARABJAEEAUgBFAEEAVABJAEwARQEAAAAFGQAB/QAAAkUAAAAAGgA6ADoAOgAvAHYARABvAGMAawBBAHIAZQBhAQAAAAF/AAAAAAAC+wAAAAcAAAAHAAAAAwAAAAYAAAAFAAAABAAAAAIAAAABAAAAAPsAAAAHAAAABwAAAAAAAAABAAAAAgAAAAMAAAAEAAAABQAAAAb8AAAAOQAAAAAkADAAOgA6ADoAXwB0AGIAcwBlAGEAcgBjAGgAXwBmAG8AcgBtAAD/////AAD///////////wAAAA5AAAAACQAMAA6ADoAOgBfAHQAYgB0AGEAZwB3AGkAbgBfAGYAbwByAG0AAP////8AAP///////////AAAADsAAAAAJgAwADoAOgA6AF8AdABiAHQAYQBnAHIAZQBmAHMAXwBmAG8AcgBtAAD/////AAD///////////wAAAA3AAAAACIAMAA6ADoAOgBfAHQAYgBzAGgAZQBsAGwAXwBmAG8AcgBtAQD/////AAD///////////wAAABNAAAAADgAMAA6ADoAOgBfAHQAYgBtAGUAcwBzAGEAZwBlAHMAXwBiAHIAbwB3AHMAZQByAF8AZgBvAHIAbQAA/////wAA///////////8AAAAPQAAAAAoADAAOgA6ADoAXwB0AGIAdABlAHIAbQBpAG4AYQBsAF8AZgBvAHIAbQAA/////wAA///////////8AAAAPwAAAAAqADAAOgA6ADoAXwB0AGIAbwB1AHQAcAB1AHQAdwBpAG4AXwBmAG8AcgBtAAD/////AAD//////////wAAAADbAAAAAAAAAALbAAAAAAAAAAHbAAAAAAAAAAPbAAAAAAAAAADaAAAAHgAwAC0AMQA3ADQAMgA2ADEANwA5ADQANQA4ADYANABOAAACowAAAQwAAAUKAAAEKAAAAAAAAAAAAAAJ/wAABZ8AAAAB6wAAAQgAAAAA+wAAAAIAAAACAAAAAAAAAAH7AAAAAgAAAAIAAAAAAAAAAf0AAACLAAAAABoAOgA6ADoALwB2AEQAbwBjAGsAQQByAGUAYQABAAACgAAAAAAAAvsAAAABAAAAAQAAAAD7AAAAAQAAAAEAAAAA/AAAAEEBAAAAIAAxADoAOgA6AF8AdABiAGYAaQBuAGQAXwBmAG8AcgBtAAH/////AAAAAAJYAAAC8wAAAZc9X/LiAAAAAPwAAAApAAAAABwAOgA6ADoATQBEAEkAQQBSAEUAQQBUAEkATABFAAH/////AAAAAAAA2wAAAAAAAAAC2wAAAAAAAAAB2wAAAAAAAAAD2wAAAAAAAAAA"/>
+					<toolbars state="AAAA/wAAAAD9AAAAAAAABiYAAAUEAAAABAAAAAQAAAAIAAAACPwAAAABAAAAAgAAAAIAAAAQAFMAdABhAG4AZABhAHIAZAEAAAAA/////wAAAAAAAAAAAAAAHgBDAHUAcgByAGUAbgB0ACAAQwBvAG4AdABlAHgAdAEAAAWd/////wAAAAAAAAAA">
 						<p n="_tbstandard_form" movable="1"/>
 						<p n="_tbcontext_form" movable="1"/>
 					</toolbars>
@@ -830,7 +830,7 @@
 			</monitor_config>
 			<monitor_config v="0 0 1920 1080">
 				<screen v="1920 1080 705 0 1201 1048 0 0 N 0 0 0 0 988 728 0"/>
-				<mdistate v="AAAAAwAAAAIAAAAE2gAAAAIAMAAAAAAAAABAAAAEsAAABAAAAAAAAAAAAAAAB38AAAQ3AAAAAuoAAAJ0AAAAAvsAAAAFAAAABQAAAAIAAAAAAAAABAAAAAMAAAAB+wAAAAUAAAAFAAAABAAAAAAAAAADAAAAAQAAAAL8AAAAaQAAAABcADUAOgA6ADoARAA6AFwAUwBvAHUAcgBjAGUAcwBcAEwAZQBlAFAAYQBzAHMAXABMAGUAZQBQAGEAcwBzAEwAaQBiAC4AcAByAGoAXABLAHAARABhAHQAZQAuAGgAAP////8AAPwAAABrAAAAAF4AMwA6ADoAOgBEADoAXABTAG8AdQByAGMAZQBzAFwATABlAGUAUABhAHMAcwBcAEwAZQBlAFAAYQBzAHMATABpAGIALgBwAHIAagBcAEsAcABMAGkAYgAuAGMAcABwAAD/////AAD8AAAAcQAAAABkADIAOgA6ADoARAA6AFwAUwBvAHUAcgBjAGUAcwBcAEwAZQBlAFAAYQBzAHMAXABMAGUAZQBQAGEAcwBzAEwAaQBiAC4AcAByAGoAXABLAHAAUgBlAGMAbwByAGQALgBjAHAAcAEA/////wAB/AAAAG0AAAAAYAA0ADoAOgA6AEQAOgBcAFMAbwB1AHIAYwBlAHMAXABMAGUAZQBQAGEAcwBzAFwATABlAGUAUABhAHMAcwBMAGkAYgAuAHAAcgBqAFwASwBwAFIAZQBjAG8AcgBkAC4AaAAA/////wAA/AAAAGsAAAAAXgA2ADoAOgA6AEQAOgBcAFMAbwB1AHIAYwBlAHMAXABMAGUAZQBQAGEAcwBzAFwATABlAGUAUABhAHMAcwBMAGkAYgAuAHAAcgBqAFwAVQB0AGkAbABpAHQAeQAuAGgAAP////8AAAAAAADaAAAAHgAwAC0AMQA2ADEAMQAxADgANAAyADYANQAyADMAMABOAAABywAAATYAAANpAAADsAAAAAAAAAAAAAAHfwAABDcAAAAC6gAAABYAAAAC+wAAAAAAAAAA+wAAAAAAAAAAAAAAANoAAAAeADAALQAxADYAOQAxADEAMQAzADEAOAAyADQAOAAxAE4AAADtAAABSgAABAkAAALCAAAAAAAAAAAAAAd/AAAENwAAAALqAAAAFgAAAAL7AAAAAAAAAAD7AAAAAAAAAAAAAAAA2gAAAB4AMAAtADEANwAwADUAOQA3ADQAMwA5ADYANAA4ADUATgAAA5kAAAG3AAAFHgAAAp4AAAAAAAAAAAAAB38AAAQ3AAAAAuoAAAAWAAAAAvsAAAAAAAAAAPsAAAAAAAAAAAAAAAA="/>
+				<mdistate v="AAAAAwAAAAIAAAAE2gAAAAIAMAAAAAAAAABAAAAEsAAABAAAAAAAAAAAAAAAB38AAAQ3AAAAAuoAAAJEAAAAAvsAAAAFAAAABQAAAAEAAAAAAAAAAgAAAAQAAAAD+wAAAAUAAAAFAAAAAgAAAAAAAAAEAAAAAwAAAAH8AAAAZwAAAABaADUAOgA6ADoARAA6AFwAUwBvAHUAcgBjAGUAcwBcAEwAZQBlAFAAYQBzAHMAXABMAGUAZQBQAGEAcwBzAC4AcAByAGoAXABMAGUAZQBQAGEAcwBzAC4AcgBjAAD/////AAD8AAAAbwAAAABiADIAOgA6ADoARAA6AFwAUwBvAHUAcgBjAGUAcwBcAEwAZQBlAFAAYQBzAHMAXABMAGUAZQBQAGEAcwBzAC4AcAByAGoAXABMAGUAZQBQAGEAcwBzAEQAbABnAC4AYwBwAHABAP////8AAfwAAABNAAAAAEAANgA6ADoAOgBEADoAXABTAG8AdQByAGMAZQBzAFwATABlAGUAUABhAHMAcwBcAFIARQBBAEQATQBFAC4AbQBkAAD/////AAD8AAAAZwAAAABaADMAOgA6ADoARAA6AFwAUwBvAHUAcgBjAGUAcwBcAEwAZQBlAFAAYQBzAHMAXABMAGUAZQBQAGEAcwBzAC4AcAByAGoAXABSAGUAYwBvAHIAZAAuAGMAcABwAAD/////AAD8AAAAYwAAAABWADQAOgA6ADoARAA6AFwAUwBvAHUAcgBjAGUAcwBcAEwAZQBlAFAAYQBzAHMAXABMAGUAZQBQAGEAcwBzAC4AcAByAGoAXABSAGUAYwBvAHIAZAAuAGgAAP////8AAAAAAADaAAAAHgAwAC0AMQA2ADEAMQAxADgANAAyADYANQAyADMAMABOAAABywAAATYAAANpAAADsAAAAAAAAAAAAAAHfwAABDcAAAAC6gAAABYAAAAC+wAAAAAAAAAA+wAAAAAAAAAAAAAAANoAAAAeADAALQAxADYAOQAxADEAMQAzADEAOAAyADQAOAAxAE4AAADtAAABSgAABAkAAALCAAAAAAAAAAAAAAd/AAAENwAAAALqAAAAFgAAAAL7AAAAAAAAAAD7AAAAAAAAAAAAAAAA2gAAAB4AMAAtADEANwAwADUAOQA3ADQAMwA5ADYANAA4ADUATgAAA5kAAAG3AAAFHgAAAp4AAAAAAAAAAAAAB38AAAQ3AAAAAuoAAAAWAAAAAvsAAAAAAAAAAPsAAAAAAAAAAAAAAAA="/>
 				<fullscreen_layout version="1" state="N" fullscreen="0">
 					<toolwindowinfo>
 						<p n="_tbannotations_browser_form" f="0"/>
@@ -1083,7 +1083,7 @@
 			</monitor_config>
 			<monitor_config v="0 0 2048 1152">
 				<screen v="2048 1152 863 0 1176 1120 0 0 N 0 0 0 0 963 800 0"/>
-				<mdistate v="AAAAAwAAAAIAAAAE2gAAAAIAMAAAAAAAAABAAAAEsAAABAAAAAAAAAAAAAAAB38AAAQ3AAAAAuoAAAJ0AAAAAvsAAAAFAAAABQAAAAIAAAAAAAAABAAAAAMAAAAB+wAAAAUAAAAFAAAABAAAAAAAAAADAAAAAQAAAAL8AAAAaQAAAABcADUAOgA6ADoARAA6AFwAUwBvAHUAcgBjAGUAcwBcAEwAZQBlAFAAYQBzAHMAXABMAGUAZQBQAGEAcwBzAEwAaQBiAC4AcAByAGoAXABLAHAARABhAHQAZQAuAGgAAP////8AAPwAAABrAAAAAF4AMwA6ADoAOgBEADoAXABTAG8AdQByAGMAZQBzAFwATABlAGUAUABhAHMAcwBcAEwAZQBlAFAAYQBzAHMATABpAGIALgBwAHIAagBcAEsAcABMAGkAYgAuAGMAcABwAAD/////AAD8AAAAcQAAAABkADIAOgA6ADoARAA6AFwAUwBvAHUAcgBjAGUAcwBcAEwAZQBlAFAAYQBzAHMAXABMAGUAZQBQAGEAcwBzAEwAaQBiAC4AcAByAGoAXABLAHAAUgBlAGMAbwByAGQALgBjAHAAcAEA/////wAB/AAAAG0AAAAAYAA0ADoAOgA6AEQAOgBcAFMAbwB1AHIAYwBlAHMAXABMAGUAZQBQAGEAcwBzAFwATABlAGUAUABhAHMAcwBMAGkAYgAuAHAAcgBqAFwASwBwAFIAZQBjAG8AcgBkAC4AaAAA/////wAA/AAAAGsAAAAAXgA2ADoAOgA6AEQAOgBcAFMAbwB1AHIAYwBlAHMAXABMAGUAZQBQAGEAcwBzAFwATABlAGUAUABhAHMAcwBMAGkAYgAuAHAAcgBqAFwAVQB0AGkAbABpAHQAeQAuAGgAAP////8AAAAAAADaAAAAHgAwAC0AMQA2ADEAMQAxADgANAAyADYANQAyADMAMABOAAABywAAATYAAANpAAADsAAAAAAAAAAAAAAHfwAABDcAAAAC6gAAABYAAAAC+wAAAAAAAAAA+wAAAAAAAAAAAAAAANoAAAAeADAALQAxADYAOQAxADEAMQAzADEAOAAyADQAOAAxAE4AAADtAAABSgAABAkAAALCAAAAAAAAAAAAAAd/AAAENwAAAALqAAAAFgAAAAL7AAAAAAAAAAD7AAAAAAAAAAAAAAAA2gAAAB4AMAAtADEANwAwADUAOQA3ADQAMwA5ADYANAA4ADUATgAAA5kAAAG3AAAFHgAAAp4AAAAAAAAAAAAAB38AAAQ3AAAAAuoAAAAWAAAAAvsAAAAAAAAAAPsAAAAAAAAAAAAAAAA="/>
+				<mdistate v="AAAAAwAAAAIAAAAC2gAAAAIAMAAAAAAAAABYAAAGJQAABVsAAAAAAAAAAAAACf8AAAWfAAAAAuoAAASsAAAAAvsAAAAKAAAACgAAAAMAAAAEAAAABwAAAAIAAAABAAAABQAAAAkAAAAIAAAAAAAAAAb7AAAACgAAAAoAAAAHAAAAAgAAAAEAAAADAAAACQAAAAgAAAAAAAAABQAAAAYAAAAE/AAAAG0AAAAAYAA1ADoAOgA6AEQAOgBcAFMAbwB1AHIAYwBlAHMAXABMAGUAZQBQAGEAcwBzAFwATABlAGUAUABhAHMAcwBMAGkAYgAuAHAAcgBqAFwARwByAG8AdQBwAHMALgBjAHAAcAAA/////wAA/AAAAGsAAAAAXgA5ADoAOgA6AEQAOgBcAFMAbwB1AHIAYwBlAHMAXABMAGUAZQBQAGEAcwBzAFwATABlAGUAUABhAHMAcwBMAGkAYgAuAHAAcgBqAFwASwBwAEwAaQBiAC4AYwBwAHAAAP////8AAPwAAABzAAAAAGYAMQAwADoAOgA6AEQAOgBcAFMAbwB1AHIAYwBlAHMAXABMAGUAZQBQAGEAcwBzAFwATABlAGUAUABhAHMAcwBMAGkAYgAuAHAAcgBqAFwASwBwAFIAZQBjAG8AcgBkAC4AYwBwAHAAAP////8AAPwAAABnAAAAAFoAOAA6ADoAOgBEADoAXABTAG8AdQByAGMAZQBzAFwATABlAGUAUABhAHMAcwBcAEwAZQBlAFAAYQBzAHMALgBwAHIAagBcAEwAZQBlAFAAYQBzAHMALgByAGMBAP////8AAfwAAABvAAAAAGIAMgA6ADoAOgBEADoAXABTAG8AdQByAGMAZQBzAFwATABlAGUAUABhAHMAcwBcAEwAZQBlAFAAYQBzAHMALgBwAHIAagBcAEwAZQBlAFAAYQBzAHMARABsAGcALgBjAHAAcAAA/////wAA/AAAAGsAAAAAXgA0ADoAOgA6AEQAOgBcAFMAbwB1AHIAYwBlAHMAXABMAGUAZQBQAGEAcwBzAFwATABlAGUAUABhAHMAcwAuAHAAcgBqAFwATABlAGUAUABhAHMAcwBEAGwAZwAuAGgAAP////8AAPwAAABjAAAAAFYAMwA6ADoAOgBEADoAXABTAG8AdQByAGMAZQBzAFwATABpAGIAcgBhAHIAeQBcAEwAaQBiAHIAYQByAHkAXABNAGUAcwBzAGEAZwBlAEIAbwB4AC4AaAAA/////wAA/AAAAE8AAAAAQgAxADEAOgA6ADoARAA6AFwAUwBvAHUAcgBjAGUAcwBcAEwAZQBlAFAAYQBzAHMAXABSAEUAQQBEAE0ARQAuAG0AZAAA/////wAA/AAAAGcAAAAAWgA2ADoAOgA6AEQAOgBcAFMAbwB1AHIAYwBlAHMAXABMAGUAZQBQAGEAcwBzAFwATABlAGUAUABhAHMAcwAuAHAAcgBqAFwAUgBlAGMAbwByAGQALgBjAHAAcAAA/////wAA/AAAAG8AAAAAYgA3ADoAOgA6AEQAOgBcAFMAbwB1AHIAYwBlAHMAXABMAGUAZQBQAGEAcwBzAFwATABlAGUAUABhAHMAcwBMAGkAYgAuAHAAcgBqAFwAVQB0AGkAbABpAHQAeQAuAGMAcABwAAD/////AAAAAAAA2gAAAB4AMAAtADEANwA0ADIANgAxADcAOQA0ADUAOAA2ADQATgAAAqMAAAEMAAAFCgAABCgAAAAAAAAAAAAACf8AAAWfAAAAAuoAAAAWAAAAAvsAAAAAAAAAAPsAAAAAAAAAAAAAAAA="/>
 				<fullscreen_layout version="1" state="N" fullscreen="0">
 					<toolwindowinfo>
 						<p n="_tbannotations_browser_form" f="0"/>
@@ -1336,69 +1336,108 @@
 			</monitor_config>
 		</monitor_configs>
 		<cwd v="..\LeePass.prj"/>
-		<buffer bn="..\LeePass.prj\LeePassDlg.cpp" dn="" mtn="">
-			<bi ma="1 110 1" tabs="" wws="1" iwt="" st="8" in="1" bw="0" us="32000" ro="0" se="1" sn="0" bin="0" mn="" hm="0" mf="87032416" tl="0" mll="0" ase="0" lnl="1" lcf="0" caps="0" e="0" esbu2="-1" clb="" clm="" sc="" sce="" scu="" alm="0" fwrm="0" hmre="0" hmrbw="0" spcwt="" swf="" sm="" ldf="42" stat="" bfont="" mfont="" df="0" sco="" of=""/>
-			<view ln=".19735" cl="65" le="0" cx="64" cy="35" wi="5" bi="1" ht="0" hn="0" hf="0" hc="4" hb="4"/>
+		<buffer bn="..\..\Library\Library\MessageBox.h" dn="" mtn="">
+			<bi ma="1 110 1" tabs="" wws="1" iwt="" st="8" in="1" bw="0" us="32000" ro="0" se="1" sn="0" bin="0" mn="" hm="0" mf="0" tl="0" mll="0" ase="0" lnl="1" lcf="0" caps="0" e="0" esbu2="-1" clb="" clm="" sc="" sce="" scu="" alm="0" fwrm="0" hmre="0" hmrbw="0" spcwt="" swf="" sm="" ldf="42" stat="" bfont="" mfont="" df="1024" sco="" of=""/>
+			<view ln=".1066" cl="23" le="0" cx="22" cy="29" wi="5" bi="1" ht="0" hn="0" hf="0" hc="4" hb="4"/>
 		</buffer>
-		<buffer bn="..\LeePass.prj\LeePass.rc" dn="" mtn="">
-			<bi ma="1 74 1" tabs="2 " wws="1" iwt="" st="0" in="1" bw="0" us="32000" ro="0" se="1" sn="0" bin="0" mn="" hm="0" mf="84935200" tl="0" mll="0" ase="0" lnl="1" lcf="0" caps="0" e="73" esbu2="-1" clb="" clm="" sc="" sce="" scu="" alm="0" fwrm="0" hmre="0" hmrbw="0" spcwt="" swf="" sm="" ldf="42" stat="" bfont="" mfont="" df="0" sco="" of=""/>
-			<view ln=".9978" cl="44" le="0" cx="43" cy="28" wi="5" bi="10" ht="0" hn="0" hf="0" hc="4" hb="4"/>
-		</buffer>
-		<buffer bn="..\README.md" dn="" mtn="">
-			<bi ma="1 74 1" tabs="2 " wws="1" iwt="" st="8" in="2" bw="0" us="32000" ro="0" se="1" sn="0" bin="0" mn="" hm="0" mf="87032352" tl="0" mll="0" ase="0" lnl="1" lcf="0" caps="0" e="0" esbu2="-1" clb="" clm="" sc="" sce="" scu="" alm="0" fwrm="0" hmre="0" hmrbw="0" spcwt="" swf="2" sm="" ldf="42" stat="" bfont="" mfont="" df="0" sco="" of=""/>
-			<view ln=".0" cl="1" le="0" cx="0" cy="0" wi="5" bi="11" ht="0" hn="0" hf="0" hc="4" hb="4"/>
+		<buffer bn="..\LeePassLib.prj\Groups.cpp" dn="" mtn="">
+			<bi ma="1 110 1" tabs="" wws="1" iwt="" st="8" in="1" bw="0" us="32000" ro="0" se="1" sn="0" bin="0" mn="" hm="0" mf="0" tl="0" mll="0" ase="0" lnl="1" lcf="0" caps="0" e="0" esbu2="-1" clb="" clm="" sc="" sce="" scu="" alm="0" fwrm="0" hmre="0" hmrbw="0" spcwt="" swf="" sm="" ldf="42" stat="" bfont="" mfont="" df="1024" sco="" of=""/>
+			<view ln=".3101" cl="21" le="0" cx="20" cy="22" wi="5" bi="2" ht="0" hn="0" hf="0" hc="4" hb="4"/>
 		</buffer>
 		<buffer bn="..\LeePass.prj\Record.cpp" dn="" mtn="">
-			<bi ma="1 110 1" tabs="" wws="1" iwt="" st="8" in="1" bw="0" us="32000" ro="0" se="1" sn="0" bin="0" mn="" hm="0" mf="86049376" tl="0" mll="0" ase="0" lnl="1" lcf="0" caps="0" e="0" esbu2="-1" clb="" clm="" sc="" sce="" scu="" alm="0" fwrm="0" hmre="0" hmrbw="0" spcwt="" swf="" sm="" ldf="42" stat="" bfont="" mfont="" df="0" sco="" of=""/>
-			<view ln=".4650" cl="9" le="0" cx="8" cy="16" wi="5" bi="2" ht="0" hn="0" hf="0" hc="4" hb="4"/>
+			<bi ma="1 110 1" tabs="" wws="1" iwt="" st="8" in="1" bw="0" us="32000" ro="0" se="1" sn="0" bin="0" mn="" hm="0" mf="0" tl="0" mll="0" ase="0" lnl="1" lcf="0" caps="0" e="0" esbu2="-1" clb="" clm="" sc="" sce="" scu="" alm="0" fwrm="0" hmre="0" hmrbw="0" spcwt="" swf="" sm="" ldf="42" stat="" bfont="" mfont="" df="1024" sco="" of=""/>
+			<view ln=".1495" cl="52" le="0" cx="51" cy="18" wi="5" bi="3" ht="0" hn="0" hf="0" hc="4" hb="4"/>
 		</buffer>
-		<buffer bn="..\LeePass.prj\Record.h" dn="" mtn="">
-			<bi ma="1 110 1" tabs="" wws="1" iwt="" st="8" in="1" bw="0" us="32000" ro="0" se="1" sn="0" bin="0" mn="" hm="0" mf="86049376" tl="0" mll="0" ase="0" lnl="1" lcf="0" caps="0" e="0" esbu2="-1" clb="" clm="" sc="" sce="" scu="" alm="0" fwrm="0" hmre="0" hmrbw="0" spcwt="" swf="" sm="" ldf="42" stat="" bfont="" mfont="" df="0" sco="" of=""/>
-			<view ln=".0" cl="1" le="0" cx="0" cy="0" wi="5" bi="9" ht="0" hn="0" hf="0" hc="4" hb="4"/>
+		<buffer bn="..\LeePass.prj\LeePassDlg.h" dn="" mtn="">
+			<bi ma="1 110 1" tabs="" wws="1" iwt="" st="8" in="1" bw="0" us="32000" ro="0" se="1" sn="0" bin="0" mn="" hm="0" mf="87097952" tl="0" mll="0" ase="0" lnl="1" lcf="0" caps="0" e="0" esbu2="-1" clb="" clm="" sc="" sce="" scu="" alm="0" fwrm="0" hmre="0" hmrbw="0" spcwt="" swf="" sm="" ldf="42" stat="" bfont="" mfont="" df="1024" sco="" of=""/>
+			<view ln=".2467" cl="1" le="0" cx="0" cy="10" wi="5" bi="4" ht="0" hn="0" hf="0" hc="4" hb="4"/>
 		</buffer>
-		<window x="1" y="27" width="1166" height="898" icon_x="0" icon_y="0" state="N" wf="0" wt="3" font_info=",,," did="0" mi="*,,," pi="2">
+		<buffer bn="..\LeePassLib.prj\KpRecord.cpp" dn="" mtn="">
+			<bi ma="1 110 1" tabs="" wws="1" iwt="" st="8" in="1" bw="0" us="32000" ro="0" se="1" sn="0" bin="0" mn="" hm="0" mf="0" tl="0" mll="0" ase="0" lnl="1" lcf="0" caps="0" e="0" esbu2="-1" clb="" clm="" sc="" sce="" scu="" alm="0" fwrm="0" hmre="0" hmrbw="0" spcwt="" swf="" sm="" ldf="42" stat="" bfont="" mfont="" df="1024" sco="" of=""/>
+			<view ln=".6268" cl="1" le="0" cx="0" cy="11" wi="5" bi="8" ht="0" hn="0" hf="0" hc="4" hb="4"/>
+		</buffer>
+		<buffer bn="..\LeePassLib.prj\Utility.cpp" dn="" mtn="">
+			<bi ma="1 110 1" tabs="" wws="1" iwt="" st="8" in="1" bw="0" us="32000" ro="0" se="1" sn="0" bin="0" mn="" hm="0" mf="0" tl="0" mll="0" ase="0" lnl="1" lcf="0" caps="0" e="0" esbu2="-1" clb="" clm="" sc="" sce="" scu="" alm="0" fwrm="0" hmre="0" hmrbw="0" spcwt="" swf="" sm="" ldf="42" stat="" bfont="" mfont="" df="1024" sco="" of=""/>
+			<view ln=".593" cl="1" le="0" cx="0" cy="17" wi="5" bi="7" ht="0" hn="0" hf="0" hc="4" hb="4"/>
+		</buffer>
+		<buffer bn="..\README.md" dn="" mtn="">
+			<bi ma="1 74 1" tabs="2 " wws="1" iwt="" st="8" in="2" bw="0" us="32000" ro="0" se="1" sn="0" bin="0" mn="" hm="0" mf="0" tl="0" mll="0" ase="0" lnl="1" lcf="0" caps="0" e="0" esbu2="-1" clb="" clm="" sc="" sce="" scu="" alm="0" fwrm="0" hmre="0" hmrbw="0" spcwt="" swf="2" sm="" ldf="42" stat="" bfont="" mfont="" df="1024" sco="" of=""/>
+			<view ln=".2097" cl="51" le="0" cx="50" cy="14" wi="5" bi="10" ht="0" hn="0" hf="0" hc="4" hb="4"/>
+		</buffer>
+		<buffer bn="..\LeePass.prj\LeePassDlg.cpp" dn="" mtn="">
+			<bi ma="1 110 1" tabs="" wws="1" iwt="" st="8" in="1" bw="0" us="32000" ro="0" se="1" sn="0" bin="0" mn="" hm="0" mf="86049376" tl="0" mll="0" ase="0" lnl="1" lcf="0" caps="0" e="0" esbu2="-1" clb="" clm="" sc="" sce="" scu="" alm="0" fwrm="0" hmre="0" hmrbw="0" spcwt="" swf="" sm="" ldf="42" stat="" bfont="" mfont="" df="1024" sco="" of=""/>
+			<view ln=".18628" cl="29" le="0" cx="28" cy="30" wi="5" bi="6" ht="0" hn="0" hf="0" hc="4" hb="4"/>
+		</buffer>
+		<buffer bn="..\LeePassLib.prj\KpLib.cpp" dn="" mtn="">
+			<bi ma="1 110 1" tabs="" wws="1" iwt="" st="8" in="1" bw="0" us="32000" ro="0" se="1" sn="0" bin="0" mn="" hm="0" mf="83952224" tl="0" mll="0" ase="0" lnl="1" lcf="0" caps="0" e="0" esbu2="-1" clb="" clm="" sc="" sce="" scu="" alm="0" fwrm="0" hmre="0" hmrbw="0" spcwt="" swf="" sm="" ldf="42" stat="" bfont="" mfont="" df="1024" sco="" of=""/>
+			<view ln=".12992" cl="15" le="0" cx="14" cy="30" wi="5" bi="5" ht="0" hn="0" hf="0" hc="4" hb="4"/>
+		</buffer>
+		<buffer bn="..\LeePass.prj\LeePass.rc" dn="" mtn="">
+			<bi ma="1 74 1" tabs="2 " wws="1" iwt="" st="0" in="1" bw="0" us="32000" ro="0" se="1" sn="0" bin="0" mn="" hm="0" mf="67108896" tl="0" mll="0" ase="0" lnl="1" lcf="0" caps="0" e="73" esbu2="-1" clb="" clm="" sc="" sce="" scu="" alm="0" fwrm="0" hmre="0" hmrbw="0" spcwt="" swf="" sm="" ldf="42" stat="" bfont="" mfont="" df="1024" sco="" of=""/>
+			<view ln=".9978" cl="44" le="0" cx="43" cy="28" wi="5" bi="9" ht="0" hn="0" hf="0" hc="4" hb="4"/>
+		</buffer>
+		<window x="1" y="1" width="1212" height="865" icon_x="0" icon_y="0" state="N" wf="0" wt="3" font_info=",,," did="0" mi="*,,," pi="2">
+			<buffer bn="..\..\Library\Library\MessageBox.h" dn="" mtn=""/>
+			<view ln=".1066" cl="23" le="0" cx="22" cy="29" wi="13" bi="1" ht="0" hn="0" hf="0" hc="4" hb="4"/>
+		</window>
+		<window x="1" y="1" width="1252" height="865" icon_x="0" icon_y="0" state="N" wf="0" wt="5" font_info=",,," did="0" mi="*,,," pi="0">
+			<buffer bn="..\LeePassLib.prj\Groups.cpp" dn="" mtn=""/>
+			<view ln=".3101" cl="21" le="0" cx="20" cy="22" wi="16" bi="2" ht="0" hn="0" hf="0" hc="4" hb="4"/>
+		</window>
+		<window x="1" y="1" width="1252" height="865" icon_x="0" icon_y="0" state="N" wf="0" wt="6" font_info=",,," did="0" mi="*,,," pi="3">
 			<buffer bn="..\LeePass.prj\Record.cpp" dn="" mtn=""/>
-			<view ln=".4650" cl="9" le="0" cx="9" cy="16" wi="301" bi="2" ht="0" hn="0" hf="0" hc="4" hb="4"/>
+			<view ln=".1495" cl="52" le="0" cx="51" cy="18" wi="19" bi="3" ht="0" hn="0" hf="0" hc="4" hb="4"/>
 		</window>
-		<window x="1" y="27" width="1166" height="898" icon_x="0" icon_y="0" state="N" wf="0" wt="4" font_info=",,," did="0" mi="*,,," pi="0">
-			<buffer bn="..\LeePass.prj\Record.h" dn="" mtn=""/>
-			<view ln=".1871" cl="35" le="0" cx="35" cy="16" wi="331" bi="9" ht="0" hn="0" hf="0" hc="4" hb="4"/>
+		<window x="1" y="1" width="1252" height="864" icon_x="0" icon_y="0" state="N" wf="0" wt="10" font_info=",,," did="0" mi="*,,," pi="0">
+			<buffer bn="..\LeePassLib.prj\KpRecord.cpp" dn="" mtn=""/>
+			<view ln=".6268" cl="1" le="0" cx="0" cy="11" wi="28" bi="8" ht="0" hn="0" hf="0" hc="4" hb="4"/>
 		</window>
-		<window x="1" y="27" width="1166" height="898" icon_x="0" icon_y="0" state="N" wf="0" wt="2" font_info=",,," did="0" mi="*,,," pi="1">
-			<buffer bn="..\LeePass.prj\LeePassDlg.cpp" dn="" mtn=""/>
-			<view ln=".19735" cl="65" le="0" cx="65" cy="35" wi="340" bi="1" ht="0" hn="0" hf="0" hc="4" hb="4"/>
-		</window>
-		<window x="1" y="27" width="1166" height="898" icon_x="0" icon_y="0" state="N" wf="0" wt="5" font_info="Default Unicode Font,11,0,1" did="0" mi="*,,," pi="0">
-			<buffer bn="..\LeePass.prj\LeePass.rc" dn="" mtn=""/>
-			<view ln=".9978" cl="44" le="0" cx="44" cy="28" wi="379" bi="10" ht="0" hn="0" hf="0" hc="4" hb="4"/>
-		</window>
-		<window x="1" y="27" width="1166" height="898" icon_x="0" icon_y="0" state="N" wf="0" wt="6" font_info=",,," did="0" mi="*,,," pi="0">
+		<window x="1" y="1" width="1252" height="864" icon_x="0" icon_y="0" state="N" wf="0" wt="11" font_info=",,," did="0" mi="*,,," pi="0">
 			<buffer bn="..\README.md" dn="" mtn=""/>
-			<view ln=".2388" cl="60" le="0" cx="60" cy="26" wi="386" bi="11" ht="0" hn="0" hf="0" hc="4" hb="4"/>
+			<view ln=".2097" cl="51" le="0" cx="50" cy="14" wi="34" bi="10" ht="0" hn="0" hf="0" hc="4" hb="4"/>
 		</window>
-		<mdistate v="AAAAAwAAAAIAAAAC2gAAAAIAMAAAAAAAAABFAAAFlgAABVwAAAAAAAAAAAAACf8AAAWfAAAAAuoAAAJEAAAAAvsAAAAFAAAABQAAAAIAAAAAAAAAAQAAAAQAAAAD+wAAAAUAAAAFAAAAAgAAAAAAAAAEAAAAAwAAAAH8AAAAZwAAAABaADUAOgA6ADoARAA6AFwAUwBvAHUAcgBjAGUAcwBcAEwAZQBlAFAAYQBzAHMAXABMAGUAZQBQAGEAcwBzAC4AcAByAGoAXABMAGUAZQBQAGEAcwBzAC4AcgBjAAD/////AAD8AAAAbwAAAABiADIAOgA6ADoARAA6AFwAUwBvAHUAcgBjAGUAcwBcAEwAZQBlAFAAYQBzAHMAXABMAGUAZQBQAGEAcwBzAC4AcAByAGoAXABMAGUAZQBQAGEAcwBzAEQAbABnAC4AYwBwAHAAAP////8AAPwAAABNAAAAAEAANgA6ADoAOgBEADoAXABTAG8AdQByAGMAZQBzAFwATABlAGUAUABhAHMAcwBcAFIARQBBAEQATQBFAC4AbQBkAQD/////AAH8AAAAZwAAAABaADMAOgA6ADoARAA6AFwAUwBvAHUAcgBjAGUAcwBcAEwAZQBlAFAAYQBzAHMAXABMAGUAZQBQAGEAcwBzAC4AcAByAGoAXABSAGUAYwBvAHIAZAAuAGMAcABwAAD/////AAD8AAAAYwAAAABWADQAOgA6ADoARAA6AFwAUwBvAHUAcgBjAGUAcwBcAEwAZQBlAFAAYQBzAHMAXABMAGUAZQBQAGEAcwBzAC4AcAByAGoAXABSAGUAYwBvAHIAZAAuAGgAAP////8AAAAAAADaAAAAHgAwAC0AMQA3ADQAMgA2ADEANwA5ADQANQA4ADYANABOAAACowAAAQwAAAUKAAAESwAAAAAAAAAAAAAJ/wAABZ8AAAAC6gAAABYAAAAC+wAAAAAAAAAA+wAAAAAAAAAAAAAAAA=="/>
+		<window x="1" y="1" width="1252" height="865" icon_x="0" icon_y="0" state="N" wf="0" wt="7" font_info=",,," did="0" mi="*,,," pi="0">
+			<buffer bn="..\LeePassLib.prj\Utility.cpp" dn="" mtn=""/>
+			<view ln=".593" cl="1" le="0" cx="0" cy="17" wi="31" bi="7" ht="0" hn="0" hf="0" hc="4" hb="4"/>
+		</window>
+		<window x="1" y="30" width="1252" height="864" icon_x="0" icon_y="0" state="N" wf="0" wt="8" font_info="Consolas,11,0,1" did="0" mi="*,,," pi="0">
+			<buffer bn="..\LeePass.prj\LeePass.rc" dn="" mtn=""/>
+			<view ln=".9978" cl="44" le="0" cx="44" cy="28" wi="40" bi="9" ht="0" hn="0" hf="0" hc="4" hb="4"/>
+		</window>
+		<window x="1" y="30" width="1252" height="864" icon_x="0" icon_y="0" state="N" wf="0" wt="4" font_info=",,," did="0" mi="*,,," pi="0">
+			<buffer bn="..\LeePass.prj\LeePassDlg.h" dn="" mtn=""/>
+			<view ln=".699" cl="17" le="0" cx="17" cy="13" wi="22" bi="4" ht="0" hn="0" hf="0" hc="4" hb="4"/>
+		</window>
+		<window x="1" y="30" width="1252" height="864" icon_x="0" icon_y="0" state="N" wf="0" wt="2" font_info=",,," did="0" mi="*,,," pi="1">
+			<buffer bn="..\LeePass.prj\LeePassDlg.cpp" dn="" mtn=""/>
+			<view ln=".18628" cl="29" le="0" cx="29" cy="30" wi="37" bi="6" ht="0" hn="0" hf="0" hc="4" hb="4"/>
+		</window>
+		<window x="1" y="30" width="1252" height="864" icon_x="0" icon_y="0" state="N" wf="0" wt="9" font_info=",,," did="0" mi="*,,," pi="1">
+			<buffer bn="..\LeePassLib.prj\KpLib.cpp" dn="" mtn=""/>
+			<view ln=".11946" cl="1" le="0" cx="1" cy="15" wi="25" bi="5" ht="0" hn="0" hf="0" hc="4" hb="4"/>
+		</window>
+		<mdistate v="AAAAAwAAAAIAAAAC2gAAAAIAMAAAAAAAAABYAAAGJQAABVsAAAAAAAAAAAAACf8AAAWfAAAAAuoAAASsAAAAAvsAAAAKAAAACgAAAAEAAAAEAAAABQAAAAMAAAAHAAAAAgAAAAkAAAAIAAAAAAAAAAb7AAAACgAAAAoAAAAHAAAAAgAAAAEAAAADAAAACQAAAAgAAAAAAAAABQAAAAYAAAAE/AAAAG0AAAAAYAA1ADoAOgA6AEQAOgBcAFMAbwB1AHIAYwBlAHMAXABMAGUAZQBQAGEAcwBzAFwATABlAGUAUABhAHMAcwBMAGkAYgAuAHAAcgBqAFwARwByAG8AdQBwAHMALgBjAHAAcAAA/////wAA/AAAAGsAAAAAXgA5ADoAOgA6AEQAOgBcAFMAbwB1AHIAYwBlAHMAXABMAGUAZQBQAGEAcwBzAFwATABlAGUAUABhAHMAcwBMAGkAYgAuAHAAcgBqAFwASwBwAEwAaQBiAC4AYwBwAHABAP////8AAfwAAABzAAAAAGYAMQAwADoAOgA6AEQAOgBcAFMAbwB1AHIAYwBlAHMAXABMAGUAZQBQAGEAcwBzAFwATABlAGUAUABhAHMAcwBMAGkAYgAuAHAAcgBqAFwASwBwAFIAZQBjAG8AcgBkAC4AYwBwAHAAAP////8AAPwAAABnAAAAAFoAOAA6ADoAOgBEADoAXABTAG8AdQByAGMAZQBzAFwATABlAGUAUABhAHMAcwBcAEwAZQBlAFAAYQBzAHMALgBwAHIAagBcAEwAZQBlAFAAYQBzAHMALgByAGMAAP////8AAPwAAABvAAAAAGIAMgA6ADoAOgBEADoAXABTAG8AdQByAGMAZQBzAFwATABlAGUAUABhAHMAcwBcAEwAZQBlAFAAYQBzAHMALgBwAHIAagBcAEwAZQBlAFAAYQBzAHMARABsAGcALgBjAHAAcAAA/////wAA/AAAAGsAAAAAXgA0ADoAOgA6AEQAOgBcAFMAbwB1AHIAYwBlAHMAXABMAGUAZQBQAGEAcwBzAFwATABlAGUAUABhAHMAcwAuAHAAcgBqAFwATABlAGUAUABhAHMAcwBEAGwAZwAuAGgAAP////8AAPwAAABjAAAAAFYAMwA6ADoAOgBEADoAXABTAG8AdQByAGMAZQBzAFwATABpAGIAcgBhAHIAeQBcAEwAaQBiAHIAYQByAHkAXABNAGUAcwBzAGEAZwBlAEIAbwB4AC4AaAAA/////wAA/AAAAE8AAAAAQgAxADEAOgA6ADoARAA6AFwAUwBvAHUAcgBjAGUAcwBcAEwAZQBlAFAAYQBzAHMAXABSAEUAQQBEAE0ARQAuAG0AZAAA/////wAA/AAAAGcAAAAAWgA2ADoAOgA6AEQAOgBcAFMAbwB1AHIAYwBlAHMAXABMAGUAZQBQAGEAcwBzAFwATABlAGUAUABhAHMAcwAuAHAAcgBqAFwAUgBlAGMAbwByAGQALgBjAHAAcAAA/////wAA/AAAAG8AAAAAYgA3ADoAOgA6AEQAOgBcAFMAbwB1AHIAYwBlAHMAXABMAGUAZQBQAGEAcwBzAFwATABlAGUAUABhAHMAcwBMAGkAYgAuAHAAcgBqAFwAVQB0AGkAbABpAHQAeQAuAGMAcABwAAD/////AAAAAAAA2gAAAB4AMAAtADEANwA0ADIANgAxADcAOQA0ADUAOAA2ADQATgAAAqMAAAEMAAAFCgAABCgAAAAAAAAAAAAACf8AAAWfAAAAAuoAAAAWAAAAAvsAAAAAAAAAAPsAAAAAAAAAAAAAAAA="/>
 		<filehist>
-			<p n="..\LeePassLib.prj\Utility.h"/>
-			<p n="..\LeePass.prj\LeePassDlg.h"/>
-			<p n="..\LeePassLib.prj\KpRecord.cpp"/>
+			<p n="..\LeePassLib.prj\Groups.cpp"/>
 			<p n="..\LeePass.prj\Record.cpp"/>
-			<p n="..\LeePass.prj\Record.h"/>
-			<p n="..\LeePassLib.prj\Groups.h"/>
+			<p n="..\LeePassLib.prj\Utility.cpp"/>
+			<p n="..\LeePass.prj\LeePassDlg.h"/>
+			<p n="..\LeePassLib.prj\KpLib.cpp"/>
+			<p n="..\LeePassLib.prj\KpRecord.cpp"/>
+			<p n="..\README.md"/>
 			<p n="..\LeePass.prj\LeePassDlg.cpp"/>
 			<p n="..\LeePass.prj\LeePass.rc"/>
-			<p n="..\README.md"/>
 		</filehist>
 		<allfilehist>
-			<p n="..\LeePassLib.prj\Utility.h"/>
-			<p n="..\LeePass.prj\Status.h"/>
-			<p n="..\LeePass.prj\Status.cpp"/>
 			<p n="..\LeePass.prj\resource.h"/>
 			<p n="..\LeePass.prj\Record.h"/>
 			<p n="..\LeePass.prj\Record.cpp"/>
 			<p n="..\README.md"/>
 			<p n="..\..\KeePass\KeePassLibCpp\PwStructs.h"/>
 			<p n="..\..\KeePass\KeePassLibCpp\DataExchange\PwExport.cpp"/>
+			<p n="C:\Program Files (x86)\SCCo Packet\Outpost.conf"/>
 			<p n="..\LeePass.prj\MyToolBar.cpp"/>
+			<p n="..\..\Library\Library\MessageBox.h"/>
 			<p n="..\..\KeePass\KeePassLibC\KeePassAPI\ManagerAPI.h"/>
 			<p n="..\..\KeePass\KeePassLibC\KeePassAPI\ManagerAPI.cpp"/>
 			<p n="..\LeePass.prj\LeePassDlg.h"/>
@@ -1418,6 +1457,7 @@
 			<p n="..\LeePass.prj\GeneratorDlg.cpp"/>
 			<p n="..\LeePass.prj\framework.h"/>
 			<p n="..\..\Library\Library\CSVRcdsT.h"/>
+			<p n="..\LeePass.prj\ClipBoard.h"/>
 			<p n="..\LeePass.prj\ClipBoard.cpp"/>
 			<p n="..\..\Library\Library\CDialogApp.h"/>
 			<p n="C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\ATLMFC\INCLUDE\afxwin.h"/>

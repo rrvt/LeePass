@@ -184,7 +184,7 @@ KpMasterKey    mk;
 
   if (dlg.DoModal() != IDOK || !kpLib.newDatabase(path, dlg.password)) return;
 
-  mk.save(dlg.password);   kpLib.dspEncryption();   initMgmt();   finOpen();
+  mk.save(dlg.password);   kpLib.dspEncryption();   initMgmt();   finOpen();   saveDB = true;
   }
 
 

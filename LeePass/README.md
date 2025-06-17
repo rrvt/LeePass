@@ -18,6 +18,8 @@ This version was created with Visual Studion 2022 (VS22).  It was compiled with 
   - Platfor Toolset: visual Studio 2022 (latest)
   - MFC: Use MFC in a Shared DLL
   - Character Set:  Use Unicode Character Set
+  - KeePassLibC.dll compiled with the UniCode Character Set and MFC in a Shared DLL
+  - boost prepared to be compatible with KeePassLibC
   - Precompiled Header:  Not Using Precompiled Headers
   - Linker/Additional Dependencies:  Htmlhelp.lib
 
@@ -27,7 +29,7 @@ copied into the Release directory.  I used Dreamweaver (DW) to do most of the co
 help files that the HTML Help Workshop produces (i.e. HHW is used to produce the pages/files needed
 and DW is used to fill in the content).
 
-Wix is used to create the &lt;AppName&gt;.msi file.  WixApp (one of my applications, see git) was used
+Wix is used to create the LeePass.msi file.  WixApp (one of my applications, see git) was used
 to produce the product.wxs file.
 
 Note:  In order to avoid hickups during the compilation/link process make sure the VS22 dependencies are
@@ -43,6 +45,10 @@ The "HTML Help Workshop" (google it) must be installed on the PC.
 Execute the msi file to install the app.
 
 ## Updates
+
+### Update 6/16/25
+
+Updating the Help file text and polishing the code to match the description.
 
 ### Update 6/14/25
 

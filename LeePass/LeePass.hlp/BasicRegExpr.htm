@@ -27,12 +27,12 @@ of the Boost default (used in KeePass) regular express is located at:
 This page describes just the basic/minimal regular expression.
 </p>
 <p>
-It appears that KeePass only uses the case sensitive flag when calling boost regex (regular expression) algorightm 
-and only when the corresponding attribute is set in the KeePass dll.
+It appears that KeePass only uses the case sensitive flag (i.e. true or false) when calling boost regex (regular expression) 
+algorightm and only when the corresponding attribute is set in the KeePass dll.
 </p>
 <h2>Characters</h2>
 <p>
-All characters except for the following match themselves:
+All characters except for the following (meta characters) match themselves:
 <blockquote>.[{}()\*+?|^$</blockquote>
 These meta characters instruct the algorithm to perform some action other than a direct match.  They may be used
 as a character to use in a match by preceding the meta character with a backslash (i.e. '\').  Other characters
@@ -47,41 +47,41 @@ The single character '.' when outside of a character set (e.g. "[abc.]" see belo
 <p>A '$' matches the end of a line.</p>
 <h2>Sub-Regular Expressions</h2>
 <p>
-A regular expression bounded by parentheses is treated very much like a single character with respect to other meta
+A regular expression bounded by parentheses (i.e. &quot;()&quot;) is treated very much like a single character with respect to other meta
 characters.
 </p>
 
 <h2>Character Sets</h2>
 <p>
-A character set will match a single character in the target. A character set is designated by square brackets (i.e "[]'} .
-</p>
+A character set will match a single character in the target. A character set is designated by square brackets (i.e &quot;[]&quot;). </p>
 
-<h3>Single Characters</h3>
+<h3>Single Characters Set</h3>
 <p>
 A list of characters bounded by square brackets (e.g. "[abc]" will match an 'a; or a 'b' or 'c').
 </p>
 
-<h3>Character Ranges</h3>
+<h3>Character Ranges Set</h3>
 <p>
 A representation of a list of characters indicated by a dash between the first character in the list and the 
-last character in the list (e.g. "[0-9]" indicates all the decimal digits are in the set).
+last character in the list (e.g. &quot;[0-9]&quot; indicates all the decimal digits are in the set).
 </p>
 
 <h3>Negation of Set</h3>
 <p>
 To indicate that characters other than those in the set are to be the matched place an '^' right after the opening
-bracket (e.g. "[^a-z] indicates any character not a lower case alphabetic character)
+bracket (e.g. &quot;[^a-z]&quot; indicates any character not a lower case alphabetic character)
 </p>
 
 <h3>Consult the Boost Documentation for more advanced character set options</h3>
 
 <h2>Repeats</h2>
 <p>
-Any atom (character, subexpression, character set) may be repeated in a pattern by appending one of the meta characters, '*', '+', '?' and "{}".
+Any atom (character, subexpression, character set) may be repeated in a pattern by appending one of the meta 
+characters, '*', '+', '?' and &quot;{}&quot;.
 </p>
 
 <h3>'*' -- Match the preceding atom zero or more times</h3>
-<p>For example the regex "a*b" will match:</p>
+<p>For example the regex &quot;a*b&quot; will match:</p>
 <ul>
 <li>b</li>
 <li>ab</li>
@@ -93,7 +93,7 @@ It will not match:
 </ul>
 
 <h3>'+' -- Match the preceding atom one or more times</h3>
-<p>For example the regex "a+b" will match:</p>
+<p>For example the regex &quot;a+b&quot; will match:</p>
 <ul>
 <li>ab</li>
 <li>aaaaab</li>
@@ -104,7 +104,7 @@ It will not match:
 </ul>
 
 <h3>'?' -- Match the preceding atom zero or one time</h3>
-<p>For example the regex "a?b" will match:</p>
+<p>For example the regex &quot;a?b&quot; will match:</p>
 <ul>
 <li>ab</li>
 <li>b</li>
@@ -114,7 +114,7 @@ It will not match:
 <li>aab</li>
 </ul>
 
-<h3>"{n,m}" -- Match the preceding atom a number of time bounded n and optional m</h3>
+<h3>&quot;{n,m}&quot; -- Match the preceding atom a number of time bounded n and optional m</h3>
 <p>The bounds, n and m, are integers</p>
 <ul>
 <li>a{n} -- match 'a' exactly n times</li>
@@ -131,8 +131,20 @@ repeats and Possessive repeats.  Read the boost documentation for additional opt
 </p>
 <h2>The Or ('|') Operator</h2>
 <p>
-Two patterns may be presented for a match separated by a vertical bar ('|') for example: "abc|bcd":
+Two patterns may be presented for a match separated by a vertical bar ('|') for example: 
+&quot;.*(abc|bcd).*&quot; will match:
 </p>
+<ul>
+<li>abc</li>
+<li>bcd</li>
+<li>aaabcccc</li>
+<li>aaabcddddd</li>
+</ul>
+<p>It will not match:</p>
+<ul>
+<li>aabbcc</li>
+<li>aabddd</li>
+</ul>
 <h2></h2>
 <p>
 </p>

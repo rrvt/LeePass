@@ -22,12 +22,15 @@
 <h2>App Border Controls</h2>
 <h3>Safe Icon (Upper left hand corner of App)</h3>
 <p>
-The shows a drop down menu of which only Close is significant.  Close shuts down the app <strong>without</strong> 
-saving the internal database to the file. 
+The shows a drop down menu of which only Close is significant.  When changes have been made in the internal 
+copy of the database the user must answer a request to save the data.  The intention here is to allow the user 
+an option of not saving changes made in the internal copy of the database.
 </p>
 <h3>The X icon (Upper right hand corner of App)</h3>
 <p>
-This is also a Close command and shuts down the app <strong>without</strong> saving the internal database to the file.
+This is also a Close command. When changes have been made in the internal copy of the database the user must 
+answer a request to save the data.   The intention here is to allow the user 
+an option of not saving changes made in the internal copy of the database.
 </p>
 <h2>ToolBar -- Left to Right</h2>
 <p>
@@ -53,8 +56,8 @@ provide an select file dialog for specifying the another database.  The database
 </p>
 <h3> Login to LeePass Database</h3>
 <p>
-A dialog is invoked in which a password may be entered at which time (if the password is correct) the database is copied into
-the app.  Labels appear in the edit boxes in the window if the password is correct, "All Groups" appears in the 
+A dialog is invoked in which a password may be entered. If the password is correct the database is copied into
+the app, labels appear in the edit boxes in the window, "All Groups" appears in the 
 Groups drop down list (see below) and the Groups and Entries list are populated from the database.  The window is initialized
 to accept a new record and the bottom border indicates a "New Record" in "Read Only" mode.  At this point a entry may be selected
 by any of the selection methods (see below).
@@ -87,19 +90,15 @@ the the internal copy of the database is saved to the file.
 <p>
 Manipulating the database in the app only affects the data in the app.  If one has not toggled the Save/Read Only mode
 to "Save" (see status in bottom border left hand side) then when "Saving" the data nothing will happen.  However, if
-an any time the Save mode is current and a change is made then selecting the Save icon will cause one or two things to
+at any time the Save mode is current and a change is made then selecting the Save icon will cause one or two things to
 happen.
 </p>
 <ul>
-<li>
-	If a backup of the database file has not already been performed then a backup file is created.  A backup file
+<li>A backup file is created once during any save operation in the app.  A backup file
   has the same name and extension but the date and time are appended to the name as a string of digits, ".yymmddhhmmssss".  
 </li>
 <li>Then the data in the app is copied to the database file that was loaded</li>
 </ul>
-<p>
-Thus no matter how many times the database file is updated only one backup file is created while the app is running.
-</p>
 <h3> Move to Previous LeePass Password Entry</h3>
 <p>
 The entries in the Entry Drop Down List are used as reference for the Move to Previous Entry.  
@@ -128,7 +127,7 @@ the left edge of the field
 <li>Fields to include in the Search (any number of fields may be selected):</li>
 <ul>
 <li>Title</li>
-<li>user Name</li>
+<li>User Name</li>
 <li>URL</li>
 <li>Miscellaneous</li>
 <li>Binary Desc</li>
@@ -147,7 +146,7 @@ from Find to find the next entry in the database.
 <p>
 The entries in the Entry Drop Down List are used as reference for the Move to next Entry.  
 </p>
-<h3> Unimplemented at this time</h3>
+<h3> Print -- Unimplemented at this time</h3>
 <h3> Show LastPass Menu</h3>
 <ul>
 <li>
@@ -167,11 +166,14 @@ sequential characters then deleted.  The hope is that this will not leave passwo
 <h3> App Options -- Unimplemented at this time</h3>
 <h3> Show Delete Menu</h3>
 <ul>
-<li>Delete Entry -- If the app is in the Save mode a dialog box appears that describes the current visible entry.
-When the entry is deleted the "next" entry in the Entry drop down list is displayed.
+<li>Delete Entry -- If the Read Only mode in in effect the user is prompted to change to 
+save Mode.  Otherwise the operation is terminated.  A dialog box then appears that describes the current visible entry.
+When the user confirms that the entry is to be deleted it will be deleted and the "next" entry in the Entry 
+drop down list is displayed.
 </li>
 <li>
-Delete Group -- If the app is in the Save mode a dialog box appears that describes the current Group that 
+Delete Group -- If the Read Only mode in in effect the user is prompted to change to <br>
+save Mode.  Otherwise the operation is terminated. A dialog box appears that describes the current Group that 
 is selected to be deleted.  When "Yes" is selected in the dialog all entries in the group and the group identifier
 are deleted.  When the group is deleted, All Groups is selected in the Groups drop down list and the Entries drop down
 list updated with all entries.
@@ -182,7 +184,7 @@ list updated with all entries.
 Displays the About Box. The information includes this apps author and version and KeePass's version.
 </p>
 <h3><img src="Images/Exit.jpg" width="16" height="15"> Save to LeePass Database File when enabled &amp; Exit</h3>
-<p>If the Save state was implemented at some point, the data is saved to the file. Then the app is exitted.</p>
+<p>If the Save state was implemented at some point, the data is saved to the file. Then exit.</p>
 <h2>Menus</h2>
 <h3>File</h3>
 <ul>
@@ -219,7 +221,8 @@ will be in the set)
 The Entropy value is a measure of the difficulty of brute force decrypting the password and is a function of the 
 number of characters in the set of characters from which the generated password gets characters and the number 
 of characters in the generated password.  And the basis of the random numbers is get current time so don't expect 
-the same password each time use use the generator.
+the same password each time use use the generator. The character sets chosen are sticky in that they remain the same 
+until changed.
 </p>
 
 <li>Remove Duplicates</li>
@@ -228,16 +231,6 @@ When duplicate entries appear in the database it is useful to find and delete th
 depends on matches where only the Title, URL, and UserName are compared.  This implementation is problematic in that 
 there is nothing preventing errors.
 </p>
-<!--
-<li>Remove All LastPass Imports</li>
-<li>Remove Redundant Groups</li>
-<li>Remove Backup Entries</li>
-<p>
-The original implementation of KeePass had a Backup group.  Entries were moved to this group when they were modified.
-This version backups the whole database when there is a modification.  Remove Backup Entries cleans up the database.
-</p>
--->
-</ul>
 <h3>Start URL</h3>
 <p>
 Selecting this Menu command will result in the URL of the current visible entry to sent to the default browser and the page
@@ -245,7 +238,7 @@ opened.
 </p>
 <h3>Copy UserName</h3>
 <p>
-The app not being able to slide the User Name into the appropriate field in the web site that has just been opened the app
+The app 
 copies the UserName of the current visible entry to the clipboard.  Control-V will paste the UserName into any field
 that has the focus (click in it with the mouse or tab to the field).  The bottom border status bar indicates that the 
 UserName has been copied.

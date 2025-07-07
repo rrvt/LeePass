@@ -27,10 +27,11 @@ public:
            Cstring()          : CString() {}
            Cstring(TCchar* s) : CString(s ? s : _T("")) {}
            Cstring(String& s);
+          ~Cstring() {clear();}
 
   int      stoi( uint& i, int base=10);
 
-  void     clear()   {Empty();}
+  void     clear();
   void     expunge();                                 // Expunge data, then clear string
 
   bool     isEmpty() {return CString::IsEmpty();}
@@ -102,6 +103,7 @@ static const int npos = -1;
   String(long       v)            {String& s = *this; s.format(_T("%li"), v);}
   String(ulong      v)            {String& s = *this; s.format(_T("%lu"), v);}
   String(double     v)            {String& s = *this; s.format(_T("%lg"), v);}
+ ~String()                        {clear();  shrink_to_fit();}
 
 // String Attributes
 
@@ -139,7 +141,6 @@ static const int npos = -1;
   String& operator= (      ulong    v) {String&  s = *this; s.format(_T("%lu"), v); return *this;}
   String& operator= (      double   v) {String&  s = *this; s.format(_T("%lg"), v); return *this;}
   String& operator= (const String&  v) {tstring& s = *this; s = v.str();        return *this;}
-//  String& operator= (      String&  v) {tstring& s = *this; s = v.str();        return *this;}
 
   String& operator= (variant_t& t)
                     {if (t.vt == VT_BSTR) *this = (tstring) bstr_t(t); else clear(); return *this;}
@@ -246,8 +247,6 @@ typedef tstring::reverse_iterator reverseIterator;
     if (off >= length()) return _T("");                       // Patch for bug in s.substr
     tstring s = *this; return s.substr(off,count);
     }
-
- ~String() { }
 
 
   // Boolean operators
@@ -839,3 +838,5 @@ Send Feedback on this topic to Microsoft.
 
 //  int find(const String& stg, int offset=0)
 */
+//  String& operator= (      String&  v) {tstring& s = *this; s = v.str();        return *this;}
+

@@ -127,7 +127,7 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(SolutionDir)..\..\Library\Library\;$(SolutionDir)..\..\Library\Extras\;$(SolutionDir)..\..\KeePass\KeePassLibC\KeePassAPI\;$(SolutionDir)..\..\KeePass\KeePassLibCpp\;$(SolutionDir)..\..\boost\;$(SolutionDir)..\LastPass.prj\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(SolutionDir)..\..\Library\Library\;$(SolutionDir)..\..\Library\Extras\;$(SolutionDir)..\..\KeePass\KeePassLibC\KeePassAPI\;$(SolutionDir)..\..\KeePass\KeePassLibCpp\;$(ProjectDir)..\..\vcpkg\installed\x86-windows-static\include\;$(SolutionDir)..\LastPass.prj\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <BasicRuntimeChecks />
@@ -152,7 +152,7 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(SolutionDir)..\..\Library\Library\;$(SolutionDir)..\..\Library\Extras\;$(SolutionDir)..\..\KeePass\KeePassLibC\KeePassAPI\;$(SolutionDir)..\..\KeePass\KeePassLibCpp\;$(SolutionDir)..\..\boost\;$(SolutionDir)..\LastPass.prj\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(SolutionDir)..\..\Library\Library\;$(SolutionDir)..\..\Library\Extras\;$(SolutionDir)..\..\KeePass\KeePassLibC\KeePassAPI\;$(SolutionDir)..\..\KeePass\KeePassLibCpp\;$(ProjectDir)..\..\vcpkg\installed\x86-windows-static\include\;$(SolutionDir)..\LastPass.prj\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat />
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>

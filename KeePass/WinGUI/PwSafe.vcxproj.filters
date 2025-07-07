@@ -925,6 +925,9 @@
     <ClInclude Include="Plugins\PluginMgr.h">
       <Filter>Plugins</Filter>
     </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\autotype.bmp">

@@ -40,14 +40,28 @@ void TBCbxMenu::addItem(TCchar* txt, int data) {
   }
 
 
-
-
 void TBCbxMenu::setWidth() {
 
   if (!getActual()) return;
 
   ((TBCbxMenu*)actual)->m_iWidth  = toolBarDim.getHoriz(maxChars) * percent / 100 + 20;
   }
+
+
+void TBCbxMenu::setHeight() {
+int count;
+int pixels;
+int maxHeight = (toolBarDim.height/25 - 3) * 25;
+
+  if (!getActual()) return;
+
+  count = ((TBCbxMenu*)actual)->GetCount();   if (!count) return;
+
+  pixels = count * 25;   pixels = pixels < 150 ? 150 : pixels > maxHeight ? maxHeight : pixels;
+
+  ((TBCbxMenu*)actual)->SetDropDownHeight(pixels);
+  }
+
 
 
 TBCbxMenu& TBCbxMenu::finInstall(TCchar* caption) {
@@ -76,8 +90,6 @@ int                        i      = cbxBtn->GetCurSel();
 
   return i >= 0 ? cbxBtn->GetItemData(i) : 0;
   }
-
-
 
 
 bool TBCbxMenu::getActual() {if (!actual) actual = GetByCmd(id);   return actual != 0;}

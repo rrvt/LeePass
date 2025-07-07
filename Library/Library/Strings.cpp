@@ -16,6 +16,9 @@
 Cstring::Cstring(String& s) : CString(s.str()) {}
 
 
+void Cstring::clear() {try {Empty();   FreeExtra();} catch (...) { }}
+
+
 // Expunge data, then clear string
 
 void Cstring::expunge() {

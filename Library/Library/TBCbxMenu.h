@@ -30,6 +30,7 @@ String caption;
   uint       getCmdId();
 
   void       setWidth();
+  void       setHeight();
 
 private:
 

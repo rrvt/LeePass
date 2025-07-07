@@ -9,7 +9,7 @@
 #include "GeneratorDlg.h"
 #include "GetPathDlg.h"
 #include "Groups.h"
-#include "IniFile.h"
+#include "IniFileEx.h"
 #include "KpIter.h"
 #include "KpMasterKey.h"
 #include "KpSaveRestore.h"

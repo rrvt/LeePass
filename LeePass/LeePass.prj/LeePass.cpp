@@ -4,7 +4,7 @@
 #include "pch.h"
 #include "LeePass.h"
 #include "LeePassDlg.h"
-#include "IniFile.h"
+#include "IniFileEx.h"
 
 
 #ifdef _DEBUG
@@ -12,8 +12,8 @@
 #endif
 
 
-LeePass theApp;                         // The one and only LeePass object
-IniFile iniFile;
+LeePass   theApp;                         // The one and only LeePass object
+IniFileEx iniFile(theApp);
 
 
 // LeePass construction
@@ -28,7 +28,7 @@ LeePassDlg dlg(m_pszHelpFilePath);
 
   CWinApp::InitInstance();
 
-  iniFile.setAppDataPath(m_pszHelpFilePath, *this);
+  iniFile.setAppDataPath(m_pszHelpFilePath);
 
   dlg.DoModal();   m_pMainWnd = 0;   return 0;
   }

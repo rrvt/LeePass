@@ -19,12 +19,7 @@ String appID;
 String version;
 
   CApp(CApp* app);
- ~CApp() {
-    #ifdef DebugMemoryLeaks
-      _CrtDumpMemoryLeaks();
-    #endif
-    }
-
+ ~CApp();
   virtual BOOL InitInstance() {return CWinAppEx::InitInstance();}
   virtual int  ExitInstance();
 

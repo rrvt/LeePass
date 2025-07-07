@@ -60,9 +60,6 @@
     <ClCompile Include="Handle.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="IniFile.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="MessageBox.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -195,6 +192,15 @@
     <ClCompile Include="ThreadBase.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="LeakDbg.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="IniFileBase.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="IniFileEx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ComboBox.h">
@@ -240,9 +246,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Handle.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="IniFile.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="InsertSorted.h">
@@ -432,6 +435,18 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ThreadBase.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LeakDbg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="IniFileBase.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="IniFileEx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="IniFile.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

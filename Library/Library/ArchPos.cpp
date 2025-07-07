@@ -73,20 +73,4 @@ int    nSpaces = tabPos.pos + int(leftMargin) - curPos;
 
 //////////------------------------
 
-#if 0
-void ArchPos::setTabSize(int nSpaces) {
-int i;
-
-  tabs.clear();
-
-  for (i = nSpaces; i < rightMargin; i += nSpaces) setTab(i, false);
-  }
-
-
-void ArchPos::tabIndex(int index) {
-NoteTab* tab = tabs.get(index);
-
-  if (tab) curPos += spaces(tab->pos - curPos);
-  }
-#endif
 

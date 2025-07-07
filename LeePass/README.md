@@ -46,6 +46,10 @@ Execute the msi file to install the app.
 
 ## Updates
 
+### Update 7/7/25
+
+Factored IniFile in three classes.
+
 ### Update 6/16/25
 
 Updating the Help file text and polishing the code to match the description.

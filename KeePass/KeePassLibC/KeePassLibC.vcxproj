@@ -24,7 +24,6 @@
     <PlatformToolset>v143</PlatformToolset>
     <UseOfMfc>Dynamic</UseOfMfc>
     <CharacterSet>Unicode</CharacterSet>
-    <VCToolsVersion>14.43.34808</VCToolsVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
@@ -32,7 +31,6 @@
     <UseOfMfc>Dynamic</UseOfMfc>
     <CharacterSet>Unicode</CharacterSet>
     <WholeProgramOptimization>false</WholeProgramOptimization>
-    <VCToolsVersion>14.43.34808</VCToolsVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -75,7 +73,7 @@
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
       <InlineFunctionExpansion>Default</InlineFunctionExpansion>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Lib;$(ProjectDir)Lib\Argon2\include;$(ProjectDir)..\Deprecated\;$(SolutionDir)..\..\boost\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Lib;$(ProjectDir)Lib\Argon2\include;$(ProjectDir)..\Deprecated\;$(ProjectDir)..\..\vcpkg\installed\x86-windows-static\include\</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>NDEBUG;WIN32;_WINDOWS;_USRDLL;KP_NO_DEFAULT_SHARE;_AFX_NO_DB_SUPPORT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>
       </StringPooling>
@@ -139,7 +137,7 @@
     </Midl>
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Lib;$(ProjectDir)Lib\Argon2\include;$(ProjectDir)..\Deprecated\;$(SolutionDir)..\..\boost\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Lib;$(ProjectDir)Lib\Argon2\include;$(ProjectDir)..\Deprecated\;$(ProjectDir)..\..\vcpkg\installed\x86-windows-static\include\</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_DEBUG;WIN32;_WINDOWS;_USRDLL;KP_NO_DEFAULT_SHARE;_AFX_NO_DB_SUPPORT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>false</MinimalRebuild>
       <BasicRuntimeChecks>
@@ -176,7 +174,7 @@
       <ImportLibrary>$(IntDir)KeePassLibC.lib</ImportLibrary>
       <TargetMachine>MachineX86</TargetMachine>
       <AdditionalLibraryDirectories>$(OutDir);$(SolutionDir)..\..\Library\$(Configuration)\</AdditionalLibraryDirectories>
-      <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
+      <LinkTimeCodeGeneration>Default</LinkTimeCodeGeneration>
       <IgnoreAllDefaultLibraries>
       </IgnoreAllDefaultLibraries>
       <IgnoreSpecificDefaultLibraries>
@@ -281,6 +279,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="KeePassLib.def" />
+    <None Include="KeePassLib.vpj" />
     <None Include="Lib\Argon2\LICENSE" />
     <None Include="Lib\Argon2\README.md" />
     <None Include="res\KeePassLib.rc2" />
@@ -358,6 +357,7 @@
     <ClInclude Include="Lib\Argon2\src\thread.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="StdAfx.h" />
+    <ClInclude Include="targetver.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

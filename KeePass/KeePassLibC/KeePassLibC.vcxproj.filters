@@ -227,6 +227,9 @@
     <None Include="Lib\Argon2\README.md">
       <Filter>Lib\Argon2</Filter>
     </None>
+    <None Include="KeePassLib.vpj">
+      <Filter>Source Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="KeePassLib.rc">
@@ -440,6 +443,9 @@
     </ClInclude>
     <ClInclude Include="Lib\Argon2\src\blake2\blamka-round-ref.h">
       <Filter>Lib\Argon2\src\blake2</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

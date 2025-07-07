@@ -2,7 +2,7 @@
 //
 
 #include "pch.h"
-#include "IniFile.h"
+#include "IniFileEx.h"
 #include "SearchDlg.h"
 #include "resource.h"
 

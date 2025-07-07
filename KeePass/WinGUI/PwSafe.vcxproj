@@ -148,7 +148,7 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(SolutionDir)..\KeePassLibCpp\;$(SolutionDir)..\Deprecated\;$(SolutionDir)..\..\boost\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(SolutionDir)..\KeePassLibCpp\;$(SolutionDir)..\Deprecated\;$(ProjectDir)..\..\vcpkg\installed\x86-windows-static\include\</AdditionalIncludeDirectories>
       <BasicRuntimeChecks />
     </ClCompile>
     <ResourceCompile>
@@ -168,7 +168,7 @@
       <AdditionalLibraryDirectories>$(OutDir);$(SolutionDir)..\..\Library\$(Configuration)\</AdditionalLibraryDirectories>
       <IgnoreAllDefaultLibraries>
       </IgnoreAllDefaultLibraries>
-      <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
+      <LinkTimeCodeGeneration>Default</LinkTimeCodeGeneration>
     </Link>
     <Bscmake>
       <SuppressStartupBanner>true</SuppressStartupBanner>
@@ -456,6 +456,7 @@
     <ClInclude Include="SingleLineEditDlg.h" />
     <ClInclude Include="StdAfx.h" />
     <ClInclude Include="TanWizardDlg.h" />
+    <ClInclude Include="targetver.h" />
     <ClInclude Include="UpdateInfoDlg.h" />
     <ClInclude Include="Util\AppLocator.h" />
     <ClInclude Include="Util\CmdLine\CmdArgs.h" />

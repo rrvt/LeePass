@@ -4,7 +4,7 @@
 #include "pch.h"
 #include "GeneratorDlg.h"
 #include "Date.h"
-#include "IniFile.h"
+#include "IniFileEx.h"
 #include "Random.h"
 #include "Utility.h"
 

@@ -61,6 +61,7 @@ protected:
   bool           add(TBCbxMenu&  button, uint id, int           idr,              TCchar* caption);
   bool           add(TBCbxMenu&  button, uint id, const CbxItem cbxItem[], int n, TCchar* caption);
   void           setWidth(TBCbxMenu& button) {button.setWidth();   AdjustLayout();}
+  void           setHeight(TBCbxMenu& button) {button.setHeight();}
   void           dispatch(TBCbxMenu& deleteMenu);
 
   void           clear(TBCboBx& button) {button.clear();}
